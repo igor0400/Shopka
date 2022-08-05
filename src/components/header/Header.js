@@ -1,38 +1,47 @@
-import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
+import { useState } from 'react';
+
+// icons
 import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
+import StorefrontIcon from '@mui/icons-material/Storefront';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import SearchIcon from '@mui/icons-material/Search';
+import ClearIcon from '@mui/icons-material/Clear';
+
+// components
+import { Link } from 'react-router-dom';
+
+/* mui components*/
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
+import Container from '@mui/material/Container';
+import InputBase from '@mui/material/InputBase';
 import Badge from '@mui/material/Badge';
 import { styled } from '@mui/material/styles';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import Avatar from '@mui/material/Avatar';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Menu from '@mui/material/Menu';
 
-import logo from '../../images/logo.svg';
-
-const pages = ['Products', 'Pricing', 'Blog'];
+const pages = ['Sell on shopka', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
-const StyledBadge = styled(Badge)(({ theme }) => ({
+const StyledBadge = styled(Badge)(() => ({
    '& .MuiBadge-badge': {
       right: -2,
       top: 5,
       border: `2px solid #1976d2`,
       padding: '0 4px',
+      background: 'red',
    },
 }));
 
 const Header = () => {
-   const [anchorElNav, setAnchorElNav] = React.useState(null);
-   const [anchorElUser, setAnchorElUser] = React.useState(null);
+   const [anchorElNav, setAnchorElNav] = useState(null);
+   const [anchorElUser, setAnchorElUser] = useState(null);
 
    const handleOpenNavMenu = (event) => {
       setAnchorElNav(event.currentTarget);
@@ -50,10 +59,12 @@ const Header = () => {
    };
 
    return (
-      <AppBar position="static" className="header">
+      <AppBar component="nav">
          <Container maxWidth="xl">
             <Toolbar disableGutters>
-               <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+               <StorefrontIcon
+                  sx={{ display: { xs: 'none', md: 'flex' }, mr: 0.3 }}
+               />
                <Typography
                   variant="h6"
                   noWrap
@@ -71,7 +82,6 @@ const Header = () => {
                >
                   shopka
                </Typography>
-
                <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
                   <IconButton
                      size="large"
@@ -108,7 +118,10 @@ const Header = () => {
                      ))}
                   </Menu>
                </Box>
-               <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+
+               <StorefrontIcon
+                  sx={{ display: { xs: 'flex', md: 'none' }, mr: 0.3 }}
+               />
                <Typography
                   variant="h5"
                   noWrap
@@ -140,15 +153,34 @@ const Header = () => {
                </Box>
 
                <Box
-                  sx={{ flexGrow: 0.03, display: { xs: 'none', md: 'block' } }}
+                  sx={{
+                     alignItems: 'center',
+                     display: { xs: 'none', md: 'flex' },
+                     background: '#a3a3a3',
+                     padding: '0 10px',
+                     borderRadius: '50px',
+                  }}
                >
-                  <IconButton aria-label="cart">
-                     <StyledBadge badgeContent={1} color="secondary">
-                        <ShoppingCartIcon sx={{ color: '#fff' }} />
-                     </StyledBadge>
-                  </IconButton>
+                  <SearchIcon fontSize="small" />
+                  <InputBase
+                     sx={{ ml: 1, flex: 1, color: '#fff' }}
+                     placeholder="Search..."
+                     inputProps={{ 'aria-label': 'search...' }}
+                  />
+                  <ClearIcon fontSize="small" color="primary" />
                </Box>
 
+               <Box
+                  sx={{ flexGrow: 0.03, display: { xs: 'none', md: 'block' } }}
+               >
+                  <Link to="cart">
+                     <IconButton aria-label="cart" sx={{ marginLeft: '5px' }}>
+                        <StyledBadge badgeContent={1} color="secondary">
+                           <ShoppingCartIcon sx={{ color: '#fff' }} />
+                        </StyledBadge>
+                     </IconButton>
+                  </Link>
+               </Box>
                <Box sx={{ flexGrow: 0 }}>
                   <Tooltip title="Open settings">
                      <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
