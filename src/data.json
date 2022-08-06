@@ -1,0 +1,49 @@
+{
+   "products": [
+      {
+         "name": "Shoes Nike",
+         "url": "https://firebasestorage.googleapis.com/v0/b/shopka-2e282.appspot.com/o/product.png?alt=media&token=b4874924-fdcc-4d74-86f9-55785a419808",
+         "description": "Lee Pucker design. Leather botinki for handsome designers. Free shipping.",
+         "subDescription": "Eligible for nothing :(",
+         "price": 13.95,
+         "rating": 3.33,
+         "id": "skrggnfdog-343sgskgog"
+      },
+      {
+         "name": "Shoes Nike",
+         "url": "https://firebasestorage.googleapis.com/v0/b/shopka-2e282.appspot.com/o/product.png?alt=media&token=b4874924-fdcc-4d74-86f9-55785a419808",
+         "description": "Lee Pucker design. Leather botinki for handsome designers. Free shipping.",
+         "subDescription": "Eligible for nothing :(",
+         "price": 13.95,
+         "rating": 4.56,
+         "id": "hjf7887dda-dadawdwdda"
+      },
+      {
+         "name": "Shoes Nike",
+         "url": "https://firebasestorage.googleapis.com/v0/b/shopka-2e282.appspot.com/o/product.png?alt=media&token=b4874924-fdcc-4d74-86f9-55785a419808",
+         "description": "Lee Pucker design. Leather botinki for handsome designers. Free shipping.",
+         "subDescription": "Eligible for nothing :(",
+         "price": 13.95,
+         "rating": 4.56,
+         "id": "ndodfd7t4nf-sdfajikfa"
+      },
+      {
+         "name": "Shoes Nike",
+         "url": "https://firebasestorage.googleapis.com/v0/b/shopka-2e282.appspot.com/o/product.png?alt=media&token=b4874924-fdcc-4d74-86f9-55785a419808",
+         "description": "Lee Pucker design. Leather botinki for handsome designers. Free shipping.",
+         "subDescription": "Eligible for nothing :(",
+         "price": 13.95,
+         "rating": 5,
+         "id": "dwdwauj5hqh99-fseffosfs"
+      },
+      {
+         "name": "Shoes Nike",
+         "url": "https://firebasestorage.googleapis.com/v0/b/shopka-2e282.appspot.com/o/product.png?alt=media&token=b4874924-fdcc-4d74-86f9-55785a419808",
+         "description": "Lee Pucker design. Leather botinki for handsome designers. Free shipping.",
+         "subDescription": "Eligible for nothing :(",
+         "price": 13.95,
+         "rating": 1.55,
+         "id": "wpoimda98a3n2iq2md-3m3mks"
+      }
+   ]
+}

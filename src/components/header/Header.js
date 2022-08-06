@@ -156,7 +156,7 @@ const Header = () => {
                   sx={{
                      alignItems: 'center',
                      display: { xs: 'none', md: 'flex' },
-                     background: '#a3a3a3',
+                     border: '2px solid #bdbdbd',
                      padding: '0 10px',
                      borderRadius: '50px',
                   }}
@@ -167,21 +167,22 @@ const Header = () => {
                      placeholder="Search..."
                      inputProps={{ 'aria-label': 'search...' }}
                   />
-                  <ClearIcon fontSize="small" color="primary" />
+                  <ClearIcon fontSize="small" />
                </Box>
 
-               <Box
-                  sx={{ flexGrow: 0.03, display: { xs: 'none', md: 'block' } }}
-               >
+               <Box sx={{ display: { xs: 'none', md: 'block' } }}>
                   <Link to="cart">
-                     <IconButton aria-label="cart" sx={{ marginLeft: '5px' }}>
+                     <IconButton
+                        aria-label="cart"
+                        sx={{ margin: '0 15px 0 10px' }}
+                     >
                         <StyledBadge badgeContent={1} color="secondary">
                            <ShoppingCartIcon sx={{ color: '#fff' }} />
                         </StyledBadge>
                      </IconButton>
                   </Link>
                </Box>
-               <Box sx={{ flexGrow: 0 }}>
+               <Box>
                   <Tooltip title="Open settings">
                      <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                         <Avatar

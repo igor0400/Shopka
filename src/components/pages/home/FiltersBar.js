@@ -16,6 +16,7 @@ import BoltIcon from '@mui/icons-material/Bolt';
 import ChildFriendlyIcon from '@mui/icons-material/ChildFriendly';
 import ToysIcon from '@mui/icons-material/Toys';
 import TwoWheelerIcon from '@mui/icons-material/TwoWheeler';
+import CircleIcon from '@mui/icons-material/Circle';
 
 const FiltersBarItem = styled(Box)(() => ({
    display: 'flex',
@@ -27,6 +28,10 @@ const FiltersBarItem = styled(Box)(() => ({
 
 const FiltersBar = () => {
    const items = [
+      {
+         name: 'all',
+         icon: <CircleIcon />,
+      },
       {
          name: 'Clothing & Shoes',
          icon: <CheckroomIcon />,
@@ -68,7 +73,7 @@ const FiltersBar = () => {
          icon: <ChildFriendlyIcon />,
       },
       {
-         name: 'Toys & Entertainment',
+         name: 'Toys',
          icon: <ToysIcon />,
       },
       {
@@ -86,8 +91,11 @@ const FiltersBar = () => {
          modules={[FreeMode, Scrollbar]}
          style={{ paddingBottom: 10 }}
          breakpoints={{
-            1275: {
-               slidesPerView: 8,
+            1300: {
+               slidesPerView: 9,
+            },
+            1020: {
+               slidesPerView: 7,
             },
             800: {
                slidesPerView: 5,
