@@ -14,20 +14,22 @@ const ProductsItem = ({
    price,
    rating,
    subDescription,
-   id,
 }) => {
    const [cardElevation, setCardElevation] = useState(0);
 
    return (
       <Card
-         sx={{ maxWidth: 280, cursor: 'pointer' }}
+         sx={{ maxWidth: 280, cursor: 'pointer', height: '100%' }}
          elevation={cardElevation}
          onMouseEnter={() => setCardElevation(3)}
          onMouseLeave={() => setCardElevation(0)}
       >
-         <CardContent>
+         <CardContent
+            className="flex"
+            sx={{ flexDirection: 'column', height: '95%' }}
+         >
             <img src={url} alt={name} />
-            <Typography>{description}</Typography>
+            <Typography sx={{margin: '0 0 auto'}}>{description}</Typography>
             <Typography variant="h6">${price}</Typography>
             <Typography
                variant="p"
@@ -38,7 +40,10 @@ const ProductsItem = ({
             </Typography>
             <div
                className="flex"
-               style={{ alignItems: 'center', justifyContent: 'space-between' }}
+               style={{
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+               }}
             >
                <div className="flex">
                   <Rating

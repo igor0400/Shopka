@@ -75,6 +75,7 @@ const FiltersAccordion = () => {
             <Accordion
                expanded={expanded === name}
                onChange={handleChange(name)}
+               key={name}
             >
                <AccordionSummary
                   expandIcon={<ExpandMoreIcon />}
@@ -87,8 +88,8 @@ const FiltersAccordion = () => {
                      {name}
                   </Typography>
                </AccordionSummary>
-               <AccordionDetails>
-                  <List>
+               <AccordionDetails sx={{padding: '0 16px 16px'}}>
+                  <List sx={{padding: '0 0 8px 0'}}>
                      {listItems.map((value) => {
                         const labelId = `checkbox-list-label-${value}`;
 
@@ -98,8 +99,12 @@ const FiltersAccordion = () => {
                                  role={undefined}
                                  onClick={handleToggle(value)}
                                  dense
+                                 sx={{
+                                    py: 0,
+                                    minHeight: 32,
+                                 }}
                               >
-                                 <ListItemIcon>
+                                 <ListItemIcon sx={{minWidth: '20px'}}>
                                     <Checkbox
                                        edge="start"
                                        checked={checked.indexOf(value) !== -1}
