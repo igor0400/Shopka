@@ -6,6 +6,8 @@ import Grid from '@mui/material/Grid';
 import FiltersBar from './FiltersBar';
 import FiltersList from './FiltersList';
 import FiltersAccordion from './FiltersAccordion';
+import ChangeCardsModeSwitch from './ChangeCardsModeSwitch';
+import FiltersSelects from './FiltersSelects';
 
 import data from '../../../data.json';
 
@@ -23,7 +25,15 @@ const Home = () => {
                className="products"
                style={{ padding: '20px 10px', marginLeft: '50px' }}
             >
-               <div className="products__filters"></div>
+               <div
+                  className="products__filters flex"
+                  style={{ justifyContent: 'space-between' }}
+               >
+                  <FiltersSelects />
+                  <div className="products__filters__switches flex">
+                     <ChangeCardsModeSwitch />
+                  </div>
+               </div>
                <Grid container spacing={2} sx={{ padding: '0 10px' }}>
                   {data.products.map((item) => (
                      <Grid item xs={3} key={item.id}>
