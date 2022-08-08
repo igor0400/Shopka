@@ -27,7 +27,10 @@ const Home = () => {
             >
                <div
                   className="products__filters flex"
-                  style={{ justifyContent: 'space-between' }}
+                  style={{
+                     justifyContent: 'space-between',
+                     paddingBottom: '30px',
+                  }}
                >
                   <FiltersSelects />
                   <div className="products__filters__switches flex">
