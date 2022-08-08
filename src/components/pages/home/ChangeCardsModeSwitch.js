@@ -1,4 +1,3 @@
-import { styled } from '@mui/material/styles';
 import ViewListIcon from '@mui/icons-material/ViewList';
 import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import { useState } from 'react';
@@ -26,6 +25,7 @@ const ChangeCardsModeSwitch = () => {
                   active === 'list'
                      ? '0px 1px 2px rgba(27, 78, 163, 0.24), 0px 2px 4px rgba(41, 121, 255, 0.24)'
                      : null,
+               transition: '0.3s',
             }}
             onClick={() => setActive('list')}
          />
@@ -40,6 +40,7 @@ const ChangeCardsModeSwitch = () => {
                   active === 'grid'
                      ? '0px 1px 2px rgba(27, 78, 163, 0.24), 0px 2px 4px rgba(41, 121, 255, 0.24)'
                      : null,
+               transition: '0.3s',
             }}
             onClick={() => setActive('grid')}
          />

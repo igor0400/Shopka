@@ -8,6 +8,11 @@ import 'swiper/css';
 import 'swiper/css/free-mode';
 import 'swiper/css/scrollbar';
 
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
+
 function App() {
    return (
       <div className="App">

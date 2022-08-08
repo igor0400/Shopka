@@ -7,6 +7,7 @@ import FiltersBar from './FiltersBar';
 import FiltersList from './FiltersList';
 import FiltersAccordion from './FiltersAccordion';
 import ChangeCardsModeSwitch from './ChangeCardsModeSwitch';
+import ChangeProductsType from './ChangeProductsType';
 import FiltersSelects from './FiltersSelects';
 
 import data from '../../../data.json';
@@ -34,10 +35,16 @@ const Home = () => {
                >
                   <FiltersSelects />
                   <div className="products__filters__switches flex">
+                     <ChangeProductsType />
                      <ChangeCardsModeSwitch />
                   </div>
                </div>
-               <Grid container spacing={2} sx={{ padding: '0 10px' }}>
+               <Grid
+                  container
+                  spacing={2}
+                  columns={{ xs: 2, sm: 2, md: 12 }}
+                  sx={{ padding: '0 10px' }}
+               >
                   {data.products.map((item) => (
                      <Grid item xs={3} key={item.id}>
                         <ProductsItem {...item} />
