@@ -14,23 +14,25 @@ const ChangeProductsType = () => {
             marginRight: '20px',
          }}
       >
-         {items.map((item) => (
+         {items.map((item, i) => (
             <Typography
+               key={i}
                variant="body2"
                component="div"
                style={{
-                  padding: 'auto 15px',
+                  padding: '0 15px',
                   cursor: 'pointer',
                   display: 'flex',
                   alignItems: 'center',
                   height: '100%',
                   borderRadius: '4px',
+                  transition: '0.3s',
                   background: active === item ? '#fff' : null,
                   boxShadow:
                      active === item
                         ? '0px 1px 2px rgba(27, 78, 163, 0.24), 0px 2px 4px rgba(41, 121, 255, 0.24)'
                         : null,
-                  transition: '0.3s',
+                  color: active === item ? '#2264D1' : null,
                }}
                onClick={() => setActive(item)}
             >

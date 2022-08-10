@@ -26,7 +26,6 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 
-const pages = ['Sell on shopka', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const StyledBadge = styled(Badge)(() => ({
@@ -40,6 +39,8 @@ const StyledBadge = styled(Badge)(() => ({
 }));
 
 const Header = () => {
+   const user = true;
+
    const [anchorElNav, setAnchorElNav] = useState(null);
    const [anchorElUser, setAnchorElUser] = useState(null);
 
@@ -78,11 +79,13 @@ const Header = () => {
                      letterSpacing: '.1rem',
                      color: 'inherit',
                      textDecoration: 'none',
+                     flexGrow: 1,
                   }}
                >
                   shopka
                </Typography>
-               <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+
+               {/* <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
                   <IconButton
                      size="large"
                      aria-label="account of current user"
@@ -93,33 +96,9 @@ const Header = () => {
                   >
                      <MenuIcon />
                   </IconButton>
-                  <Menu
-                     id="menu-appbar"
-                     anchorEl={anchorElNav}
-                     anchorOrigin={{
-                        vertical: 'bottom',
-                        horizontal: 'left',
-                     }}
-                     keepMounted
-                     transformOrigin={{
-                        vertical: 'top',
-                        horizontal: 'left',
-                     }}
-                     open={Boolean(anchorElNav)}
-                     onClose={handleCloseNavMenu}
-                     sx={{
-                        display: { xs: 'block', md: 'none' },
-                     }}
-                  >
-                     {pages.map((page) => (
-                        <MenuItem key={page} onClick={handleCloseNavMenu}>
-                           <Typography textAlign="center">{page}</Typography>
-                        </MenuItem>
-                     ))}
-                  </Menu>
-               </Box>
+               </Box> */}
 
-               <StorefrontIcon
+               {/* <StorefrontIcon
                   sx={{ display: { xs: 'flex', md: 'none' }, mr: 0.3 }}
                />
                <Typography
@@ -139,18 +118,7 @@ const Header = () => {
                   }}
                >
                   shopka
-               </Typography>
-               <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                  {pages.map((page) => (
-                     <Button
-                        key={page}
-                        onClick={handleCloseNavMenu}
-                        sx={{ my: 2, color: 'white', display: 'block' }}
-                     >
-                        {page}
-                     </Button>
-                  ))}
-               </Box>
+               </Typography> */}
 
                <Box
                   sx={{
@@ -182,38 +150,55 @@ const Header = () => {
                      </IconButton>
                   </Link>
                </Box>
-               <Box>
-                  <Tooltip title="Open settings">
-                     <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                        <Avatar
-                           alt="Remy Sharp"
-                           src="/static/images/avatar/2.jpg"
-                        />
-                     </IconButton>
-                  </Tooltip>
-                  <Menu
-                     sx={{ mt: '45px' }}
-                     id="menu-appbar"
-                     anchorEl={anchorElUser}
-                     anchorOrigin={{
-                        vertical: 'top',
-                        horizontal: 'right',
-                     }}
-                     keepMounted
-                     transformOrigin={{
-                        vertical: 'top',
-                        horizontal: 'right',
-                     }}
-                     open={Boolean(anchorElUser)}
-                     onClose={handleCloseUserMenu}
-                  >
-                     {settings.map((setting) => (
-                        <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                           <Typography textAlign="center">{setting}</Typography>
-                        </MenuItem>
-                     ))}
-                  </Menu>
-               </Box>
+
+               {user ? (
+                  <Box>
+                     <Tooltip title="Open settings">
+                        <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                           <Avatar
+                              alt="Remy Sharp"
+                              src="/static/images/avatar/2.jpg"
+                           />
+                        </IconButton>
+                     </Tooltip>
+                     <Menu
+                        sx={{ mt: '45px' }}
+                        id="menu-appbar"
+                        anchorEl={anchorElUser}
+                        anchorOrigin={{
+                           vertical: 'top',
+                           horizontal: 'right',
+                        }}
+                        keepMounted
+                        transformOrigin={{
+                           vertical: 'top',
+                           horizontal: 'right',
+                        }}
+                        open={Boolean(anchorElUser)}
+                        onClose={handleCloseUserMenu}
+                     >
+                        {settings.map((setting) => (
+                           <MenuItem
+                              key={setting}
+                              onClick={handleCloseUserMenu}
+                           >
+                              <Typography textAlign="center">
+                                 {setting}
+                              </Typography>
+                           </MenuItem>
+                        ))}
+                     </Menu>
+                  </Box>
+               ) : (
+                  <Box>
+                     <Button variant="contained" sx={{ marginRight: '10px' }}>
+                        Sign up
+                     </Button>
+                     <Button variant="outlined" sx={{ color: '#fff' }}>
+                        Sign in
+                     </Button>
+                  </Box>
+               )}
             </Toolbar>
          </Container>
       </AppBar>

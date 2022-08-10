@@ -9,6 +9,7 @@ import FiltersAccordion from './FiltersAccordion';
 import ChangeCardsModeSwitch from './ChangeCardsModeSwitch';
 import ChangeProductsType from './ChangeProductsType';
 import FiltersSelects from './FiltersSelects';
+import ProductsRelated from './ProductsRelated';
 
 import data from '../../../data.json';
 
@@ -30,7 +31,7 @@ const Home = () => {
                   className="products__filters flex"
                   style={{
                      justifyContent: 'space-between',
-                     paddingBottom: '30px',
+                     paddingBottom: '40px',
                   }}
                >
                   <FiltersSelects />
@@ -39,10 +40,13 @@ const Home = () => {
                      <ChangeCardsModeSwitch />
                   </div>
                </div>
+
+               <ProductsRelated />
+
                <Grid
                   container
                   spacing={2}
-                  columns={{ xs: 2, sm: 2, md: 12 }}
+                  columns={{ xs: 2, sm: 8, md: 12 }}
                   sx={{ padding: '0 10px' }}
                >
                   {data.products.map((item) => (

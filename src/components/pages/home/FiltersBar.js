@@ -17,6 +17,7 @@ import ChildFriendlyIcon from '@mui/icons-material/ChildFriendly';
 import ToysIcon from '@mui/icons-material/Toys';
 import TwoWheelerIcon from '@mui/icons-material/TwoWheeler';
 import CircleIcon from '@mui/icons-material/Circle';
+import { useState } from 'react';
 
 const FiltersBarItem = styled(Box)(() => ({
    display: 'flex',
@@ -82,6 +83,8 @@ const FiltersBar = () => {
       },
    ];
 
+   const [activeFilter, setActiveFilter] = useState(items[0].name);
+
    return (
       <Swiper
          slidesPerView={3}
@@ -106,8 +109,17 @@ const FiltersBar = () => {
          }}
       >
          {items.map(({ name, icon }, i) => (
-            <SwiperSlide key={i}>
-               <FiltersBarItem sx={{ fontSize: { xs: '10px', md: '16px' } }}>
+            <SwiperSlide key={i} onClick={() => setActiveFilter(name)}>
+               <FiltersBarItem
+                  sx={{
+                     fontSize: {
+                        xs: '10px',
+                        md: '16px',
+                     },
+                     color: activeFilter === name ? '#2264D1' : null,
+                     transition: '0.3s'
+                  }}
+               >
                   {icon}
                   <p style={{ margin: '5px 0' }}>{name}</p>
                </FiltersBarItem>
