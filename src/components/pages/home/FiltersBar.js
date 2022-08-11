@@ -2,6 +2,10 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { FreeMode, Scrollbar } from 'swiper';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
+import { useState } from 'react';
+
+import { connect } from 'react-redux';
+import * as actions from '../../../redux/actions';
 
 // icons
 import CheckroomIcon from '@mui/icons-material/Checkroom';
@@ -17,7 +21,6 @@ import ChildFriendlyIcon from '@mui/icons-material/ChildFriendly';
 import ToysIcon from '@mui/icons-material/Toys';
 import TwoWheelerIcon from '@mui/icons-material/TwoWheeler';
 import CircleIcon from '@mui/icons-material/Circle';
-import { useState } from 'react';
 
 const FiltersBarItem = styled(Box)(() => ({
    display: 'flex',
@@ -27,7 +30,7 @@ const FiltersBarItem = styled(Box)(() => ({
    cursor: 'pointer',
 }));
 
-const FiltersBar = () => {
+const FiltersBar = ({ filterByType, resetFilters }) => {
    const items = [
       {
          name: 'all',
@@ -109,7 +112,16 @@ const FiltersBar = () => {
          }}
       >
          {items.map(({ name, icon }, i) => (
-            <SwiperSlide key={i} onClick={() => setActiveFilter(name)}>
+            <SwiperSlide
+               key={i}
+               onClick={() => {
+                  setActiveFilter(name);
+                  resetFilters();
+                  if (name !== 'all') {
+                     filterByType(name);
+                  }
+               }}
+            >
                <FiltersBarItem
                   sx={{
                      fontSize: {
@@ -117,7 +129,7 @@ const FiltersBar = () => {
                         md: '16px',
                      },
                      color: activeFilter === name ? '#2264D1' : null,
-                     transition: '0.3s'
+                     transition: '0.3s',
                   }}
                >
                   {icon}
@@ -129,4 +141,10 @@ const FiltersBar = () => {
    );
 };
 
-export default FiltersBar;
+const mapStateToProps = (state) => {
+   return {
+      products: state.products,
+   };
+};
+
+export default connect(mapStateToProps, actions)(FiltersBar);

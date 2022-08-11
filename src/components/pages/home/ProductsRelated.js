@@ -1,31 +1,32 @@
 import Chip from '@mui/material/Chip';
 import Box from '@mui/material/Box';
-
-const items = [
-   'worldwide shipping',
-   'under $50',
-   'kitten',
-   'plastic plugs',
-   'pucker shoes',
-   'vintage typewriter',
-];
+import { useState } from 'react';
 
 const ProductsRelated = () => {
-   const handleDelete = () => {
-      console.log('Delete');
+   const [items, setItems] = useState([
+      'worldwide shipping',
+      'under $50',
+      'kitten',
+      'plastic plugs',
+      'pucker shoes',
+      'vintage typewriter',
+   ]);
+
+   const handleDelete = (target) => {
+      setItems((state) => state.filter((item) => item !== target));
    };
 
    return (
       <>
          {items.length === 0 ? null : (
-            <Box sx={{ paddingBottom: '20px' }}>
-               <b>Related</b>
+            <Box sx={{ paddingBottom: '15px' }}>
+               <b style={{ margin: '0 0 5px 0' }}>Related</b>
                {items.map((item, i) => (
                   <Chip
                      key={i}
                      label={item}
-                     onDelete={handleDelete}
-                     sx={{ marginLeft: '5px' }}
+                     onDelete={() => handleDelete(item)}
+                     sx={{ margin: ' 0 0 5px 5px' }}
                   />
                ))}
             </Box>
