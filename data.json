@@ -1,0 +1,250 @@
+{
+   "products": [
+      {
+         "name": "Shoes Nike",
+         "url": "https://firebasestorage.googleapis.com/v0/b/shopka-2e282.appspot.com/o/product.png?alt=media&token=b4874924-fdcc-4d74-86f9-55785a419808",
+         "description": "Lee Pucker design. Leather botinki for handsome designers. Free shipping.",
+         "subDescription": "Eligible for nothing :(",
+         "price": 13.95,
+         "rating": 3.33,
+         "filtersType": "Clothing & Shoes",
+         "id": "skrggnfdog-343sgskgog"
+      },
+      {
+         "name": "Vintage Typewriter",
+         "url": "https://firebasestorage.googleapis.com/v0/b/shopka-2e282.appspot.com/o/Image.png?alt=media&token=84818e0d-6a35-4c44-9bca-671702b8daed",
+         "description": "Vintage Typewriter to post awesome stories about UI design and webdev.",
+         "subDescription": "Eligible for Shipping To Mars or somewhere else",
+         "price": 49.5,
+         "rating": 4.56,
+         "filtersType": "Vintage",
+         "id": "hjf7887dda-dadawdwdda"
+      },
+      {
+         "name": "John Von Ebalkin",
+         "url": "https://firebasestorage.googleapis.com/v0/b/shopka-2e282.appspot.com/o/Image2.png?alt=media&token=c85bb3a8-c2c6-4d6e-b415-26025d60942e",
+         "description": "John Von Ebalkin SPRING",
+         "subDescription": "1258 bids, 359 watchers\n$5.95 for shipping",
+         "price": 13.95,
+         "rating": 4.56,
+         "filtersType": "Clothing & Shoes",
+         "id": "ndodfd7t4nf-sdfajikfa"
+      },
+      {
+         "name": "Shoes Nike",
+         "url": "https://firebasestorage.googleapis.com/v0/b/shopka-2e282.appspot.com/o/product.png?alt=media&token=b4874924-fdcc-4d74-86f9-55785a419808",
+         "description": "Lee Pucker design. Leather botinki for handsome designers. Free shipping.",
+         "subDescription": "Eligible for nothing :(",
+         "price": 13.99,
+         "rating": 5,
+         "filtersType": "Clothing & Shoes",
+         "id": "dwdwauj5hqh99-fseffosfs"
+      },
+      {
+         "name": "Shoes Nike",
+         "url": "https://firebasestorage.googleapis.com/v0/b/shopka-2e282.appspot.com/o/product.png?alt=media&token=b4874924-fdcc-4d74-86f9-55785a419808",
+         "description": "Lee Pucker design. Leather botinki for handsome designers. Free shipping.",
+         "subDescription": "Eligible for nothing :(",
+         "price": 81,
+         "rating": 1.55,
+         "filtersType": "Clothing & Shoes",
+         "id": "wpoimda98a3n2iq2md-3m3mks"
+      },
+      {
+         "name": "Timesaving kitten",
+         "url": "https://firebasestorage.googleapis.com/v0/b/shopka-2e282.appspot.com/o/kat.png?alt=media&token=bd60ea3c-7781-4392-bfc3-a319c879fc4d",
+         "description": "Timesaving kitten to save months on development. Playful, cute, cheap!",
+         "subDescription": "Eligible for nothing :(",
+         "price": 128.99,
+         "rating": 4.87,
+         "filtersType": "Pets",
+         "id": "dfkmd4004545-kphdglfm5"
+      },
+      {
+         "name": "Wordwide shifting",
+         "url": "https://firebasestorage.googleapis.com/v0/b/shopka-2e282.appspot.com/o/flower.png?alt=media&token=17d99d55-9e09-4ff1-bb38-19934628e8f7",
+         "description": "One string Bonsai description",
+         "subDescription": "Wordwide shifting available Buyers protection possible!",
+         "price": 11.68,
+         "rating": 4.99,
+         "filtersType": "Growing & Garden",
+         "id": "dofjpfjs343-fdsmfnmsnfsl"
+      }
+   ],
+   "filtersList": [
+      {
+         "id": "sdhaihdaubdia-3e3enjqdald",
+         "type": "accordion",
+         "name": "Electronics",
+         "items": [
+            {
+               "type": "accordion",
+               "name": "Cell Phones & Smartphones",
+               "items": [
+                  {
+                     "type": "item",
+                     "name": "Cell Phone Accessories"
+                  },
+                  {
+                     "type": "item",
+                     "name": "Cell Phone Gatgets"
+                  },
+                  {
+                     "type": "accordion",
+                     "name": "New accordion",
+                     "items": [
+                        {
+                           "type": "item",
+                           "name": "Cell Phone Accessories"
+                        },
+                        {
+                           "type": "item",
+                           "name": "Cell Phone Gatgets"
+                        },
+                        {
+                           "type": "item",
+                           "name": "Applications"
+                        },
+                        {
+                           "type": "item",
+                           "name": "Smart Watches"
+                        }
+                     ]
+                  },
+                  {
+                     "type": "item",
+                     "name": "Applications"
+                  },
+                  {
+                     "type": "item",
+                     "name": "Smart Watches"
+                  }
+               ]
+            },
+            {
+               "type": "item",
+               "name": "Iphones"
+            },
+            {
+               "type": "item",
+               "name": "Androids"
+            }
+         ]
+      },
+      {
+         "id": "kadfndas-348fdafldbf",
+         "type": "accordion",
+         "name": "Business & Industrial",
+         "items": [
+            {
+               "type": "item",
+               "name": "Cell Phone Accessories"
+            },
+            {
+               "type": "item",
+               "name": "Cell Phone Gatgets"
+            },
+            {
+               "type": "item",
+               "name": "Applications"
+            },
+            {
+               "type": "item",
+               "name": "Smart Watches"
+            }
+         ]
+      },
+      {
+         "id": "kfasnfads83q4bfgs-fdskln4-df",
+         "type": "accordion",
+         "name": "Computers",
+         "items": [
+            {
+               "type": "item",
+               "name": "Cell Phone Accessories"
+            },
+            {
+               "type": "item",
+               "name": "Cell Phone Gatgets"
+            },
+            {
+               "type": "item",
+               "name": "Applications"
+            },
+            {
+               "type": "item",
+               "name": "Smart Watches"
+            }
+         ]
+      },
+      {
+         "id": "sf3rndss3r-rmdnfsdkf33333",
+         "type": "accordion",
+         "name": "Consumer Electroinics",
+         "items": [
+            {
+               "type": "item",
+               "name": "Cell Phone Accessories"
+            },
+            {
+               "type": "item",
+               "name": "Cell Phone Gatgets"
+            },
+            {
+               "type": "item",
+               "name": "Applications"
+            },
+            {
+               "type": "item",
+               "name": "Smart Watches"
+            }
+         ]
+      },
+      {
+         "id": "wdakdnwa37r3grf0dsfvsfs-3r-ef-wf3",
+         "type": "accordion",
+         "name": "Home & Garden",
+         "items": [
+            {
+               "type": "item",
+               "name": "Cell Phone Accessories"
+            },
+            {
+               "type": "item",
+               "name": "Cell Phone Gatgets"
+            },
+            {
+               "type": "item",
+               "name": "Applications"
+            },
+            {
+               "type": "item",
+               "name": "Smart Watches"
+            }
+         ]
+      },
+      {
+         "id": "sldmafa763rbf8dfsf-sf-r",
+         "type": "accordion",
+         "name": "Collectibles",
+         "items": [
+            {
+               "type": "item",
+               "name": "Cell Phone Accessories"
+            },
+            {
+               "type": "item",
+               "name": "Cell Phone Gatgets"
+            },
+            {
+               "type": "item",
+               "name": "Applications"
+            },
+            {
+               "type": "item",
+               "name": "Smart Watches"
+            }
+         ]
+      }
+   ]
+}

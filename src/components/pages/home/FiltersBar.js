@@ -4,8 +4,8 @@ import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import { useState } from 'react';
 
-import { connect } from 'react-redux';
-import * as actions from '../../../redux/actions';
+import { useDispatch } from 'react-redux';
+import { filterByType, resetChapterFilters } from '../../../actions';
 
 // icons
 import CheckroomIcon from '@mui/icons-material/Checkroom';
@@ -30,7 +30,7 @@ const FiltersBarItem = styled(Box)(() => ({
    cursor: 'pointer',
 }));
 
-const FiltersBar = ({ filterByType, resetFilters }) => {
+const FiltersBar = () => {
    const items = [
       {
          name: 'all',
@@ -87,6 +87,7 @@ const FiltersBar = ({ filterByType, resetFilters }) => {
    ];
 
    const [activeFilter, setActiveFilter] = useState(items[0].name);
+   const dispatch = useDispatch();
 
    return (
       <Swiper
@@ -116,9 +117,9 @@ const FiltersBar = ({ filterByType, resetFilters }) => {
                key={i}
                onClick={() => {
                   setActiveFilter(name);
-                  resetFilters();
+                  dispatch(resetChapterFilters());
                   if (name !== 'all') {
-                     filterByType(name);
+                     dispatch(filterByType(name));
                   }
                }}
             >
@@ -141,10 +142,4 @@ const FiltersBar = ({ filterByType, resetFilters }) => {
    );
 };
 
-const mapStateToProps = (state) => {
-   return {
-      products: state.products,
-   };
-};
-
-export default connect(mapStateToProps, actions)(FiltersBar);
+export default FiltersBar;

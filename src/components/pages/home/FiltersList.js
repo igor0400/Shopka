@@ -1,187 +1,56 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import FiltersListItem from './FiltersListItem';
-
-const items = [
-   {
-      type: 'accordion',
-      name: 'Electronics',
-      items: [
-         {
-            type: 'accordion',
-            name: 'Cell Phones & Smartphones',
-            items: [
-               {
-                  type: 'item',
-                  name: 'Cell Phone Accessories',
-               },
-               {
-                  type: 'item',
-                  name: 'Cell Phone Gatgets',
-               },
-               {
-                  type: 'accordion',
-                  name: 'New accordion',
-                  items: [
-                     {
-                        type: 'item',
-                        name: 'Cell Phone Accessories',
-                     },
-                     {
-                        type: 'item',
-                        name: 'Cell Phone Gatgets',
-                     },
-                     {
-                        type: 'item',
-                        name: 'Applications',
-                     },
-                     {
-                        type: 'item',
-                        name: 'Smart Watches',
-                     },
-                  ],
-               },
-               {
-                  type: 'item',
-                  name: 'Applications',
-               },
-               {
-                  type: 'item',
-                  name: 'Smart Watches',
-               },
-            ],
-         },
-         {
-            type: 'item',
-            name: 'Iphones',
-         },
-         {
-            type: 'item',
-            name: 'Androids',
-         },
-      ],
-   },
-   {
-      type: 'accordion',
-      name: 'Business & Industrial',
-      items: [
-         {
-            type: 'item',
-            name: 'Cell Phone Accessories',
-         },
-         {
-            type: 'item',
-            name: 'Cell Phone Gatgets',
-         },
-         {
-            type: 'item',
-            name: 'Applications',
-         },
-         {
-            type: 'item',
-            name: 'Smart Watches',
-         },
-      ],
-   },
-   {
-      type: 'accordion',
-      name: 'Computers',
-      items: [
-         {
-            type: 'item',
-            name: 'Cell Phone Accessories',
-         },
-         {
-            type: 'item',
-            name: 'Cell Phone Gatgets',
-         },
-         {
-            type: 'item',
-            name: 'Applications',
-         },
-         {
-            type: 'item',
-            name: 'Smart Watches',
-         },
-      ],
-   },
-   {
-      type: 'accordion',
-      name: 'Consumer Electroinics',
-      items: [
-         {
-            type: 'item',
-            name: 'Cell Phone Accessories',
-         },
-         {
-            type: 'item',
-            name: 'Cell Phone Gatgets',
-         },
-         {
-            type: 'item',
-            name: 'Applications',
-         },
-         {
-            type: 'item',
-            name: 'Smart Watches',
-         },
-      ],
-   },
-   {
-      type: 'accordion',
-      name: 'Home & Garden',
-      items: [
-         {
-            type: 'item',
-            name: 'Cell Phone Accessories',
-         },
-         {
-            type: 'item',
-            name: 'Cell Phone Gatgets',
-         },
-         {
-            type: 'item',
-            name: 'Applications',
-         },
-         {
-            type: 'item',
-            name: 'Smart Watches',
-         },
-      ],
-   },
-   {
-      type: 'accordion',
-      name: 'Collectibles',
-      items: [
-         {
-            type: 'item',
-            name: 'Cell Phone Accessories',
-         },
-         {
-            type: 'item',
-            name: 'Cell Phone Gatgets',
-         },
-         {
-            type: 'item',
-            name: 'Applications',
-         },
-         {
-            type: 'item',
-            name: 'Smart Watches',
-         },
-      ],
-   },
-];
+import Skeleton from '@mui/material/Skeleton';
 
 const FiltersList = () => {
+   const [items, setItems] = useState([]);
+   const [itemsLoadingStatus, setItemsLoadingStatus] = useState('loading');
+
+   useEffect(() => {
+      axios
+         .get('http://localhost:3100/filtersList')
+         .then((res) => {
+            setItems(res.data);
+            setItemsLoadingStatus('idle');
+         })
+         .catch(() => setItemsLoadingStatus('error'));
+   }, []);
+
+   const renderItems = (status) => {
+      if (status === 'loading') {
+         return (
+            <>
+               {[1, 2, 3, 4, 5, 6].map((i) => (
+                  <Skeleton
+                     key={i}
+                     animation="wave"
+                     variant="text"
+                     sx={{ fontSize: '30px' }}
+                  />
+               ))}
+            </>
+         );
+      } else if (status === 'error') {
+         return <h3>Loading error</h3>;
+      } else {
+         return (
+            <>
+               {items.map((item, i) => (
+                  <React.Fragment key={i}>
+                     {item.type === 'accordion' ? (
+                        <FiltersListItem {...item} />
+                     ) : null}
+                  </React.Fragment>
+               ))}
+            </>
+         );
+      }
+   };
+
    return (
       <div style={{ width: '300px', paddingBottom: '30px' }}>
-         {items.map((item, i) => (
-            <React.Fragment key={i}>
-               {item.type === 'accordion' ? (
-                  <FiltersListItem {...item} />
-               ) : null}
-            </React.Fragment>
-         ))}
+         {renderItems(itemsLoadingStatus)}
       </div>
    );
 };

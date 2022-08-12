@@ -1,8 +1,8 @@
-import data from '../data.json';
-
 const initialValue = {
-   products: data.products,
-   clearProducts: data.products,
+   products: [],
+   clearProducts: [],
+   productsLoadingStatus: 'idle',
+   filters: [],
 };
 
 const reducer = (state = initialValue, action) => {
@@ -19,10 +19,27 @@ const reducer = (state = initialValue, action) => {
             ...state,
             products: state.products.sort((a, b) => a.price - b.price),
          };
-      case 'RESET_FILTERS':
+      case 'RESET_CHAPTER_FILTERS':
          return {
             ...state,
             products: state.clearProducts,
+         };
+      case 'PRODUCTS_FETCHING':
+         return {
+            ...state,
+            productsLoadingStatus: 'loading',
+         };
+      case 'PRODUCTS_FETCHED':
+         return {
+            ...state,
+            products: action.payload,
+            clearProducts: action.payload,
+            productsLoadingStatus: 'idle',
+         };
+      case 'PRODUCTS_FETCHING_ERROR':
+         return {
+            ...state,
+            productsLoadingStatus: 'error',
          };
       default:
          return state;
