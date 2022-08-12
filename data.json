@@ -69,6 +69,16 @@
          "rating": 4.99,
          "filtersType": "Growing & Garden",
          "id": "dofjpfjs343-fdsmfnmsnfsl"
+      },
+      {
+         "name": "Red pomade",
+         "url": "https://firebasestorage.googleapis.com/v0/b/shopka-2e282.appspot.com/o/pomade.png?alt=media&token=93cb26e5-e392-4f46-9498-106ba62d3d51",
+         "description": "Simply best item in town to shine bright with your Nine Inch Nails",
+         "subDescription": "Eligible for Shipping To Mars or somewhere else",
+         "price": 1.25,
+         "rating": 4.77,
+         "filtersType": "Сosmetic",
+         "id": "lfeljfksof758765yfhg-e48yr4g"
       }
    ],
    "filtersList": [

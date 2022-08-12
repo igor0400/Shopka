@@ -21,6 +21,7 @@ import ChildFriendlyIcon from '@mui/icons-material/ChildFriendly';
 import ToysIcon from '@mui/icons-material/Toys';
 import TwoWheelerIcon from '@mui/icons-material/TwoWheeler';
 import CircleIcon from '@mui/icons-material/Circle';
+import PaletteIcon from '@mui/icons-material/Palette';
 
 const FiltersBarItem = styled(Box)(() => ({
    display: 'flex',
@@ -83,6 +84,10 @@ const FiltersBar = () => {
       {
          name: 'Vintage',
          icon: <TwoWheelerIcon />,
+      },
+      {
+         name: 'Сosmetic',
+         icon: <PaletteIcon />,
       },
    ];
 
