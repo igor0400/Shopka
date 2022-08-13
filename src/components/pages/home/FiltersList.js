@@ -1,20 +1,29 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import axios from 'axios';
 import FiltersListItem from './FiltersListItem';
 import Skeleton from '@mui/material/Skeleton';
 
+import { useDispatch, useSelector } from 'react-redux';
+import {
+   filtersListFetching,
+   filtersListFetched,
+   filtersListFetchingError,
+} from '../../../actions';
+
 const FiltersList = () => {
-   const [items, setItems] = useState([]);
-   const [itemsLoadingStatus, setItemsLoadingStatus] = useState('loading');
+   const { filtersList, filtersListLoadingStatus } = useSelector(
+      (state) => state.filters
+   );
+   const dispatch = useDispatch();
 
    useEffect(() => {
+      dispatch(filtersListFetching());
       axios
          .get('http://localhost:3100/filtersList')
          .then((res) => {
-            setItems(res.data);
-            setItemsLoadingStatus('idle');
+            dispatch(filtersListFetched(res.data));
          })
-         .catch(() => setItemsLoadingStatus('error'));
+         .catch(() => dispatch(filtersListFetchingError()));
    }, []);
 
    const renderItems = (status) => {
@@ -36,7 +45,7 @@ const FiltersList = () => {
       } else {
          return (
             <>
-               {items.map((item, i) => (
+               {filtersList.map((item, i) => (
                   <React.Fragment key={i}>
                      {item.type === 'accordion' ? (
                         <FiltersListItem {...item} />
@@ -50,7 +59,7 @@ const FiltersList = () => {
 
    return (
       <div style={{ width: '300px', paddingBottom: '30px' }}>
-         {renderItems(itemsLoadingStatus)}
+         {renderItems(filtersListLoadingStatus)}
       </div>
    );
 };

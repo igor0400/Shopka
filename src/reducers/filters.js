@@ -1,30 +1,12 @@
 const initialValue = {
-   products: [],
-   productsLoadingStatus: 'idle',
    activeFilterBar: 'all',
    filtersList: [],
    filtersListLoadingStatus: 'idle',
    activeFiltersList: [],
 };
 
-const reducer = (state = initialValue, action) => {
+const filters = (state = initialValue, action) => {
    switch (action.type) {
-      case 'PRODUCTS_FETCHING':
-         return {
-            ...state,
-            productsLoadingStatus: 'loading',
-         };
-      case 'PRODUCTS_FETCHED':
-         return {
-            ...state,
-            products: action.payload,
-            productsLoadingStatus: 'idle',
-         };
-      case 'PRODUCTS_FETCHING_ERROR':
-         return {
-            ...state,
-            productsLoadingStatus: 'error',
-         };
       case 'FILTERS_LIST_FETCHING':
          return {
             ...state,
@@ -51,4 +33,4 @@ const reducer = (state = initialValue, action) => {
    }
 };
 
-export default reducer;
+export default filters;

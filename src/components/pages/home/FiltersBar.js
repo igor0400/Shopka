@@ -5,7 +5,7 @@ import Box from '@mui/material/Box';
 import { useState } from 'react';
 
 import { useDispatch } from 'react-redux';
-import { filterByType, resetChapterFilters } from '../../../actions';
+import { activeFilterBarChanged } from '../../../actions';
 
 // icons
 import CheckroomIcon from '@mui/icons-material/Checkroom';
@@ -122,10 +122,7 @@ const FiltersBar = () => {
                key={i}
                onClick={() => {
                   setActiveFilter(name);
-                  dispatch(resetChapterFilters());
-                  if (name !== 'all') {
-                     dispatch(filterByType(name));
-                  }
+                  dispatch(activeFilterBarChanged(name));
                }}
             >
                <FiltersBarItem
