@@ -4,11 +4,7 @@ import FiltersListItem from './FiltersListItem';
 import Skeleton from '@mui/material/Skeleton';
 
 import { useDispatch, useSelector } from 'react-redux';
-import {
-   filtersListFetching,
-   filtersListFetched,
-   filtersListFetchingError,
-} from '../../../actions';
+import { fetchFiltersList } from '../../../actions';
 
 const FiltersList = () => {
    const { filtersList, filtersListLoadingStatus } = useSelector(
@@ -16,15 +12,7 @@ const FiltersList = () => {
    );
    const dispatch = useDispatch();
 
-   useEffect(() => {
-      dispatch(filtersListFetching());
-      axios
-         .get('http://localhost:3100/filtersList')
-         .then((res) => {
-            dispatch(filtersListFetched(res.data));
-         })
-         .catch(() => dispatch(filtersListFetchingError()));
-   }, []);
+   useEffect(() => dispatch(fetchFiltersList(axios.get)), []);
 
    const renderItems = (status) => {
       if (status === 'loading') {

@@ -7,11 +7,7 @@ import Grid from '@mui/material/Grid';
 import CircularProgress from '@mui/material/CircularProgress';
 
 import { useDispatch, useSelector } from 'react-redux';
-import {
-   productsFetching,
-   productsFetched,
-   productsFetchingError,
-} from '../../../actions';
+import { fetchProducts } from '../../../actions';
 
 const Products = () => {
    const filteredProductsSelector = createSelector(
@@ -30,13 +26,7 @@ const Products = () => {
    const { productsLoadingStatus } = useSelector((state) => state.products);
    const dispatch = useDispatch();
 
-   useEffect(() => {
-      dispatch(productsFetching());
-      axios
-         .get('http://localhost:3100/products')
-         .then((res) => dispatch(productsFetched(res.data)))
-         .catch(() => dispatch(productsFetchingError()));
-   }, []);
+   useEffect(() => dispatch(fetchProducts(axios.get)), []);
 
    const renderProducts = (status) => {
       if (status === 'loading') {

@@ -1,3 +1,19 @@
+export const fetchProducts = (request) => (dispatch) => {
+   dispatch(productsFetching());
+   request('http://localhost:3100/products')
+      .then((res) => dispatch(productsFetched(res.data)))
+      .catch(() => dispatch(productsFetchingError()));
+};
+
+export const fetchFiltersList = (request) => (dispatch) => {
+   dispatch(filtersListFetching());
+   request('http://localhost:3100/filtersList')
+      .then((res) => {
+         dispatch(filtersListFetched(res.data));
+      })
+      .catch(() => dispatch(filtersListFetchingError()));
+};
+
 export const productsFetching = () => ({
    type: 'PRODUCTS_FETCHING',
 });
