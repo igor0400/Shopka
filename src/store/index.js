@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import products from '../reducers/products';
-import filters from '../reducers/filters';
+import products from '../slices/productsSlice';
+import filters from '../slices/filtersSlice';
 
 const stringMiddleware = () => (next) => (action) => {
    if (typeof action === 'string') {

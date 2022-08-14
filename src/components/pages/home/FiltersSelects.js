@@ -1,4 +1,4 @@
-import FiltersSelect from './Select';
+import FiltersSelect from './FiltersSelect';
 
 const FiltersSelects = () => {
    const items = [

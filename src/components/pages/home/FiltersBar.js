@@ -5,7 +5,7 @@ import Box from '@mui/material/Box';
 import { useState } from 'react';
 
 import { useDispatch } from 'react-redux';
-import { activeFilterBarChanged } from '../../../actions';
+import { activeFilterBarChanged } from '../../../slices/filtersSlice';
 
 // icons
 import CheckroomIcon from '@mui/icons-material/Checkroom';
