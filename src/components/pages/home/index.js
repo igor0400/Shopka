@@ -10,7 +10,7 @@ import FiltersSelects from './FiltersSelects';
 import ProductsRelated from './ProductsRelated';
 import Products from './Products';
 
-// ОБРАБОТАТЬ ЗАГРУСКУ КАРТОЧКИ И СДЕЛАТЬ СКЕЛЕТОН
+// ОБРАБОТАТЬ ЗАГРУЗКУ КАРТОЧКИ И СДЕЛАТЬ СКЕЛЕТОН
 
 const Home = () => {
    return (

@@ -1,10 +1,15 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import {
+   createSlice,
+   createAsyncThunk,
+   createEntityAdapter,
+} from '@reduxjs/toolkit';
 import { useHttp } from '../hooks/http.hook';
 
-const initialState = {
-   products: [],
+const productsAdapter = createEntityAdapter();
+
+const initialState = productsAdapter.getInitialState({
    productsLoadingStatus: 'idle',
-};
+});
 
 export const fetchProducts = createAsyncThunk(
    'products/fetchProducts',
@@ -23,8 +28,8 @@ const productsSlice = createSlice({
             state.productsLoadingStatus = 'loading';
          })
          .addCase(fetchProducts.fulfilled, (state, action) => {
-            state.products = action.payload;
             state.productsLoadingStatus = 'idle';
+            productsAdapter.setAll(state, action.payload);
          })
          .addCase(fetchProducts.rejected, (state) => {
             state.productsLoadingStatus = 'error';
@@ -33,8 +38,10 @@ const productsSlice = createSlice({
    },
 });
 
-const { actions, reducer } = productsSlice;
+const { reducer } = productsSlice;
 
 export default reducer;
-export const { productsFetching, productsFetched, productsFetchingError } =
-   actions;
+
+export const { selectAll } = productsAdapter.getSelectors(
+   (state) => state.products
+);

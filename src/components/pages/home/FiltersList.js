@@ -3,12 +3,14 @@ import FiltersListItem from './FiltersListItem';
 import Skeleton from '@mui/material/Skeleton';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchFiltersList } from '../../../slices/filtersSlice';
+import { fetchFiltersList, selectAll } from '../../../slices/filtersListSlice';
+import store from '../../../store';
 
 const FiltersList = () => {
-   const { filtersList, filtersListLoadingStatus } = useSelector(
-      (state) => state.filters
+   const { filtersListLoadingStatus } = useSelector(
+      (state) => state.filtersList
    );
+   const filtersList = selectAll(store.getState())
    const dispatch = useDispatch();
 
    useEffect(() => {

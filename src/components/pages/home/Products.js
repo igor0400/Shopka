@@ -6,12 +6,12 @@ import Grid from '@mui/material/Grid';
 import CircularProgress from '@mui/material/CircularProgress';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchProducts } from '../../../slices/productsSlice';
+import { fetchProducts, selectAll } from '../../../slices/productsSlice';
 
 const Products = () => {
    const filteredProductsSelector = createSelector(
       (state) => state.filters.activeFilterBar,
-      (state) => state.products.products,
+      selectAll,
       (filter, products) => {
          if (filter === 'all') {
             return products;

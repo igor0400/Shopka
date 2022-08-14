@@ -83,6 +83,7 @@
    ],
    "filtersList": [
       {
+         "id": "efkpmwpfmwfpmwp-454545",
          "type": "accordion",
          "name": "Electronics",
          "items": [
@@ -141,6 +142,7 @@
          ]
       },
       {
+         "id": "dlmfkldfm4j54otgkcpv3v5pd-vfvdv",
          "type": "accordion",
          "name": "Business & Industrial",
          "items": [
@@ -163,6 +165,7 @@
          ]
       },
       {
+         "id": "niuni4ru4fndcs-3fdcs-cvs3",
          "type": "accordion",
          "name": "Computers",
          "items": [
@@ -185,6 +188,7 @@
          ]
       },
       {
+         "id": "fkoemfiy4r8gvncdvs-v-svs",
          "type": "accordion",
          "name": "Consumer Electroinics",
          "items": [
@@ -207,6 +211,7 @@
          ]
       },
       {
+         "id": "kcsnd73fnds8vcd3-vsvsv-svcs",
          "type": "accordion",
          "name": "Home & Garden",
          "items": [
@@ -229,6 +234,7 @@
          ]
       },
       {
+         "id": "kfmf83q-ef-ef-fc-3dvv",
          "type": "accordion",
          "name": "Collectibles",
          "items": [
