@@ -1,8 +1,8 @@
 import { Routes, Route } from 'react-router-dom';
 
 import Header from '../header/Header';
-import Home from '../pages/home';
-import Cart from '../pages/cart';
+import Home from '../home';
+import Cart from '../cart';
 
 import 'swiper/css';
 import 'swiper/css/free-mode';

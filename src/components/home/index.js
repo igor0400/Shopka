@@ -1,14 +1,16 @@
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
 
-import FiltersBar from './FiltersBar';
-import FiltersList from './FiltersList';
-import FiltersAccordion from './FiltersAccordion';
-import ChangeCardsModeSwitch from './ChangeCardsModeSwitch';
-import ChangeProductsType from './ChangeProductsType';
-import FiltersSelects from './FiltersSelects';
-import ProductsRelated from './ProductsRelated';
-import Products from './Products';
+import FiltersBar from './filters/FiltersBar';
+import FiltersList from './filters/FiltersList';
+import FiltersAccordion from './filters/FiltersAccordion';
+import ChangeCardsModeSwitch from './filters/ChangeCardsModeSwitch';
+import ChangeProductsType from './filters/ChangeProductsType';
+import FiltersSelects from './filters/FiltersSelects';
+import ProductsRelated from './products/ProductsRelated';
+import Products from './products/Products';
+
+// ПОСТ ЗАКАЗОВ ДЕЛАТЬ ПРИ ПОМОЩИ RTK Query И tagTypes
 
 const Home = () => {
    return (

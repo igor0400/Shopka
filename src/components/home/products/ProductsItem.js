@@ -33,14 +33,14 @@ const ProductsItem = ({
             <img
                src={url}
                alt={name}
-               style={{ overflow: imgLoad ? null : 'hidden' }}
+               style={{ display: imgLoad ? null : 'none', width: '220px', height: '220px' }}
                onLoad={() => setImgLoad(true)}
             />
             {imgLoad ? null : (
                <Skeleton
                   variant="rounded"
                   width={'100%'}
-                  height={200}
+                  height={220}
                   animation="wave"
                   style={{ borderRadius: '3px' }}
                />
