@@ -6,7 +6,7 @@ import Checkbox from '@mui/material/Checkbox';
 import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
 import Favorite from '@mui/icons-material/Favorite';
 import { useState } from 'react';
-import defaultProduct from '../../../images/product.png'
+import Skeleton from '@mui/material/Skeleton';
 
 const ProductsItem = ({
    name,
@@ -17,7 +17,7 @@ const ProductsItem = ({
    subDescription,
 }) => {
    const [cardElevation, setCardElevation] = useState(0);
-   const [imgSrc, setImgSrc] = useState(url)
+   const [imgLoad, setImgLoad] = useState(false);
 
    return (
       <Card
@@ -30,8 +30,25 @@ const ProductsItem = ({
             className="flex"
             sx={{ flexDirection: 'column', height: '95%' }}
          >
-            <img src={imgSrc} alt={name} onError={() => setImgSrc(defaultProduct)} />
-            <Typography sx={{ margin: '0 0 auto' }}>{description}</Typography>
+            <img
+               src={url}
+               alt={name}
+               style={{ overflow: imgLoad ? null : 'hidden' }}
+               onLoad={() => setImgLoad(true)}
+            />
+            {imgLoad ? null : (
+               <Skeleton
+                  variant="rounded"
+                  width={'100%'}
+                  height={200}
+                  animation="wave"
+                  style={{ borderRadius: '3px' }}
+               />
+            )}
+
+            <Typography sx={{ margin: '10px 0 auto' }}>
+               {description}
+            </Typography>
             <Typography variant="h6">${price}</Typography>
             <Typography
                variant="p"

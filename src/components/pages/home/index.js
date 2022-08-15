@@ -10,8 +10,6 @@ import FiltersSelects from './FiltersSelects';
 import ProductsRelated from './ProductsRelated';
 import Products from './Products';
 
-// ОБРАБОТАТЬ ЗАГРУЗКУ КАРТОЧКИ И СДЕЛАТЬ СКЕЛЕТОН
-
 const Home = () => {
    return (
       <Container maxWidth="xl">
