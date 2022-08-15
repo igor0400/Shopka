@@ -21,6 +21,6 @@ const { actions, reducer } = filtersSlice;
 export default reducer;
 export const { activeFilterBarChanged } = actions;
 
-export const { selectAll } = filtersListAdapter.getSelectors(
+export const { selectAll } = filtersAdapter.getSelectors(
    (state) => state.filters
 );
