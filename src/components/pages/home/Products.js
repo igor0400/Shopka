@@ -1,36 +1,38 @@
-import { useEffect } from 'react';
-import { createSelector } from 'reselect';
+import { useMemo } from 'react';
 
 import ProductsItem from './ProductsItem';
 import Grid from '@mui/material/Grid';
 import CircularProgress from '@mui/material/CircularProgress';
 
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchProducts, selectAll } from '../../../slices/productsSlice';
+import { useSelector } from 'react-redux';
+import { useGetProductsQuery } from '../../../api/apiSlice';
 
 const Products = () => {
-   const filteredProductsSelector = createSelector(
-      (state) => state.filters.activeFilterBar,
-      selectAll,
-      (filter, products) => {
-         if (filter === 'all') {
-            return products;
-         } else {
-            return products.filter((item) => item.filtersType === filter);
-         }
-      }
+   const {
+      data: products = [],
+      isFetching,
+      isLoading,
+      isError,
+   } = useGetProductsQuery();
+
+   const activeFilterBar = useSelector(
+      (state) => state.filters.activeFilterBar
    );
 
-   const filteredProducts = useSelector(filteredProductsSelector);
-   const { productsLoadingStatus } = useSelector((state) => state.products);
-   const dispatch = useDispatch();
+   const filteredProducts = useMemo(() => {
+      const filteredProducts = products.slice();
 
-   useEffect(() => {
-      dispatch(fetchProducts());
-   }, []);
+      if (activeFilterBar === 'all') {
+         return filteredProducts;
+      } else {
+         return filteredProducts.filter(
+            (item) => item.filtersType === activeFilterBar
+         );
+      }
+   }, [products, activeFilterBar]);
 
-   const renderProducts = (status) => {
-      if (status === 'loading') {
+   const renderProducts = () => {
+      if (isLoading || isFetching) {
          return (
             <CircularProgress
                sx={{
@@ -40,7 +42,7 @@ const Products = () => {
                }}
             />
          );
-      } else if (status === 'error') {
+      } else if (isError) {
          return <h3>loading error</h3>;
       } else {
          if (filteredProducts.length === 0) {
@@ -64,7 +66,7 @@ const Products = () => {
       }
    };
 
-   return <>{renderProducts(productsLoadingStatus)}</>;
+   return <>{renderProducts()}</>;
 };
 
 export default Products;

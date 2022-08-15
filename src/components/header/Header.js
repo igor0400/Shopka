@@ -39,7 +39,7 @@ const StyledBadge = styled(Badge)(() => ({
 }));
 
 const Header = () => {
-   const user = true;
+   const user = false;
 
    const [anchorElNav, setAnchorElNav] = useState(null);
    const [anchorElUser, setAnchorElUser] = useState(null);

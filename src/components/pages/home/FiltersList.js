@@ -1,24 +1,19 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import FiltersListItem from './FiltersListItem';
 import Skeleton from '@mui/material/Skeleton';
 
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchFiltersList, selectAll } from '../../../slices/filtersListSlice';
-import store from '../../../store';
+import { useGetFiltersListQuery } from '../../../api/apiSlice';
 
 const FiltersList = () => {
-   const { filtersListLoadingStatus } = useSelector(
-      (state) => state.filtersList
-   );
-   const filtersList = selectAll(store.getState())
-   const dispatch = useDispatch();
+   const {
+      data: filtersList = [],
+      isFetching,
+      isLoading,
+      isError,
+   } = useGetFiltersListQuery();
 
-   useEffect(() => {
-      dispatch(fetchFiltersList());
-   }, []);
-
-   const renderItems = (status) => {
-      if (status === 'loading') {
+   const renderItems = () => {
+      if (isLoading || isFetching) {
          return (
             <>
                {[1, 2, 3, 4, 5, 6].map((i) => (
@@ -31,7 +26,7 @@ const FiltersList = () => {
                ))}
             </>
          );
-      } else if (status === 'error') {
+      } else if (isError) {
          return <h3>Loading error</h3>;
       } else {
          return (
@@ -50,7 +45,7 @@ const FiltersList = () => {
 
    return (
       <div style={{ width: '300px', paddingBottom: '30px' }}>
-         {renderItems(filtersListLoadingStatus)}
+         {renderItems()}
       </div>
    );
 };
