@@ -17,7 +17,7 @@ const Register = () => (
                alignItems="baseline"
                sx={{ mb: { xs: -0.5, sm: 0.5 } }}
             >
-               <Typography variant="h3">Sign up</Typography>
+               <Typography variant="h4">Sign up</Typography>
                <Typography
                   component={Link}
                   to="/login"

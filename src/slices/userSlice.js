@@ -1,37 +1,38 @@
 import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
-import {
-   createUserWithEmailAndPassword,
-   signInWithEmailAndPassword,
-} from 'firebase/auth';
-import { auth } from '../firebase';
 
 const userAdapter = createEntityAdapter();
 
 const initialState = userAdapter.getInitialState({
    userAuth: false,
    userAuthStatus: 'idle',
+   userLoguotStatus: 'idle',
 });
 
 const userSlice = createSlice({
    name: 'user',
    initialState,
    reducers: {
-      userAuthTrue: (state) => {
-         state.userAuth = true;
-      },
-      userAuthFalse: (state) => {
-         state.userAuth = false;
-      },
-      userAuthStatusFetching: (state) => {
+      userAuthFetching: (state) => {
          state.userAuthStatus = 'loading';
       },
-      userAuthStatusFetched: (state, action) => {
+      userAuthFetched: (state, action) => {
          state.user = action.payload;
          state.userAuth = true;
          state.userAuthStatus = 'idle';
       },
-      userAuthStatusFetchingError: (state) => {
+      userAuthFetchingError: (state) => {
          state.userAuthStatus = 'error';
+      },
+      userLogoutFetching: (state) => {
+         state.userLoguotStatus = 'loading';
+      },
+      userLogoutFetched: (state) => {
+         state.user = {};
+         state.userAuth = false;
+         state.userLoguotStatus = 'idle';
+      },
+      userLogoutFetchingError: (state) => {
+         state.userLoguotStatus = 'error';
       },
    },
 });
@@ -39,40 +40,13 @@ const userSlice = createSlice({
 const { actions, reducer } = userSlice;
 
 export const {
-   userAuthTrue,
-   userAuthFalse,
-   userAuthStatusFetching,
-   userAuthStatusFetched,
-   userAuthStatusFetchingError,
+   userAuthFetching,
+   userAuthFetched,
+   userAuthFetchingError,
+   userLogoutFetching,
+   userLogoutFetched,
+   userLogoutFetchingError,
 } = actions;
-
-export const userSignUp = async (dispatch, navigate, { email, password }) => {
-   dispatch(userAuthStatusFetching());
-   await createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-         navigate('/');
-         const user = userCredential.user.reloadUserInfo;
-         dispatch(userAuthStatusFetched(user));
-         console.log(user);
-      })
-      .catch(() => {
-         dispatch(userAuthStatusFetchingError());
-      });
-};
-
-export const userSignIn = async (dispatch, navigate, { email, password }) => {
-   dispatch(userAuthStatusFetching());
-   await signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-         navigate('/');
-         const user = userCredential.user.reloadUserInfo;
-         dispatch(userAuthStatusFetched(user));
-         console.log(user);
-      })
-      .catch(() => {
-         dispatch(userAuthStatusFetchingError());
-      });
-};
 
 export default reducer;
 

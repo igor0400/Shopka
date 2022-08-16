@@ -4,8 +4,6 @@ import { useSelector } from 'react-redux';
 import Header from '../header/Header';
 import Home from '../home/Home';
 import Cart from '../cart/Cart';
-import SignUp from '../signUp/SignUp';
-import SignIn from '../signIn/SignIn';
 import Error404 from '../error404/Error404';
 
 import Register from '../authentication/Register';
@@ -38,8 +36,8 @@ function App() {
                   <>
                      <Route path="/" element={<Home />} />
                      <Route path="cart" element={<Cart />} />
-                     <Route path="signUp" element={<Register />} />
-                     <Route path="signIn" element={<Login />} />
+                     <Route path="register" element={<Register />} />
+                     <Route path="login" element={<Login />} />
                   </>
                )}
                <Route path="*" element={<Error404 />} />

@@ -2,9 +2,8 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { FreeMode, Scrollbar } from 'swiper';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import { useState } from 'react';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { activeFilterBarChanged } from '../../../slices/filtersSlice';
 
 // icons
@@ -91,8 +90,10 @@ const FiltersBar = () => {
       },
    ];
 
-   const [activeFilter, setActiveFilter] = useState(items[0].name);
    const dispatch = useDispatch();
+   const activeFilterBar = useSelector(
+      (state) => state.filters.activeFilterBar
+   );
 
    return (
       <Swiper
@@ -121,7 +122,6 @@ const FiltersBar = () => {
             <SwiperSlide
                key={i}
                onClick={() => {
-                  setActiveFilter(name);
                   dispatch(activeFilterBarChanged(name));
                }}
             >
@@ -131,7 +131,7 @@ const FiltersBar = () => {
                         xs: '10px',
                         md: '16px',
                      },
-                     color: activeFilter === name ? '#2264D1' : null,
+                     color: activeFilterBar === name ? '#2264D1' : null,
                      transition: '0.3s',
                   }}
                >

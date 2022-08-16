@@ -1,6 +1,8 @@
 import { useState } from 'react';
 
 import { useSelector } from 'react-redux';
+import { userLogout } from '../../firebase/auth';
+import { useDispatch } from 'react-redux';
 
 // icons
 import MenuIcon from '@mui/icons-material/Menu';
@@ -45,6 +47,8 @@ const Header = () => {
 
    const [anchorElNav, setAnchorElNav] = useState(null);
    const [anchorElUser, setAnchorElUser] = useState(null);
+
+   const dispatch = useDispatch();
 
    const handleOpenNavMenu = (event) => {
       setAnchorElNav(event.currentTarget);
@@ -184,11 +188,14 @@ const Header = () => {
                               key={setting}
                               onClick={handleCloseUserMenu}
                            >
-                              <Typography textAlign="center" onClick={() => {
-                                 if (setting === 'Sign out') {
-                                    
-                                 }
-                              }}>
+                              <Typography
+                                 textAlign="center"
+                                 onClick={() => {
+                                    if (setting === 'Sign out') {
+                                       userLogout(dispatch);
+                                    }
+                                 }}
+                              >
                                  {setting}
                               </Typography>
                            </MenuItem>
@@ -197,7 +204,7 @@ const Header = () => {
                   </Box>
                ) : (
                   <Box>
-                     <Link to="signUp" style={{ textDecoration: 'none' }}>
+                     <Link to="register" style={{ textDecoration: 'none' }}>
                         <Button
                            variant="contained"
                            sx={{ marginRight: '10px' }}
@@ -206,7 +213,7 @@ const Header = () => {
                         </Button>
                      </Link>
 
-                     <Link to="signIn" style={{ textDecoration: 'none' }}>
+                     <Link to="login" style={{ textDecoration: 'none' }}>
                         <Button variant="outlined" sx={{ color: '#fff' }}>
                            Sign in
                         </Button>
