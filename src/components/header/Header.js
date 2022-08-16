@@ -1,5 +1,7 @@
 import { useState } from 'react';
 
+import { useSelector } from 'react-redux';
+
 // icons
 import MenuIcon from '@mui/icons-material/Menu';
 import StorefrontIcon from '@mui/icons-material/Storefront';
@@ -26,7 +28,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const settings = ['Profile', 'Account', 'Dashboard', 'Sign out'];
 
 const StyledBadge = styled(Badge)(() => ({
    '& .MuiBadge-badge': {
@@ -39,7 +41,7 @@ const StyledBadge = styled(Badge)(() => ({
 }));
 
 const Header = () => {
-   const user = false;
+   const userAuth = useSelector((state) => state.user.userAuth);
 
    const [anchorElNav, setAnchorElNav] = useState(null);
    const [anchorElUser, setAnchorElUser] = useState(null);
@@ -151,7 +153,7 @@ const Header = () => {
                   </Link>
                </Box>
 
-               {user ? (
+               {userAuth ? (
                   <Box>
                      <Tooltip title="Open settings">
                         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -182,7 +184,11 @@ const Header = () => {
                               key={setting}
                               onClick={handleCloseUserMenu}
                            >
-                              <Typography textAlign="center">
+                              <Typography textAlign="center" onClick={() => {
+                                 if (setting === 'Sign out') {
+                                    
+                                 }
+                              }}>
                                  {setting}
                               </Typography>
                            </MenuItem>
@@ -191,12 +197,20 @@ const Header = () => {
                   </Box>
                ) : (
                   <Box>
-                     <Button variant="contained" sx={{ marginRight: '10px' }}>
-                        Sign up
-                     </Button>
-                     <Button variant="outlined" sx={{ color: '#fff' }}>
-                        Sign in
-                     </Button>
+                     <Link to="signUp" style={{ textDecoration: 'none' }}>
+                        <Button
+                           variant="contained"
+                           sx={{ marginRight: '10px' }}
+                        >
+                           Sign up
+                        </Button>
+                     </Link>
+
+                     <Link to="signIn" style={{ textDecoration: 'none' }}>
+                        <Button variant="outlined" sx={{ color: '#fff' }}>
+                           Sign in
+                        </Button>
+                     </Link>
                   </Box>
                )}
             </Toolbar>

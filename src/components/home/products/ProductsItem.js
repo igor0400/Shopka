@@ -33,8 +33,14 @@ const ProductsItem = ({
             <img
                src={url}
                alt={name}
-               style={{ display: imgLoad ? null : 'none', width: '220px', height: '220px' }}
+               style={{
+                  display: imgLoad ? null : 'none',
+                  width: '220px',
+                  height: '220px',
+                  animationDuration: '0.5s'
+               }}
                onLoad={() => setImgLoad(true)}
+               className="animate__animated animate__fadeIn"
             />
             {imgLoad ? null : (
                <Skeleton

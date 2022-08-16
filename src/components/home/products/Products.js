@@ -38,7 +38,7 @@ const Products = () => {
                sx={{
                   display: 'flex',
                   width: '100%',
-                  margin: '50px auto',
+                  margin: '110px auto 150px',
                }}
             />
          );

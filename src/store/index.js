@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 
 import filters from '../slices/filtersSlice';
+import user from '../slices/userSlice'
 import { apiSlice } from '../api/apiSlice';
 
 const stringMiddleware = () => (next) => (action) => {
@@ -16,6 +17,7 @@ const stringMiddleware = () => (next) => (action) => {
 const store = configureStore({
    reducer: {
       filters,
+      user,
       [apiSlice.reducerPath]: apiSlice.reducer,
    },
    middleware: (getDefaultMiddleware) =>
