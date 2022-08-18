@@ -2,6 +2,9 @@ import {
    createUserWithEmailAndPassword,
    signInWithEmailAndPassword,
    signOut,
+   signInWithPopup,
+   GoogleAuthProvider,
+   GithubAuthProvider,
 } from 'firebase/auth';
 import { auth } from '../firebase';
 
@@ -21,10 +24,10 @@ export const userRegister = async (dispatch, navigate, { email, password }) => {
          navigate('/');
          const user = userCredential.user.reloadUserInfo;
          dispatch(userAuthFetched(user));
-         console.log(user);
       })
-      .catch(() => {
-         dispatch(userAuthFetchingError());
+      .catch((error) => {
+         const errorMessage = error.message;
+         dispatch(userAuthFetchingError({ error: errorMessage }));
       });
 };
 
@@ -35,16 +38,53 @@ export const userLogin = async (dispatch, navigate, { email, password }) => {
          navigate('/');
          const user = userCredential.user.reloadUserInfo;
          dispatch(userAuthFetched(user));
-         console.log(user);
       })
-      .catch(() => {
-         dispatch(userAuthFetchingError());
+      .catch((error) => {
+         const errorMessage = error.message;
+         dispatch(userAuthFetchingError({ error: errorMessage }));
       });
 };
 
 export const userLogout = async (dispatch) => {
-   dispatch(userAuthFetching());
+   dispatch(userLogoutFetching());
    await signOut(auth)
       .then(() => dispatch(userLogoutFetched()))
-      .catch(() => dispatch(userAuthFetchingError()));
+      .catch((error) => {
+         const errorMessage = error.message;
+         dispatch(userLogoutFetchingError({ error: errorMessage }));
+      });
+};
+
+const googleProvider = new GoogleAuthProvider();
+
+export const userAuthGoogle = async (dispatch, navigate) => {
+   dispatch(userAuthFetching());
+   signInWithPopup(auth, googleProvider)
+      .then((result) => {
+         navigate('/');
+         const user = result.user.reloadUserInfo;
+         dispatch(userAuthFetched(user));
+      })
+      .catch((error) => {
+         const errorMessage = error.message;
+         const email = error.customData.email;
+         dispatch(userAuthFetchingError({ error: errorMessage, email }));
+      });
+};
+
+const githibProvider = new GithubAuthProvider();
+
+export const userAuthGithub = async (dispatch, navigate) => {
+   dispatch(userAuthFetching());
+   signInWithPopup(auth, githibProvider)
+      .then((result) => {
+         navigate('/');
+         const user = result.user.reloadUserInfo;
+         dispatch(userAuthFetched(user));
+      })
+      .catch((error) => {
+         const errorMessage = error.message;
+         const email = error.customData.email;
+         dispatch(userAuthFetchingError({ error: errorMessage, email }));
+      });
 };

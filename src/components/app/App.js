@@ -1,5 +1,9 @@
+import { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { ToastContainer, toast } from 'react-toastify';
+
+import { useSelector, useDispatch } from 'react-redux';
+import { clearErrors } from '../../slices/userSlice';
 
 import Header from '../header/Header';
 import Home from '../home/Home';
@@ -9,18 +13,56 @@ import Error404 from '../error404/Error404';
 import Register from '../authentication/Register';
 import Login from '../authentication/Login';
 
-import 'swiper/css';
-import 'swiper/css/free-mode';
-import 'swiper/css/scrollbar';
-import 'animate.css';
-
-import '@fontsource/roboto/300.css';
-import '@fontsource/roboto/400.css';
-import '@fontsource/roboto/500.css';
-import '@fontsource/roboto/700.css';
+import {
+   useGetUserDataQuery,
+   usePostUserDataMutation,
+} from '../../firebase/firebaseSlice';
+import { useCallback } from 'react';
 
 function App() {
-   const userAuth = useSelector((state) => state.user.userAuth);
+   const { user, userAuth, userAuthStatus, userLoguotStatus, userErrors } =
+      useSelector((state) => state.user);
+
+   const dispatch = useDispatch();
+   const notify = (value) => toast.error(value);
+
+   useEffect(() => {
+      if (userAuthStatus === 'error' || userLoguotStatus === 'error') {
+         userErrors.map((item) => notify(item));
+         dispatch(clearErrors());
+      }
+   }, [userAuthStatus, userLoguotStatus]);
+
+   // auth data post to user
+
+   // надо записать userData в user при авторизации
+
+   const userPath = user ? user.localId : user;
+   const {
+      data: userData = {},
+      isLoading,
+      isError,
+   } = useGetUserDataQuery(`/users/${userPath}`);
+   const [postUserData] = usePostUserDataMutation();
+
+   const postUserEmail = useCallback((value) => {
+      postUserData(value);
+   }, []);
+
+   useEffect(() => {
+      if (!isLoading && !isError) {
+         console.log(userData);
+      }
+
+      // if (userAuth) {
+      //    postUserEmail({
+      //       url: `/users/${userPath}/orders`,
+      //       data: {
+      //          email: 'some@gmail.com',
+      //       },
+      //    });
+      // }
+   }, [userData]);
 
    return (
       <div className="App">
@@ -43,6 +85,17 @@ function App() {
                <Route path="*" element={<Error404 />} />
             </Routes>
          </main>
+         <ToastContainer
+            position="bottom-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+         />
       </div>
    );
 }

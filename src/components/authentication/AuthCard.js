@@ -5,6 +5,7 @@ import { Box, Paper } from '@mui/material';
 
 const AuthCard = ({ children }) => (
    <Paper
+      elevation={3}
       sx={{
          maxWidth: { xs: 400, lg: 475 },
          margin: { xs: 2.5, md: 3 },

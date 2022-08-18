@@ -10,10 +10,6 @@ import FiltersSelects from './filters/FiltersSelects';
 import ProductsRelated from './products/ProductsRelated';
 import Products from './products/Products';
 
-// ПОСТ ЗАКАЗОВ ДЕЛАТЬ ПРИ ПОМОЩИ RTK Query И tagTypes
-
-// ДЕЛАТЬ АВТОРИЗАЦИЮ НА firebase
-
 const Home = () => {
    return (
       <Container maxWidth="xl">

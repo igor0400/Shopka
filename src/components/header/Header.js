@@ -43,7 +43,7 @@ const StyledBadge = styled(Badge)(() => ({
 }));
 
 const Header = () => {
-   const userAuth = useSelector((state) => state.user.userAuth);
+   const { user, userAuth } = useSelector((state) => state.user);
 
    const [anchorElNav, setAnchorElNav] = useState(null);
    const [anchorElUser, setAnchorElUser] = useState(null);
@@ -75,8 +75,8 @@ const Header = () => {
                <Typography
                   variant="h6"
                   noWrap
-                  component="a"
-                  href="/"
+                  component={Link}
+                  to="/"
                   sx={{
                      mr: 2,
                      display: { xs: 'none', md: 'flex' },
@@ -162,8 +162,8 @@ const Header = () => {
                      <Tooltip title="Open settings">
                         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                            <Avatar
-                              alt="Remy Sharp"
-                              src="/static/images/avatar/2.jpg"
+                              alt={user.displayName || user.email}
+                              src={user.photoUrl}
                            />
                         </IconButton>
                      </Tooltip>
