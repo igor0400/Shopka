@@ -45,10 +45,13 @@ export const userLogin = async (dispatch, navigate, { email, password }) => {
       });
 };
 
-export const userLogout = async (dispatch) => {
+export const userLogout = async (dispatch, navigate) => {
    dispatch(userLogoutFetching());
    await signOut(auth)
-      .then(() => dispatch(userLogoutFetched()))
+      .then(() => {
+         navigate('/');
+         dispatch(userLogoutFetched());
+      })
       .catch((error) => {
          const errorMessage = error.message;
          dispatch(userLogoutFetchingError({ error: errorMessage }));

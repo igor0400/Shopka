@@ -1,8 +1,6 @@
 import { useState } from 'react';
 
 import { useSelector } from 'react-redux';
-import { userLogout } from '../../firebase/auth';
-import { useDispatch } from 'react-redux';
 
 // icons
 import MenuIcon from '@mui/icons-material/Menu';
@@ -17,7 +15,6 @@ import { Link } from 'react-router-dom';
 /* mui components*/
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
 import Container from '@mui/material/Container';
 import InputBase from '@mui/material/InputBase';
 import Badge from '@mui/material/Badge';
@@ -28,9 +25,6 @@ import IconButton from '@mui/material/IconButton';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
-
-const settings = ['Profile', 'Account', 'Dashboard', 'Sign out'];
 
 const StyledBadge = styled(Badge)(() => ({
    '& .MuiBadge-badge': {
@@ -44,26 +38,6 @@ const StyledBadge = styled(Badge)(() => ({
 
 const Header = () => {
    const { user, userAuth } = useSelector((state) => state.user);
-
-   const [anchorElNav, setAnchorElNav] = useState(null);
-   const [anchorElUser, setAnchorElUser] = useState(null);
-
-   const dispatch = useDispatch();
-
-   const handleOpenNavMenu = (event) => {
-      setAnchorElNav(event.currentTarget);
-   };
-   const handleOpenUserMenu = (event) => {
-      setAnchorElUser(event.currentTarget);
-   };
-
-   const handleCloseNavMenu = () => {
-      setAnchorElNav(null);
-   };
-
-   const handleCloseUserMenu = () => {
-      setAnchorElUser(null);
-   };
 
    return (
       <AppBar component="nav">
@@ -91,20 +65,19 @@ const Header = () => {
                   shopka
                </Typography>
 
-               {/* <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+               <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
                   <IconButton
                      size="large"
                      aria-label="account of current user"
                      aria-controls="menu-appbar"
                      aria-haspopup="true"
-                     onClick={handleOpenNavMenu}
                      color="inherit"
                   >
                      <MenuIcon />
                   </IconButton>
-               </Box> */}
+               </Box>
 
-               {/* <StorefrontIcon
+               <StorefrontIcon
                   sx={{ display: { xs: 'flex', md: 'none' }, mr: 0.3 }}
                />
                <Typography
@@ -124,7 +97,7 @@ const Header = () => {
                   }}
                >
                   shopka
-               </Typography> */}
+               </Typography>
 
                <Box
                   sx={{
@@ -158,50 +131,14 @@ const Header = () => {
                </Box>
 
                {userAuth ? (
-                  <Box>
-                     <Tooltip title="Open settings">
-                        <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                           <Avatar
-                              alt={user.displayName || user.email}
-                              src={user.photoUrl}
-                           />
-                        </IconButton>
-                     </Tooltip>
-                     <Menu
-                        sx={{ mt: '45px' }}
-                        id="menu-appbar"
-                        anchorEl={anchorElUser}
-                        anchorOrigin={{
-                           vertical: 'top',
-                           horizontal: 'right',
-                        }}
-                        keepMounted
-                        transformOrigin={{
-                           vertical: 'top',
-                           horizontal: 'right',
-                        }}
-                        open={Boolean(anchorElUser)}
-                        onClose={handleCloseUserMenu}
-                     >
-                        {settings.map((setting) => (
-                           <MenuItem
-                              key={setting}
-                              onClick={handleCloseUserMenu}
-                           >
-                              <Typography
-                                 textAlign="center"
-                                 onClick={() => {
-                                    if (setting === 'Sign out') {
-                                       userLogout(dispatch);
-                                    }
-                                 }}
-                              >
-                                 {setting}
-                              </Typography>
-                           </MenuItem>
-                        ))}
-                     </Menu>
-                  </Box>
+                  <Tooltip title="Open profile">
+                     <IconButton component={Link} to="profile" sx={{ p: 0 }}>
+                        <Avatar
+                           alt={user.displayName || user.email}
+                           src={user.photoUrl}
+                        />
+                     </IconButton>
+                  </Tooltip>
                ) : (
                   <Box>
                      <Link to="register" style={{ textDecoration: 'none' }}>

@@ -6,21 +6,21 @@ export const firebaseSlice = createApi({
       baseUrl:
          'https://shopka-2e282-default-rtdb.europe-west1.firebasedatabase.app',
    }),
-   tagTypes: ['UserData'],
+   tagTypes: ['UserOrders'],
    endpoints: (builder) => ({
-      getUserData: builder.query({
-         query: (url) => `${url}.json`,
-         providesTags: ['UserData'],
+      getUserOrders: builder.query({
+         query: (url) => `/users/${url}/orders.json`,
+         providesTags: ['UserOrders'],
       }),
-      postUserData: builder.mutation({
+      postUserOrder: builder.mutation({
          query: ({ url, data }) => ({
-            url: `${url}.json`,
+            url: `/users/${url}.json`,
             method: 'PUT',
             body: data,
          }),
-         invalidatesTags: ['UserData'],
+         invalidatesTags: ['UserOrders'],
       }),
    }),
 });
 
-export const { useGetUserDataQuery, usePostUserDataMutation } = firebaseSlice;
+export const { useGetUserOrdersQuery, usePostUserOrderMutation } = firebaseSlice;
