@@ -1,9 +1,22 @@
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { clearErrors } from '../../slices/userSlice';
+import {
+   clearDontAuthCart,
+   clearDontAuthLiked,
+   clearErrors,
+} from '../../slices/userSlice';
+import {
+   useGetUserCartQuery,
+   usePostUserCartMutation,
+   useGetUserLikedQuery,
+   usePostUserLikedMutation,
+} from '../../firebase/firebaseSlice';
+
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from '../../firebase';
 
 import Header from '../header/Header';
 import Home from '../home/Home';
@@ -14,12 +27,82 @@ import Login from '../authentication/Login';
 import Orders from '../orders/Orders';
 import Profile from '../profile/Profile';
 
+// надо сделать карты товаров
+// если пользователь не авторизован отправлять товары в dontAuthCart, то же самое с liked
+
 function App() {
-   const { userAuth, userAuthStatus, userLoguotStatus, userErrors } =
-      useSelector((state) => state.user);
+   const {
+      user,
+      userAuth,
+      userAuthStatus,
+      userLoguotStatus,
+      userErrors,
+      dontAuthCart,
+      dontAuthLiked,
+   } = useSelector((state) => state.user);
 
    const dispatch = useDispatch();
    const notify = (value) => toast.error(value);
+
+   const userId = user ? user.localId : user;
+
+   const {
+      data: userCart = [],
+      isCartLoading,
+      isCartError,
+   } = useGetUserCartQuery(userId);
+   const {
+      data: userLiked = [],
+      isLikedLoading,
+      isLikedError,
+   } = useGetUserLikedQuery(userId);
+
+   const [postUserCart] = usePostUserCartMutation();
+   const [postUserLiked] = usePostUserLikedMutation();
+
+   const postCart = useCallback((value) => {
+      postUserCart(value);
+   }, []);
+   const postLiked = useCallback((value) => {
+      postUserLiked(value);
+   }, []);
+
+   useEffect(() => {
+      onAuthStateChanged(auth, (userData) => {
+         if (
+            userData &&
+            dontAuthCart &&
+            dontAuthCart.length > 0 &&
+            !isCartLoading &&
+            !isCartError &&
+            userCart
+         ) {
+            const uid = userData.uid;
+
+            postCart({ url: uid, data: [...dontAuthCart, ...userCart] });
+            dispatch(clearDontAuthCart());
+            console.log(dontAuthCart, userCart);
+         }
+      });
+   }, [userCart]);
+
+   // useEffect(() => {
+   //    onAuthStateChanged(auth, (userData) => {
+   //       if (
+   //          userData &&
+   //          dontAuthLiked &&
+   //          dontAuthLiked.length > 0 &&
+   //          !isLikedLoading &&
+   //          !isLikedError &&
+   //          userLiked
+   //       ) {
+   //          const uid = userData.uid;
+
+   //          postLiked({ url: uid, data: [...dontAuthLiked, ...userLiked] });
+   //          dispatch(clearDontAuthLiked());
+   //       }
+   //    });
+   // }, [userLiked]);
 
    useEffect(() => {
       if (userAuthStatus === 'error' || userLoguotStatus === 'error') {

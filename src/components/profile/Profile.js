@@ -44,13 +44,14 @@ const Profile = () => {
                   flexGrow: 1,
                   flexBasis: '50%',
                },
+               minHeight: '80vh',
             }}
          >
             <Box sx={{ p: { xs: 2, sm: 3, md: 4, xl: 5 } }}>
                <Typography
                   variant="h4"
                   component="h4"
-                  sx={{ textAlign: 'center' }}
+                  sx={{ textAlign: 'center', paddingBottom: '10px' }}
                >
                   {getUserName(user.displayName || user.email)}
                </Typography>

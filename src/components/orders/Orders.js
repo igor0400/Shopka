@@ -1,4 +1,10 @@
-import { Container, Paper, Box, Typography } from '@mui/material';
+import {
+   Container,
+   Paper,
+   Box,
+   Typography,
+   CircularProgress,
+} from '@mui/material';
 import { useGetUserOrdersQuery } from '../../firebase/firebaseSlice';
 
 import { useSelector } from 'react-redux';
@@ -16,21 +22,31 @@ const Orders = () => {
 
    const renderOrders = (orders) => {
       if (isLoading) {
-         return 'Loading...';
+         return (
+            <Box
+               sx={{
+                  display: 'flex',
+                  margin: '100px auto',
+                  justifyContent: 'center',
+               }}
+            >
+               <CircularProgress />
+            </Box>
+         );
       }
 
       if (isError) {
-         return 'Error :(';
+         return <p>Error :(</p>;
       }
 
-      if (orders.length === 0) {
-         return 'not orders yet';
-      } else {
+      if (orders && orders.length !== 0) {
          return orders.map((item, i) => (
             <h4 key={i}>
                {i + 1}. {item.id}
             </h4>
          ));
+      } else {
+         return 'not orders yet';
       }
    };
 
@@ -45,6 +61,7 @@ const Orders = () => {
                   flexGrow: 1,
                   flexBasis: '50%',
                },
+               minHeight: '80vh',
             }}
          >
             <Box sx={{ p: { xs: 2, sm: 3, md: 4, xl: 5 } }}>

@@ -7,6 +7,8 @@ const initialState = userAdapter.getInitialState({
    userAuthStatus: 'idle',
    userLoguotStatus: 'idle',
    userErrors: [],
+   dontAuthCart: [{ id: 'fdfjdnfjdfu', email: 'hello@gmail.com' }],
+   dontAuthLiked: [{ id: 'fdfmdifdfd8f8d8888', email: 'hello@gmail.com' }],
 });
 
 const errorMessageValidate = (action) => {
@@ -56,6 +58,18 @@ const userSlice = createSlice({
       clearErrors: (state) => {
          state.userErrors = [];
       },
+      addDontAuthCart: (state, action) => {
+         state.dontAuthCart = [...state.dontAuthCart, action.payload];
+      },
+      clearDontAuthCart: (state) => {
+         state.dontAuthCart = [];
+      },
+      addDontAuthLiked: (state, action) => {
+         state.dontAuthLiked = [...state.dontAuthLiked, action.payload];
+      },
+      clearDontAuthLiked: (state) => {
+         state.dontAuthLiked = [];
+      },
    },
 });
 
@@ -69,6 +83,10 @@ export const {
    userLogoutFetched,
    userLogoutFetchingError,
    clearErrors,
+   addDontAuthCart,
+   clearDontAuthCart,
+   addDontAuthLiked,
+   clearDontAuthLiked,
 } = actions;
 
 export default reducer;
