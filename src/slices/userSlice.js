@@ -7,8 +7,8 @@ const initialState = userAdapter.getInitialState({
    userAuthStatus: 'idle',
    userLoguotStatus: 'idle',
    userErrors: [],
-   dontAuthCart: [{ id: 'fdfjdnfjdfu', email: 'hello@gmail.com' }],
-   dontAuthLiked: [{ id: 'fdfmdifdfd8f8d8888', email: 'hello@gmail.com' }],
+   dontAuthCart: [],
+   dontAuthLiked: [],
 });
 
 const errorMessageValidate = (action) => {
