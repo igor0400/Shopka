@@ -26,7 +26,7 @@ const Profile = () => {
    const navigate = useNavigate();
 
    const getUserName = (name) => {
-      if (name.length <= 10) {
+      if (name.length <= 12) {
          return `Hi, ${name}!`;
       } else {
          return `Hi, ${name.slice(0, 10)}...!`;

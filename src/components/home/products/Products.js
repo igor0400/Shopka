@@ -5,7 +5,7 @@ import Grid from '@mui/material/Grid';
 import CircularProgress from '@mui/material/CircularProgress';
 
 import { useSelector } from 'react-redux';
-import { useGetProductsQuery } from '../../../api/apiSlice';
+import { useGetProductsQuery } from '../../../slices/apiSlice';
 
 const Products = () => {
    const {

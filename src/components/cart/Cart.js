@@ -4,14 +4,14 @@ import {
    usePostUserOrdersMutation,
    useGetUserCartQuery,
    usePostUserCartMutation,
-} from '../../firebase/firebaseSlice';
+} from '../../slices/firebaseSlice';
 import { useCallback } from 'react';
 
 import { useSelector } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 
 const Cart = () => {
-   const { user, userAuth } = useSelector((state) => state.user);
+   const { user, userAuth, dontAuthCart } = useSelector((state) => state.user);
 
    const userId = user ? user.localId : user;
 
@@ -37,6 +37,7 @@ const Cart = () => {
    }, []);
 
    const postOrderData = () => {
+      // отследить есть ли userOrders
       postOrder({
          url: userId,
          data: [
@@ -50,7 +51,7 @@ const Cart = () => {
       clearCart({ url: userId, data: [] });
    };
 
-   const renderCart = (orders) => {
+   const renderCart = (products) => {
       if (isCartLoading) {
          return (
             <Box
@@ -69,8 +70,8 @@ const Cart = () => {
          return <p>Error :(</p>;
       }
 
-      if (orders && orders.length !== 0) {
-         return orders.map((item, i) => (
+      if (products && products.length !== 0) {
+         return products.map((item, i) => (
             <h4 key={i}>
                {i + 1}. {item.id}
             </h4>
@@ -84,7 +85,7 @@ const Cart = () => {
       <Container maxWidth="xl">
          <h1>Cart</h1>
 
-         {renderCart(userCart)}
+         {renderCart(userAuth ? userCart : dontAuthCart)}
 
          {userAuth ? (
             <button

@@ -13,10 +13,11 @@ import {
    usePostUserCartMutation,
    useGetUserLikedQuery,
    usePostUserLikedMutation,
-} from '../../firebase/firebaseSlice';
+} from '../../slices/firebaseSlice';
 
 import Header from '../header/Header';
 import Home from '../home/Home';
+import ProductPage from '../productPage/ProductPage';
 import Cart from '../cart/Cart';
 import Error404 from '../error404/Error404';
 import Register from '../authentication/Register';
@@ -24,7 +25,7 @@ import Login from '../authentication/Login';
 import Orders from '../orders/Orders';
 import Profile from '../profile/Profile';
 
-// надо сделать карты товаров
+// везде убрать Container и вставить есть в App
 
 function App() {
    const {
@@ -126,6 +127,7 @@ function App() {
             <Routes>
                <Route path="/" element={<Home />} />
                <Route path="cart" element={<Cart />} />
+               <Route path="products/:id" element={<ProductPage />} />
                {userAuth ? (
                   <>
                      <Route path="profile" element={<Profile />} />

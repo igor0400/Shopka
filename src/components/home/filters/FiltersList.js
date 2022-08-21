@@ -2,7 +2,7 @@ import React from 'react';
 import FiltersListItem from './FiltersListItem';
 import Skeleton from '@mui/material/Skeleton';
 
-import { useGetFiltersListQuery } from '../../../api/apiSlice';
+import { useGetFiltersListQuery } from '../../../slices/apiSlice';
 
 const FiltersList = () => {
    const {

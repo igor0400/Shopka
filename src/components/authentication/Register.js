@@ -22,7 +22,6 @@ const Register = () => (
                   component={Link}
                   to="/login"
                   variant="body1"
-                  sx={{ textDecoration: 'none' }}
                   color="primary"
                >
                   Already have an account?

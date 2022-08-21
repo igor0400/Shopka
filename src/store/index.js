@@ -2,8 +2,8 @@ import { configureStore } from '@reduxjs/toolkit';
 
 import filters from '../slices/filtersSlice';
 import user from '../slices/userSlice';
-import { apiSlice } from '../api/apiSlice';
-import { firebaseSlice } from '../firebase/firebaseSlice';
+import { apiSlice } from '../slices/apiSlice';
+import { firebaseSlice } from '../slices/firebaseSlice';
 
 const stringMiddleware = () => (next) => (action) => {
    if (typeof action === 'string') {

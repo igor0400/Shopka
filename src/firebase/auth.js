@@ -5,6 +5,7 @@ import {
    signInWithPopup,
    GoogleAuthProvider,
    GithubAuthProvider,
+   OAuthProvider,
 } from 'firebase/auth';
 import { auth } from '../firebase';
 
@@ -80,6 +81,23 @@ const githibProvider = new GithubAuthProvider();
 export const userAuthGithub = async (dispatch, navigate) => {
    dispatch(userAuthFetching());
    signInWithPopup(auth, githibProvider)
+      .then((result) => {
+         navigate('/');
+         const user = result.user.reloadUserInfo;
+         dispatch(userAuthFetched(user));
+      })
+      .catch((error) => {
+         const errorMessage = error.message;
+         const email = error.customData.email;
+         dispatch(userAuthFetchingError({ error: errorMessage, email }));
+      });
+};
+
+const yahooProvider = new OAuthProvider('yahoo.com');
+
+export const userAuthYahoo = async (dispatch, navigate) => {
+   dispatch(userAuthFetching());
+   signInWithPopup(auth, yahooProvider)
       .then((result) => {
          navigate('/');
          const user = result.user.reloadUserInfo;

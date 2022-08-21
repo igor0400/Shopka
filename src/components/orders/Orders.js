@@ -5,7 +5,7 @@ import {
    Typography,
    CircularProgress,
 } from '@mui/material';
-import { useGetUserOrdersQuery } from '../../firebase/firebaseSlice';
+import { useGetUserOrdersQuery } from '../../slices/firebaseSlice';
 
 import { useSelector } from 'react-redux';
 
@@ -52,9 +52,9 @@ const Orders = () => {
 
    return (
       <Container maxWidth="xl">
-         <Paper
-            elevation={3}
+         <Box
             sx={{
+               p: { xs: 2, sm: 3, md: 4, xl: 5 },
                maxWidth: { xs: 400, lg: 700 },
                margin: { xs: 0, md: '20px auto' },
                '& > *': {
@@ -64,17 +64,15 @@ const Orders = () => {
                minHeight: '80vh',
             }}
          >
-            <Box sx={{ p: { xs: 2, sm: 3, md: 4, xl: 5 } }}>
-               <Typography
-                  variant="h4"
-                  component="h4"
-                  sx={{ textAlign: 'center' }}
-               >
-                  Orders
-               </Typography>
-               {renderOrders(userOrders)}
-            </Box>
-         </Paper>
+            <Typography
+               variant="h4"
+               component="h4"
+               sx={{ textAlign: 'center' }}
+            >
+               Orders
+            </Typography>
+            {renderOrders(userOrders)}
+         </Box>
       </Container>
    );
 };

@@ -2,7 +2,14 @@
    "products": [
       {
          "name": "Shoes Nike",
-         "url": "https://firebasestorage.googleapis.com/v0/b/shopka-2e282.appspot.com/o/product.png?alt=media&token=b4874924-fdcc-4d74-86f9-55785a419808",
+         "imgs": [
+            "https://firebasestorage.googleapis.com/v0/b/shopka-2e282.appspot.com/o/product.png?alt=media&token=b4874924-fdcc-4d74-86f9-55785a419808",
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQO_bAz8zHXVCQIiHjm3jI9vABmkNO7fyF_uw&usqp=CAU",
+            "https://firebasestorage.googleapis.com/v0/b/shopka-2e282.appspot.com/o/product.png?alt=media&token=b4874924-fdcc-4d74-86f9-55785a419808",
+            "https://firebasestorage.googleapis.com/v0/b/shopka-2e282.appspot.com/o/product.png?alt=media&token=b4874924-fdcc-4d74-86f9-55785a419808",
+            "https://firebasestorage.googleapis.com/v0/b/shopka-2e282.appspot.com/o/product.png?alt=media&token=b4874924-fdcc-4d74-86f9-55785a419808",
+            "https://firebasestorage.googleapis.com/v0/b/shopka-2e282.appspot.com/o/product.png?alt=media&token=b4874924-fdcc-4d74-86f9-55785a419808"
+         ],
          "description": "Lee Pucker design. Leather botinki for handsome designers. Free shipping.",
          "subDescription": "Eligible for nothing :(",
          "price": 13.95,
@@ -12,7 +19,9 @@
       },
       {
          "name": "Vintage Typewriter",
-         "url": "https://firebasestorage.googleapis.com/v0/b/shopka-2e282.appspot.com/o/Image.png?alt=media&token=84818e0d-6a35-4c44-9bca-671702b8daed",
+         "imgs": [
+            "https://firebasestorage.googleapis.com/v0/b/shopka-2e282.appspot.com/o/Image.png?alt=media&token=84818e0d-6a35-4c44-9bca-671702b8daed"
+         ],
          "description": "Vintage Typewriter to post awesome stories about UI design and webdev.",
          "subDescription": "Eligible for Shipping To Mars or somewhere else",
          "price": 49.5,
@@ -22,7 +31,9 @@
       },
       {
          "name": "John Von Ebalkin",
-         "url": "https://firebasestorage.googleapis.com/v0/b/shopka-2e282.appspot.com/o/Image2.png?alt=media&token=c85bb3a8-c2c6-4d6e-b415-26025d60942e",
+         "imgs": [
+            "https://firebasestorage.googleapis.com/v0/b/shopka-2e282.appspot.com/o/Image2.png?alt=media&token=c85bb3a8-c2c6-4d6e-b415-26025d60942e"
+         ],
          "description": "John Von Ebalkin SPRING",
          "subDescription": "1258 bids, 359 watchers\n$5.95 for shipping",
          "price": 13.95,
@@ -32,7 +43,9 @@
       },
       {
          "name": "Shoes Nike",
-         "url": "https://firebasestorage.googleapis.com/v0/b/shopka-2e282.appspot.com/o/product.png?alt=media&token=b4874924-fdcc-4d74-86f9-55785a419808",
+         "imgs": [
+            "https://firebasestorage.googleapis.com/v0/b/shopka-2e282.appspot.com/o/product.png?alt=media&token=b4874924-fdcc-4d74-86f9-55785a419808"
+         ],
          "description": "Lee Pucker design. Leather botinki for handsome designers. Free shipping.",
          "subDescription": "Eligible for nothing :(",
          "price": 13.99,
@@ -42,7 +55,9 @@
       },
       {
          "name": "Shoes Nike",
-         "url": "https://firebasestorage.googleapis.com/v0/b/shopka-2e282.appspot.com/o/product.png?alt=media&token=b4874924-fdcc-4d74-86f9-55785a419808",
+         "imgs": [
+            "https://firebasestorage.googleapis.com/v0/b/shopka-2e282.appspot.com/o/product.png?alt=media&token=b4874924-fdcc-4d74-86f9-55785a419808"
+         ],
          "description": "Lee Pucker design. Leather botinki for handsome designers. Free shipping.",
          "subDescription": "Eligible for nothing :(",
          "price": 81,
@@ -52,7 +67,9 @@
       },
       {
          "name": "Timesaving kitten",
-         "url": "https://firebasestorage.googleapis.com/v0/b/shopka-2e282.appspot.com/o/kat.png?alt=media&token=bd60ea3c-7781-4392-bfc3-a319c879fc4d",
+         "imgs": [
+            "https://firebasestorage.googleapis.com/v0/b/shopka-2e282.appspot.com/o/kat.png?alt=media&token=bd60ea3c-7781-4392-bfc3-a319c879fc4d"
+         ],
          "description": "Timesaving kitten to save months on development. Playful, cute, cheap!",
          "subDescription": "Eligible for nothing :(",
          "price": 128.99,
@@ -62,7 +79,9 @@
       },
       {
          "name": "Wordwide shifting",
-         "url": "https://firebasestorage.googleapis.com/v0/b/shopka-2e282.appspot.com/o/flower.png?alt=media&token=17d99d55-9e09-4ff1-bb38-19934628e8f7",
+         "imgs": [
+            "https://firebasestorage.googleapis.com/v0/b/shopka-2e282.appspot.com/o/flower.png?alt=media&token=17d99d55-9e09-4ff1-bb38-19934628e8f7"
+         ],
          "description": "One string Bonsai description",
          "subDescription": "Wordwide shifting available Buyers protection possible!",
          "price": 11.68,
@@ -72,7 +91,9 @@
       },
       {
          "name": "Red pomade",
-         "url": "https://firebasestorage.googleapis.com/v0/b/shopka-2e282.appspot.com/o/pomade.png?alt=media&token=93cb26e5-e392-4f46-9498-106ba62d3d51",
+         "imgs": [
+            "https://firebasestorage.googleapis.com/v0/b/shopka-2e282.appspot.com/o/pomade.png?alt=media&token=93cb26e5-e392-4f46-9498-106ba62d3d51"
+         ],
          "description": "Simply best item in town to shine bright with your Nine Inch Nails",
          "subDescription": "Eligible for Shipping To Mars or somewhere else",
          "price": 1.25,

@@ -1,6 +1,5 @@
-import { useState } from 'react';
-
 import { useSelector } from 'react-redux';
+import { useGetUserCartQuery } from '../../slices/firebaseSlice';
 
 // icons
 import MenuIcon from '@mui/icons-material/Menu';
@@ -37,7 +36,20 @@ const StyledBadge = styled(Badge)(() => ({
 }));
 
 const Header = () => {
-   const { user, userAuth } = useSelector((state) => state.user);
+   const { user, userAuth, dontAuthCart } = useSelector((state) => state.user);
+   const userId = user ? user.localId : user;
+   const { data: userCart = [] } = useGetUserCartQuery(userId);
+
+   // пересчитать знамение с учетом amount
+   const getCartLenght = () => {
+      if (userAuth) {
+         if (userCart) return userCart.length;
+         else return 0;
+      } else {
+         if (dontAuthCart) return dontAuthCart.length;
+         else return 0;
+      }
+   };
 
    return (
       <AppBar component="nav">
@@ -58,7 +70,6 @@ const Header = () => {
                      fontWeight: 700,
                      letterSpacing: '.1rem',
                      color: 'inherit',
-                     textDecoration: 'none',
                      flexGrow: 1,
                   }}
                >
@@ -83,8 +94,8 @@ const Header = () => {
                <Typography
                   variant="h5"
                   noWrap
-                  component="a"
-                  href=""
+                  component={Link}
+                  to="/"
                   sx={{
                      mr: 2,
                      display: { xs: 'flex', md: 'none' },
@@ -93,7 +104,6 @@ const Header = () => {
                      fontWeight: 700,
                      letterSpacing: '.1rem',
                      color: 'inherit',
-                     textDecoration: 'none',
                   }}
                >
                   shopka
@@ -123,7 +133,10 @@ const Header = () => {
                         aria-label="cart"
                         sx={{ margin: '0 15px 0 10px' }}
                      >
-                        <StyledBadge badgeContent={1} color="secondary">
+                        <StyledBadge
+                           badgeContent={getCartLenght()}
+                           color="secondary"
+                        >
                            <ShoppingCartIcon sx={{ color: '#fff' }} />
                         </StyledBadge>
                      </IconButton>
@@ -141,7 +154,7 @@ const Header = () => {
                   </Tooltip>
                ) : (
                   <Box>
-                     <Link to="register" style={{ textDecoration: 'none' }}>
+                     <Link to="register">
                         <Button
                            variant="contained"
                            sx={{ marginRight: '10px' }}
@@ -150,7 +163,7 @@ const Header = () => {
                         </Button>
                      </Link>
 
-                     <Link to="login" style={{ textDecoration: 'none' }}>
+                     <Link to="login">
                         <Button variant="outlined" sx={{ color: '#fff' }}>
                            Sign in
                         </Button>

@@ -5,13 +5,17 @@ import { useMediaQuery, Button, Stack } from '@mui/material';
 // icons
 import Google from '../../../images/icons/google.svg';
 import GitHubIcon from '@mui/icons-material/GitHub';
-import Facebook from '../../../images/icons/facebook.svg';
+import Yahoo from '../../../images/icons/yahoo.png';
 
 // redux
 
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { userAuthGoogle, userAuthGithub } from '../../../firebase/auth';
+import {
+   userAuthGoogle,
+   userAuthGithub,
+   userAuthYahoo,
+} from '../../../firebase/auth';
 
 const FirebaseSocial = () => {
    const theme = useTheme();
@@ -28,8 +32,8 @@ const FirebaseSocial = () => {
       await userAuthGithub(dispatch, navigate);
    };
 
-   const facebookHandler = async () => {
-      // login || singup
+   const yahooHandler = async () => {
+      userAuthYahoo(dispatch, navigate);
    };
 
    return (
@@ -66,10 +70,10 @@ const FirebaseSocial = () => {
             variant="outlined"
             color="secondary"
             fullWidth={!matchDownSM}
-            startIcon={<img src={Facebook} alt="Facebook" />}
-            onClick={facebookHandler}
+            startIcon={<img src={Yahoo} alt="Yahoo" />}
+            onClick={yahooHandler}
          >
-            {!matchDownSM && 'Facebook'}
+            {!matchDownSM && 'Yahoo'}
          </Button>
       </Stack>
    );

@@ -1,27 +1,33 @@
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import Typography from '@mui/material/Typography';
-import Rating from '@mui/material/Rating';
-import Checkbox from '@mui/material/Checkbox';
-import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
-import Favorite from '@mui/icons-material/Favorite';
 import { useState } from 'react';
-import Skeleton from '@mui/material/Skeleton';
+import { Link } from 'react-router-dom';
+
+import {
+   Box,
+   Skeleton,
+   Checkbox,
+   Rating,
+   Typography,
+   CardContent,
+   Card,
+} from '@mui/material';
+
+import { Favorite, FavoriteBorder } from '@mui/icons-material';
 
 const ProductsItem = ({
    name,
-   url,
+   imgs,
    description,
    price,
    rating,
    subDescription,
+   id,
 }) => {
    const [cardElevation, setCardElevation] = useState(0);
    const [imgLoad, setImgLoad] = useState(false);
 
    return (
       <Card
-         sx={{ maxWidth: 280, cursor: 'pointer', height: '100%' }}
+         sx={{ maxWidth: 280, height: '100%' }}
          elevation={cardElevation}
          onMouseEnter={() => setCardElevation(3)}
          onMouseLeave={() => setCardElevation(0)}
@@ -30,26 +36,31 @@ const ProductsItem = ({
             className="flex"
             sx={{ flexDirection: 'column', height: '95%' }}
          >
-            <img
-               src={url}
-               alt={name}
-               style={{
-                  display: imgLoad ? null : 'none',
-                  width: '220px',
-                  height: '220px',
-                  animationDuration: '0.5s'
-               }}
-               onLoad={() => setImgLoad(true)}
-               className="animate__animated animate__fadeIn"
-            />
-            {imgLoad ? null : (
-               <Skeleton
-                  variant="rounded"
-                  width={'100%'}
-                  height={220}
-                  animation="wave"
-                  style={{ borderRadius: '3px' }}
+            <Link to={`/products/${id}`} style={{ cursor: 'pointer' }}>
+               <img
+                  src={imgs[0]}
+                  alt={name}
+                  style={{
+                     display: imgLoad ? null : 'none',
+                     width: '220px',
+                     height: '220px',
+                     animationDuration: '0.5s',
+                  }}
+                  onLoad={() => setImgLoad(true)}
+                  className="animate__animated animate__fadeIn"
                />
+            </Link>
+
+            {imgLoad ? null : (
+               <Link to={`/products/${id}`} style={{ cursor: 'pointer' }}>
+                  <Skeleton
+                     variant="rounded"
+                     width={'100%'}
+                     height={220}
+                     animation="wave"
+                     style={{ borderRadius: '3px' }}
+                  />
+               </Link>
             )}
 
             <Typography sx={{ margin: '10px 0 auto' }}>
@@ -63,14 +74,14 @@ const ProductsItem = ({
             >
                {subDescription}
             </Typography>
-            <div
+            <Box
                className="flex"
                style={{
                   alignItems: 'center',
                   justifyContent: 'space-between',
                }}
             >
-               <div className="flex">
+               <Box className="flex">
                   <Rating
                      name="rating"
                      value={rating}
@@ -82,12 +93,12 @@ const ProductsItem = ({
                   <span style={{ fontSize: '14px', fontWeight: 500 }}>
                      {rating}
                   </span>
-               </div>
+               </Box>
                <Checkbox
                   icon={<FavoriteBorder sx={{ fontSize: 23 }} />}
                   checkedIcon={<Favorite sx={{ fontSize: 23 }} />}
                />
-            </div>
+            </Box>
          </CardContent>
       </Card>
    );

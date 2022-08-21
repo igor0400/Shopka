@@ -59,6 +59,9 @@ const userSlice = createSlice({
          state.userErrors = [];
       },
       addDontAuthCart: (state, action) => {
+         // проверять есть ли такие товары и добавлять если есть, если не постить {id: id, amount: amount}
+         // еще в header, app и productPage есть задания
+
          state.dontAuthCart = [...state.dontAuthCart, action.payload];
       },
       clearDontAuthCart: (state) => {
