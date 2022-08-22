@@ -62,7 +62,7 @@ const ProductsItem = ({
             item === id ? setIsItemInLiked(true) : null
          );
       }
-   }, []);
+   }, [userLiked]);
 
    const postLiked = useCallback((value) => {
       postUserLiked(value);
@@ -81,7 +81,7 @@ const ProductsItem = ({
       if (userAuth) {
          postLiked({
             url: userId,
-            data: userLiked.filter((item) => item.id !== id),
+            data: userLiked.filter((item) => item !== id),
          });
       } else {
          dispatch(removeFromDontAuthLiked(id));
@@ -167,6 +167,7 @@ const ProductsItem = ({
                         : handleAddToLiked(id)
                   }
                   checked={isItemInLiked}
+                  disabled={isLikedLoading || isLikedError}
                />
             </Box>
          </CardContent>

@@ -59,28 +59,28 @@ const ProductPage = () => {
    } = useGetUserLikedQuery(userId);
 
    useEffect(() => {
-      if (userAuth) {
-         if (userCart) {
-            userCart.forEach((item) =>
-               item.id === productId ? setIsItemInCart(true) : null
-            );
-         }
-
-         if (userLiked) {
-            userLiked.forEach((item) =>
-               item === productId ? setIsItemInLiked(true) : null
-            );
-         }
+      if (userAuth && userCart) {
+         userCart.forEach((item) =>
+            item.id === productId ? setIsItemInCart(true) : null
+         );
       } else {
          dontAuthCart.forEach((item) =>
             item.id === productId ? setIsItemInCart(true) : null
          );
+      }
+   }, [userCart]);
 
+   useEffect(() => {
+      if (userAuth && userLiked) {
+         userLiked.forEach((item) =>
+            item === productId ? setIsItemInLiked(true) : null
+         );
+      } else {
          dontAuthLiked.forEach((item) =>
             item === productId ? setIsItemInLiked(true) : null
          );
       }
-   }, []);
+   }, [userLiked]);
 
    const dispatch = useDispatch();
    const [postUserCart] = usePostUserCartMutation();
@@ -127,7 +127,7 @@ const ProductPage = () => {
       if (userAuth) {
          postLiked({
             url: userId,
-            data: userLiked.filter((item) => item.id !== id),
+            data: userLiked.filter((item) => item !== id),
          });
       } else {
          dispatch(removeFromDontAuthLiked(id));
