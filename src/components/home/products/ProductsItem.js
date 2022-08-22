@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 import {
@@ -13,6 +13,18 @@ import {
 
 import { Favorite, FavoriteBorder } from '@mui/icons-material';
 
+import { useSelector, useDispatch } from 'react-redux';
+import {
+   useGetUserLikedQuery,
+   usePostUserLikedMutation,
+} from '../../../slices/firebaseSlice';
+import {
+   addDontAuthLiked,
+   removeFromDontAuthLiked,
+} from '../../../slices/userSlice';
+
+import { postItemToSome } from '../../../utils/posted';
+
 const ProductsItem = ({
    name,
    imgs,
@@ -24,6 +36,58 @@ const ProductsItem = ({
 }) => {
    const [cardElevation, setCardElevation] = useState(0);
    const [imgLoad, setImgLoad] = useState(false);
+   const [isItemInLiked, setIsItemInLiked] = useState(false);
+
+   const { user, userAuth, dontAuthLiked } = useSelector((state) => state.user);
+   const userId = user ? user.localId : user;
+
+   const {
+      data: userLiked = [],
+      isLikedLoading,
+      isLikedError,
+   } = useGetUserLikedQuery(userId);
+
+   const dispatch = useDispatch();
+   const [postUserLiked] = usePostUserLikedMutation();
+
+   useEffect(() => {
+      if (userAuth) {
+         if (userLiked) {
+            userLiked.forEach((item) =>
+               item === id ? setIsItemInLiked(true) : null
+            );
+         }
+      } else {
+         dontAuthLiked.forEach((item) =>
+            item === id ? setIsItemInLiked(true) : null
+         );
+      }
+   }, []);
+
+   const postLiked = useCallback((value) => {
+      postUserLiked(value);
+   }, []);
+
+   const handleAddToLiked = (id) => {
+      if (userAuth) {
+         postItemToSome('liked', userLiked, id, postLiked, userId);
+      } else {
+         dispatch(addDontAuthLiked(id));
+      }
+      setIsItemInLiked(true);
+   };
+
+   const handleRemoveFromLiked = (id) => {
+      if (userAuth) {
+         postLiked({
+            url: userId,
+            data: userLiked.filter((item) => item.id !== id),
+         });
+      } else {
+         dispatch(removeFromDontAuthLiked(id));
+      }
+      setIsItemInLiked(false);
+   };
 
    return (
       <Card
@@ -97,6 +161,12 @@ const ProductsItem = ({
                <Checkbox
                   icon={<FavoriteBorder sx={{ fontSize: 23 }} />}
                   checkedIcon={<Favorite sx={{ fontSize: 23 }} />}
+                  onClick={() =>
+                     isItemInLiked
+                        ? handleRemoveFromLiked(id)
+                        : handleAddToLiked(id)
+                  }
+                  checked={isItemInLiked}
                />
             </Box>
          </CardContent>

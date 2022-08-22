@@ -15,6 +15,14 @@ import {
    usePostUserLikedMutation,
 } from '../../slices/firebaseSlice';
 
+import { postItemsToSome } from '../../utils/posted';
+import {
+   getSameValues,
+   getVariousValues,
+   getArrEqual,
+   getArrDifference,
+} from '../../utils/filterArrays';
+
 import Header from '../header/Header';
 import Home from '../home/Home';
 import ProductPage from '../productPage/ProductPage';
@@ -25,7 +33,6 @@ import Login from '../authentication/Login';
 import Orders from '../orders/Orders';
 import Liked from '../liked/Liked';
 import Profile from '../profile/Profile';
-
 
 function App() {
    const {
@@ -79,13 +86,14 @@ function App() {
          !isCartLoading &&
          !isCartError
       ) {
-         if (userCart) {
-            postCart({ url: userId, data: [...dontAuthCart, ...userCart] });
-            console.log('post with user cart');
-         } else {
-            postCart({ url: userId, data: [...dontAuthCart] });
-            console.log('post with out user cart');
-         }
+         postItemsToSome(
+            userCart,
+            dontAuthCart,
+            postCart,
+            userId,
+            getSameValues,
+            getVariousValues
+         );
          dispatch(clearDontAuthCart());
       }
    }, [userAuth, userCart, isCartFetching]);
@@ -99,11 +107,14 @@ function App() {
          !isLikedLoading &&
          !isLikedError
       ) {
-         if (userLiked) {
-            postLiked({ url: userId, data: [...dontAuthLiked, ...userLiked] });
-         } else {
-            postLiked({ url: userId, data: [...dontAuthLiked] });
-         }
+         postItemsToSome(
+            userLiked,
+            dontAuthLiked,
+            postLiked,
+            userId,
+            getArrEqual,
+            getArrDifference
+         );
          dispatch(clearDontAuthLiked());
       }
    }, [userAuth, userLiked, isLikedFetching]);

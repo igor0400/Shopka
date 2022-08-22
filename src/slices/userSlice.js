@@ -68,21 +68,17 @@ const userSlice = createSlice({
             }
          });
 
-         if (findedItem) {
-            const filteredDontAuthCart = dontAuthCart.filter(
-               (item) => item.id !== action.payload
-            );
-
-            state.dontAuthCart = [
-               ...filteredDontAuthCart,
-               { id: action.payload, amount: findedItem.amount + 1 },
-            ];
-         } else {
+         if (!findedItem) {
             state.dontAuthCart = [
                ...dontAuthCart,
                { id: action.payload, amount: 1 },
             ];
          }
+      },
+      removeFromDontAuthCart: (state, action) => {
+         state.dontAuthCart = state.dontAuthCart.filter(
+            (item) => item.id !== action.payload
+         );
       },
       clearDontAuthCart: (state) => {
          state.dontAuthCart = [];
@@ -97,21 +93,14 @@ const userSlice = createSlice({
             }
          });
 
-         if (findedItem) {
-            const filteredDontAuthLiked = dontAuthLiked.filter(
-               (item) => item.id !== action.payload
-            );
-
-            state.dontAuthLiked = [
-               ...filteredDontAuthLiked,
-               { id: action.payload, amount: findedItem.amount + 1 },
-            ];
-         } else {
-            state.dontAuthLiked = [
-               ...dontAuthLiked,
-               { id: action.payload, amount: 1 },
-            ];
+         if (!findedItem) {
+            state.dontAuthLiked = [...dontAuthLiked, action.payload];
          }
+      },
+      removeFromDontAuthLiked: (state, action) => {
+         state.dontAuthLiked = state.dontAuthLiked.filter(
+            (item) => item !== action.payload
+         );
       },
       clearDontAuthLiked: (state) => {
          state.dontAuthLiked = [];
@@ -133,6 +122,8 @@ export const {
    clearDontAuthCart,
    addDontAuthLiked,
    clearDontAuthLiked,
+   removeFromDontAuthCart,
+   removeFromDontAuthLiked,
 } = actions;
 
 export default reducer;

@@ -1,5 +1,5 @@
+import { useCallback, useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { useGetProductByIdQuery } from '../../slices/apiSlice';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Navigation, Zoom } from 'swiper';
 import {
@@ -13,37 +13,126 @@ import {
 } from '@mui/material';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { addDontAuthCart, addDontAuthLiked } from '../../slices/userSlice';
+import {
+   addDontAuthCart,
+   addDontAuthLiked,
+   removeFromDontAuthCart,
+   removeFromDontAuthLiked,
+} from '../../slices/userSlice';
+import { useGetProductByIdQuery } from '../../slices/apiSlice';
+import {
+   useGetUserCartQuery,
+   usePostUserCartMutation,
+   useGetUserLikedQuery,
+   usePostUserLikedMutation,
+} from '../../slices/firebaseSlice';
+
+import { postItemToSome } from '../../utils/posted';
 
 const ProductPage = () => {
-   const location = useLocation();
-   const id = location.pathname.split('/')[2];
+   const [isItemInCart, setIsItemInCart] = useState(false);
+   const [isItemInLiked, setIsItemInLiked] = useState(false);
 
-   const { userAuth } = useSelector((state) => state.user);
+   const location = useLocation();
+   const productId = location.pathname.split('/')[2];
+
+   const { user, userAuth, dontAuthCart, dontAuthLiked } = useSelector(
+      (state) => state.user
+   );
+   const userId = user ? user.localId : user;
 
    const {
       data: product = {},
-      isUninitialized,
-      isLoading,
-      isError,
-   } = useGetProductByIdQuery(id);
+      isProductUninitialized,
+      isProductLoading,
+      isProductError,
+   } = useGetProductByIdQuery(productId);
+   const {
+      data: userCart = [],
+      isCartLoading,
+      isCartError,
+   } = useGetUserCartQuery(userId);
+   const {
+      data: userLiked = [],
+      isLikedLoading,
+      isLikedError,
+   } = useGetUserLikedQuery(userId);
+
+   useEffect(() => {
+      if (userAuth) {
+         if (userCart) {
+            userCart.forEach((item) =>
+               item.id === productId ? setIsItemInCart(true) : null
+            );
+         }
+
+         if (userLiked) {
+            userLiked.forEach((item) =>
+               item === productId ? setIsItemInLiked(true) : null
+            );
+         }
+      } else {
+         dontAuthCart.forEach((item) =>
+            item.id === productId ? setIsItemInCart(true) : null
+         );
+
+         dontAuthLiked.forEach((item) =>
+            item === productId ? setIsItemInLiked(true) : null
+         );
+      }
+   }, []);
 
    const dispatch = useDispatch();
+   const [postUserCart] = usePostUserCartMutation();
+   const [postUserLiked] = usePostUserLikedMutation();
+
+   const postCart = useCallback((value) => {
+      postUserCart(value);
+   }, []);
+   const postLiked = useCallback((value) => {
+      postUserLiked(value);
+   }, []);
 
    const handleAddToCart = (id) => {
       if (userAuth) {
-         // post cart
+         postItemToSome('cart', userCart, id, postCart, userId);
       } else {
          dispatch(addDontAuthCart(id));
       }
+      setIsItemInCart(true);
    };
 
-   const handleAddToLiked = () => {
+   const handleAddToLiked = (id) => {
       if (userAuth) {
-         // post liked
+         postItemToSome('liked', userLiked, id, postLiked, userId);
       } else {
          dispatch(addDontAuthLiked(id));
       }
+      setIsItemInLiked(true);
+   };
+
+   const handleRemoveFromCart = (id) => {
+      if (userAuth) {
+         postCart({
+            url: userId,
+            data: userCart.filter((item) => item.id !== id),
+         });
+      } else {
+         dispatch(removeFromDontAuthCart(id));
+      }
+      setIsItemInCart(false);
+   };
+
+   const handleRemoveFromLiked = (id) => {
+      if (userAuth) {
+         postLiked({
+            url: userId,
+            data: userLiked.filter((item) => item.id !== id),
+         });
+      } else {
+         dispatch(removeFromDontAuthLiked(id));
+      }
+      setIsItemInLiked(false);
    };
 
    const renderProduct = ({
@@ -55,7 +144,7 @@ const ProductPage = () => {
       subDescription,
       id,
    }) => {
-      if (isLoading || isUninitialized) {
+      if (isProductLoading || isProductUninitialized) {
          return (
             <Box
                sx={{
@@ -70,7 +159,7 @@ const ProductPage = () => {
          );
       }
 
-      if (isError || !product) {
+      if (isProductError || !product) {
          return <h4>Error</h4>;
       }
 
@@ -87,19 +176,21 @@ const ProductPage = () => {
                className="mySwiper"
                style={{ maxWidth: '800px', margin: 0 }}
             >
-               {imgs.map((item, i) => (
-                  <SwiperSlide
-                     key={i}
-                     style={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                     }}
-                  >
-                     <div className="swiper-zoom-container">
-                        <img src={item} style={{ width: '500px' }} />
-                     </div>
-                  </SwiperSlide>
-               ))}
+               {imgs
+                  ? imgs.map((item, i) => (
+                       <SwiperSlide
+                          key={i}
+                          style={{
+                             display: 'flex',
+                             justifyContent: 'center',
+                          }}
+                       >
+                          <div className="swiper-zoom-container">
+                             <img src={item} style={{ width: '500px' }} />
+                          </div>
+                       </SwiperSlide>
+                    ))
+                  : null}
             </Swiper>
 
             <Box
@@ -116,7 +207,7 @@ const ProductPage = () => {
                   >
                      <Rating
                         name="rating"
-                        value={rating}
+                        value={rating ? rating : 0}
                         precision={0.5}
                         size="small"
                         sx={{ marginRight: '5px' }}
@@ -156,11 +247,27 @@ const ProductPage = () => {
                </Typography>
 
                <Stack spacing={2} direction="row" sx={{ margin: 'auto 0 0' }}>
-                  <Button variant="contained" onClick={() => handleAddToCart(id)}>
-                     To cart
+                  <Button
+                     variant="contained"
+                     disabled={isCartLoading || isCartError}
+                     onClick={() =>
+                        isItemInCart
+                           ? handleRemoveFromCart(id)
+                           : handleAddToCart(id)
+                     }
+                  >
+                     {isItemInCart ? 'Remove from cart' : 'To cart'}
                   </Button>
-                  <Button variant="outlined" onClick={handleAddToLiked}>
-                     To liked
+                  <Button
+                     variant="outlined"
+                     disabled={isLikedLoading || isLikedError}
+                     onClick={() =>
+                        isItemInLiked
+                           ? handleRemoveFromLiked(id)
+                           : handleAddToLiked(id)
+                     }
+                  >
+                     {isItemInLiked ? 'Remove from liked' : 'To liked'}
                   </Button>
                </Stack>
             </Box>

@@ -35,7 +35,7 @@ const Liked = () => {
       if (liked && liked.length !== 0) {
          return liked.map((item, i) => (
             <h4 key={i}>
-               {i + 1}. {item.id}
+               {i + 1}. {item}
             </h4>
          ));
       } else {
