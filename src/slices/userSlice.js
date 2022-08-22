@@ -59,16 +59,59 @@ const userSlice = createSlice({
          state.userErrors = [];
       },
       addDontAuthCart: (state, action) => {
-         // проверять есть ли такие товары и добавлять если есть, если не постить {id: id, amount: amount}
-         // еще в header, app и productPage есть задания
+         const { dontAuthCart } = state;
+         let findedItem = false;
 
-         state.dontAuthCart = [...state.dontAuthCart, action.payload];
+         dontAuthCart.forEach((item) => {
+            if (item.id === action.payload) {
+               findedItem = item;
+            }
+         });
+
+         if (findedItem) {
+            const filteredDontAuthCart = dontAuthCart.filter(
+               (item) => item.id !== action.payload
+            );
+
+            state.dontAuthCart = [
+               ...filteredDontAuthCart,
+               { id: action.payload, amount: findedItem.amount + 1 },
+            ];
+         } else {
+            state.dontAuthCart = [
+               ...dontAuthCart,
+               { id: action.payload, amount: 1 },
+            ];
+         }
       },
       clearDontAuthCart: (state) => {
          state.dontAuthCart = [];
       },
       addDontAuthLiked: (state, action) => {
-         state.dontAuthLiked = [...state.dontAuthLiked, action.payload];
+         const { dontAuthLiked } = state;
+         let findedItem = false;
+
+         dontAuthLiked.forEach((item) => {
+            if (item.id === action.payload) {
+               findedItem = item;
+            }
+         });
+
+         if (findedItem) {
+            const filteredDontAuthLiked = dontAuthLiked.filter(
+               (item) => item.id !== action.payload
+            );
+
+            state.dontAuthLiked = [
+               ...filteredDontAuthLiked,
+               { id: action.payload, amount: findedItem.amount + 1 },
+            ];
+         } else {
+            state.dontAuthLiked = [
+               ...dontAuthLiked,
+               { id: action.payload, amount: 1 },
+            ];
+         }
       },
       clearDontAuthLiked: (state) => {
          state.dontAuthLiked = [];

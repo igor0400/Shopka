@@ -73,7 +73,7 @@ const Cart = () => {
       if (products && products.length !== 0) {
          return products.map((item, i) => (
             <h4 key={i}>
-               {i + 1}. {item.id}
+               {item.id} amount {item.amount}
             </h4>
          ));
       } else {

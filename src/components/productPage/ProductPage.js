@@ -13,7 +13,7 @@ import {
 } from '@mui/material';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { addDontAuthCart } from '../../slices/userSlice';
+import { addDontAuthCart, addDontAuthLiked } from '../../slices/userSlice';
 
 const ProductPage = () => {
    const location = useLocation();
@@ -32,13 +32,18 @@ const ProductPage = () => {
 
    const handleAddToCart = (id) => {
       if (userAuth) {
+         // post cart
       } else {
          dispatch(addDontAuthCart(id));
       }
    };
 
    const handleAddToLiked = () => {
-      // add
+      if (userAuth) {
+         // post liked
+      } else {
+         dispatch(addDontAuthLiked(id));
+      }
    };
 
    const renderProduct = ({

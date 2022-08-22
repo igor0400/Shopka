@@ -18,6 +18,7 @@ import Divider from '@mui/material/Divider';
 import LocalMallIcon from '@mui/icons-material/LocalMall';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 const Profile = () => {
    const { user } = useSelector((state) => state.user);
@@ -70,6 +71,14 @@ const Profile = () => {
                            <FavoriteIcon />
                         </ListItemIcon>
                         <ListItemText primary="Liked" />
+                     </ListItemButton>
+                  </ListItem>
+                  <ListItem disablePadding>
+                     <ListItemButton component={Link} to="/cart">
+                        <ListItemIcon>
+                           <ShoppingCartIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Cart" />
                      </ListItemButton>
                   </ListItem>
                   <Divider />

@@ -1,19 +1,19 @@
 import { Container, Box, Typography, CircularProgress } from '@mui/material';
-import { useGetUserOrdersQuery } from '../../slices/firebaseSlice';
+import { useGetUserLikedQuery } from '../../slices/firebaseSlice';
 
 import { useSelector } from 'react-redux';
 
-const Orders = () => {
-   const { user } = useSelector((state) => state.user);
+const Liked = () => {
+   const { user, userAuth, dontAuthLiked } = useSelector((state) => state.user);
 
    const userId = user ? user.localId : user;
    const {
-      data: userOrders = [],
+      data: userLiked = [],
       isLoading,
       isError,
-   } = useGetUserOrdersQuery(userId);
+   } = useGetUserLikedQuery(userId);
 
-   const renderOrders = (orders) => {
+   const renderLiked = (liked) => {
       if (isLoading) {
          return (
             <Box
@@ -32,14 +32,14 @@ const Orders = () => {
          return <p>Error :(</p>;
       }
 
-      if (orders && orders.length !== 0) {
-         return orders.map((item, i) => (
+      if (liked && liked.length !== 0) {
+         return liked.map((item, i) => (
             <h4 key={i}>
                {i + 1}. {item.id}
             </h4>
          ));
       } else {
-         return 'not orders yet';
+         return 'not liked yet';
       }
    };
 
@@ -62,12 +62,12 @@ const Orders = () => {
                component="h4"
                sx={{ textAlign: 'center' }}
             >
-               Orders
+               Liked
             </Typography>
-            {renderOrders(userOrders)}
+            {renderLiked(userAuth ? userLiked : dontAuthLiked)}
          </Box>
       </Container>
    );
 };
 
-export default Orders;
+export default Liked;

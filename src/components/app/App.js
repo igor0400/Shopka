@@ -23,9 +23,9 @@ import Error404 from '../error404/Error404';
 import Register from '../authentication/Register';
 import Login from '../authentication/Login';
 import Orders from '../orders/Orders';
+import Liked from '../liked/Liked';
 import Profile from '../profile/Profile';
 
-// везде убрать Container и вставить есть в App
 
 function App() {
    const {
@@ -127,6 +127,7 @@ function App() {
             <Routes>
                <Route path="/" element={<Home />} />
                <Route path="cart" element={<Cart />} />
+               <Route path="liked" element={<Liked />} />
                <Route path="products/:id" element={<ProductPage />} />
                {userAuth ? (
                   <>

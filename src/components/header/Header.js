@@ -12,18 +12,21 @@ import ClearIcon from '@mui/icons-material/Clear';
 import { Link } from 'react-router-dom';
 
 /* mui components*/
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import Container from '@mui/material/Container';
-import InputBase from '@mui/material/InputBase';
-import Badge from '@mui/material/Badge';
 import { styled } from '@mui/material/styles';
-import Avatar from '@mui/material/Avatar';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
+import {
+   Typography,
+   Box,
+   AppBar,
+   IconButton,
+   Toolbar,
+   Avatar,
+   Badge,
+   InputBase,
+   Container,
+   Tooltip,
+   Button,
+} from '@mui/material';
+import { Favorite } from '@mui/icons-material';
 
 const StyledBadge = styled(Badge)(() => ({
    '& .MuiBadge-badge': {
@@ -40,7 +43,6 @@ const Header = () => {
    const userId = user ? user.localId : user;
    const { data: userCart = [] } = useGetUserCartQuery(userId);
 
-   // пересчитать знамение с учетом amount
    const getCartLenght = () => {
       if (userAuth) {
          if (userCart) return userCart.length;
@@ -131,7 +133,7 @@ const Header = () => {
                   <Link to="cart">
                      <IconButton
                         aria-label="cart"
-                        sx={{ margin: '0 15px 0 10px' }}
+                        sx={{ margin: '0 5px 0 15px' }}
                      >
                         <StyledBadge
                            badgeContent={getCartLenght()}
@@ -139,6 +141,17 @@ const Header = () => {
                         >
                            <ShoppingCartIcon sx={{ color: '#fff' }} />
                         </StyledBadge>
+                     </IconButton>
+                  </Link>
+               </Box>
+
+               <Box sx={{ display: { xs: 'none', md: 'block' } }}>
+                  <Link to="liked">
+                     <IconButton
+                        aria-label="liked"
+                        sx={{ margin: '0 15px 0 5px' }}
+                     >
+                        <Favorite sx={{ color: '#fff' }} />
                      </IconButton>
                   </Link>
                </Box>
