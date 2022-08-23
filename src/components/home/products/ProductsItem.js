@@ -113,10 +113,8 @@ const ProductsItem = ({
                   onLoad={() => setImgLoad(true)}
                   className="animate__animated animate__fadeIn"
                />
-            </Link>
 
-            {imgLoad ? null : (
-               <Link to={`/products/${id}`} style={{ cursor: 'pointer' }}>
+               {imgLoad ? null : (
                   <Skeleton
                      variant="rounded"
                      width={'100%'}
@@ -124,8 +122,8 @@ const ProductsItem = ({
                      animation="wave"
                      style={{ borderRadius: '3px' }}
                   />
-               </Link>
-            )}
+               )}
+            </Link>
 
             <Typography sx={{ margin: '10px 0 auto' }}>
                {description}

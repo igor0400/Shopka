@@ -1,8 +1,12 @@
-import { useState, useEffect } from 'react';
-import { useGetUserCartQuery } from '../../slices/firebaseSlice';
+import { useState, useEffect, useCallback } from 'react';
+import {
+   useGetUserCartQuery,
+   usePostUserCartMutation,
+} from '../../slices/firebaseSlice';
 import { useGetProductsQuery } from '../../slices/apiSlice';
+import { removeFromDontAuthCart } from '../../slices/userSlice';
 
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { getCartItems } from '../../utils/supportFunctions';
 
 import {
@@ -14,6 +18,8 @@ import {
    Stack,
    Divider,
 } from '@mui/material';
+
+import CartProduct from './CartProduct';
 
 const Cart = () => {
    const [subTotal, setSubTotal] = useState(0);
@@ -33,6 +39,9 @@ const Cart = () => {
       isProductsError,
    } = useGetProductsQuery();
 
+   const dispatch = useDispatch();
+   const [postUserCart] = usePostUserCartMutation();
+
    useEffect(() => {
       if (userAuth) {
          if (userCart) {
@@ -49,8 +58,25 @@ const Cart = () => {
       setSubTotal(sum.toFixed(2));
    }, [cartProducts]);
 
-   const renderCart = (products) => {
-      if (isCartLoading) {
+   const postCart = useCallback((value) => {
+      postUserCart(value);
+   }, []);
+
+   const handleRemoveFromCart = (id, itemDeleted) => {
+      if (userAuth) {
+         postCart({
+            url: userId,
+            data: userCart.filter((item) => item.id !== id),
+         });
+      } else {
+         dispatch(removeFromDontAuthCart(id));
+      }
+      if (cartProducts.length === 1) setCartProducts([]);
+      itemDeleted(true);
+   };
+
+   const renderCart = () => {
+      if (isCartLoading || isProductsLoading) {
          return (
             <Box
                sx={{
@@ -64,16 +90,23 @@ const Cart = () => {
          );
       }
 
-      if (isCartError) {
+      if (isCartError || isProductsError) {
          return <p>Error :(</p>;
       }
 
-      if (products && products.length !== 0) {
-         return products.map((item, i) => (
-            <h4 key={i}>
-               {item.id} amount {item.amount}
-            </h4>
-         ));
+      if (cartProducts && cartProducts.length !== 0) {
+         return cartProducts.map((item, i) => {
+            return (
+               <>
+                  <CartProduct
+                     key={i}
+                     {...item}
+                     removeItem={handleRemoveFromCart}
+                  />
+                  {i + 1 === cartProducts.length ? null : <Divider />}
+               </>
+            );
+         });
       } else {
          return <p>Cart is clear</p>;
       }
@@ -89,10 +122,13 @@ const Cart = () => {
                   </Typography>
                </PaperWrapper>
                <PaperWrapper sx={{ margin: '20px 0' }}>
-                  {renderCart(cartProducts)}
+                  <Stack spacing={3}>{renderCart()}</Stack>
                </PaperWrapper>
                <PaperWrapper>
-                  <Typography variant="h6" sx={{ fontWeight: '500' }}>
+                  <Typography
+                     variant="h6"
+                     sx={{ fontWeight: '500', textAlign: 'right' }}
+                  >
                      Sub-total: ${subTotal}
                   </Typography>
                </PaperWrapper>
@@ -113,7 +149,7 @@ const Cart = () => {
                      Sub-total: ${subTotal}
                   </Typography>
                   {userAuth ? (
-                     <button>buy now</button>
+                     <button>Checkout</button>
                   ) : (
                      <p>Auth to make order</p>
                   )}
