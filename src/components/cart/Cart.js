@@ -1,14 +1,8 @@
-import { useCallback, useState, useEffect } from 'react';
-import {
-   useGetUserOrdersQuery,
-   usePostUserOrdersMutation,
-   useGetUserCartQuery,
-   usePostUserCartMutation,
-} from '../../slices/firebaseSlice';
+import { useState, useEffect } from 'react';
+import { useGetUserCartQuery } from '../../slices/firebaseSlice';
 import { useGetProductsQuery } from '../../slices/apiSlice';
 
 import { useSelector } from 'react-redux';
-import { v4 as uuidv4 } from 'uuid';
 import { getCartItems } from '../../utils/supportFunctions';
 
 import {
@@ -28,11 +22,6 @@ const Cart = () => {
 
    const userId = user ? user.localId : user;
 
-   const {
-      data: userOrders = [],
-      isOrdersLoading,
-      isOrdersError,
-   } = useGetUserOrdersQuery(userId);
    const {
       data: userCart = [],
       isCartLoading,
@@ -59,32 +48,6 @@ const Cart = () => {
       cartProducts.forEach((item) => (sum += item.price));
       setSubTotal(sum.toFixed(2));
    }, [cartProducts]);
-
-   const [postUserOrders] = usePostUserOrdersMutation();
-   const [postUserCart] = usePostUserCartMutation();
-
-   const postOrder = useCallback((value) => {
-      postUserOrders(value);
-   }, []);
-   const clearCart = useCallback((value) => {
-      postUserCart(value);
-   }, []);
-
-   const postOrderData = () => {
-      // поместить эту функцию в utils/posted
-      // отследить есть ли userOrders
-      postOrder({
-         url: userId,
-         data: [
-            ...userOrders,
-            {
-               id: uuidv4(),
-               email: user.email,
-            },
-         ],
-      });
-      clearCart({ url: userId, data: [] });
-   };
 
    const renderCart = (products) => {
       if (isCartLoading) {
@@ -150,12 +113,7 @@ const Cart = () => {
                      Sub-total: ${subTotal}
                   </Typography>
                   {userAuth ? (
-                     <button
-                        disabled={isOrdersLoading || isOrdersError}
-                        onClick={postOrderData}
-                     >
-                        buy now
-                     </button>
+                     <button>buy now</button>
                   ) : (
                      <p>Auth to make order</p>
                   )}
