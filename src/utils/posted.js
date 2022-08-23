@@ -44,11 +44,16 @@ export const postItemsToSome = (
    if (mainArray) {
       const findedItems = findedItemsFunc(mainArray, postedArray);
       const filteredMainArray = filteredMainArrayFunc(mainArray, postedArray);
+      const filteredPostedArray = filteredMainArrayFunc(postedArray, mainArray);
 
       if (findedItems.length !== 0 && filteredMainArray.length !== 0) {
          postFunc({
             url: userId,
-            data: [...filteredMainArray, ...findedItems],
+            data: [
+               ...findedItems,
+               ...filteredMainArray,
+               ...filteredPostedArray,
+            ],
          });
       } else if (findedItems.length === 0) {
          postFunc({
