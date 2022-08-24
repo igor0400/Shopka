@@ -1,85 +1,146 @@
-import { Container, Box, Typography, CircularProgress } from '@mui/material';
-import { useGetUserLikedQuery } from '../../slices/firebaseSlice';
+import { useState, useEffect, useCallback } from 'react';
 
-import { useSelector } from 'react-redux';
-import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+   useGetUserLikedQuery,
+   useDeleteOneUserLikeMutation,
+   usePostOneUserCartMutation,
+} from '../../slices/firebaseSlice';
+import { useGetProductsQuery } from '../../slices/apiSlice';
+import { removeFromDontAuthLiked, addDontAuthCart } from '../../slices/userSlice';
 
-import { returnArrfromObj } from '../../utils/supportFunctions';
+import { getSomethingItems } from '../../utils/supportFunctions';
+
+import Grid from '@mui/material/Unstable_Grid2';
+
+import LikedProduct from './LikedProduct';
+
+import {
+   Container,
+   Box,
+   Typography,
+   CircularProgress,
+   Stack,
+} from '@mui/material';
 
 const Liked = () => {
    const { user, userAuth, dontAuthLiked } = useSelector((state) => state.user);
    const [liked, setLiked] = useState([]);
+   const [likedLoaded, setLikedLoaded] = useState(false);
 
    const userId = user ? user.localId : user;
    const {
       data: userLiked = {},
-      isLoading,
-      isError,
+      isLikedLoading,
+      isLikedError,
    } = useGetUserLikedQuery(userId);
+   const {
+      data: products = [],
+      isProductsLoading,
+      isProductsError,
+   } = useGetProductsQuery();
+
+   const dispatch = useDispatch();
+   const [deleteOneUserLike] = useDeleteOneUserLikeMutation();
+   const [postOneUserCart] = usePostOneUserCartMutation();
 
    useEffect(() => {
+      if (likedLoaded) return;
+
       if (userAuth) {
-         setLiked(returnArrfromObj(userLiked));
+         if (userLiked && products) {
+            setLiked(getSomethingItems(products, userLiked));
+         }
       } else {
-         setLiked(returnArrfromObj(dontAuthLiked));
+         setLiked(getSomethingItems(products, dontAuthLiked));
       }
+
+      setLikedLoaded(true);
+   }, [products, userLiked, dontAuthLiked]);
+
+   const deleteLikedItem = useCallback((value) => {
+      deleteOneUserLike(value);
+   }, []);
+   const postCartItem = useCallback((value) => {
+      postOneUserCart(value);
    }, []);
 
-   const renderLiked = (liked) => {
-      if (isLoading) {
-         return (
-            <Box
-               sx={{
-                  display: 'flex',
-                  margin: '100px auto',
-                  justifyContent: 'center',
-               }}
-            >
-               <CircularProgress />
-            </Box>
-         );
-      }
-
-      if (isError) {
-         return <p>Error :(</p>;
-      }
-
-      if (liked && liked.length !== 0) {
-         return liked.map((item, i) => (
-            <h4 key={i}>
-               {i + 1}. {item.id}
-            </h4>
-         ));
+   const handleRemoveFromLiked = (id) => {
+      if (userAuth) {
+         deleteLikedItem({ userId, itemId: id });
       } else {
-         return 'not liked yet';
+         dispatch(removeFromDontAuthLiked(id));
+      }
+      if (liked === 1) setLiked([]);
+      setLikedLoaded(false);
+   };
+
+   const handleAddToCart = (id) => {
+      if (userAuth) {
+         postCartItem({ userId, itemId: id, data: { id, amount: 1 } });
+      } else {
+         dispatch(addDontAuthCart(id));
       }
    };
 
-   return (
-      <Container maxWidth="xl">
+   const handleMoveToCart = (id) => {
+      handleRemoveFromLiked(id);
+      handleAddToCart(id);
+   };
+
+   if (isLikedLoading || isProductsLoading) {
+      return (
          <Box
             sx={{
-               p: { xs: 2, sm: 3, md: 4, xl: 5 },
-               maxWidth: { xs: 400, lg: 700 },
-               margin: { xs: 0, md: '20px auto' },
-               '& > *': {
-                  flexGrow: 1,
-                  flexBasis: '50%',
-               },
-               minHeight: '80vh',
+               display: 'flex',
+               margin: '100px auto',
+               justifyContent: 'center',
             }}
          >
+            <CircularProgress />
+         </Box>
+      );
+   }
+
+   if (isLikedError || isProductsError) {
+      return <p>Error :(</p>;
+   }
+
+   if (liked && liked.length !== 0) {
+      return (
+         <Container maxWidth="lg">
             <Typography
                variant="h4"
-               component="h4"
-               sx={{ textAlign: 'center' }}
+               sx={{ textAlign: 'center', fontWeight: '700' }}
             >
                Liked
             </Typography>
-            {renderLiked(liked)}
-         </Box>
-      </Container>
-   );
+            <Grid
+               container
+               spacing={2}
+               columns={{ xs: 4, sm: 8, md: 12 }}
+               sx={{ marginTop: '20px' }}
+            >
+               {liked.map((item, i) => (
+                  <Grid sx key={i}>
+                     <LikedProduct
+                        {...item}
+                        key={i}
+                        handleRemoveFromLiked={handleRemoveFromLiked}
+                        handleMoveToCart={handleMoveToCart}
+                     />
+                  </Grid>
+               ))}
+            </Grid>
+         </Container>
+      );
+   } else {
+      return (
+         <Container maxWidth="sm">
+            <h3 style={{ textAlign: 'center' }}>Liked clear</h3>
+         </Container>
+      );
+   }
 };
 
 export default Liked;

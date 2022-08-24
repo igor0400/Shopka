@@ -1,11 +1,11 @@
-export const getCartItems = (products, cart) => {
+export const getSomethingItems = (products, idsArr) => {
    const cartItems = [];
    products.forEach((product) => {
-      cart.forEach((cartItem) => {
-         if (cartItem.id === product.id) {
-            cartItems.push({ ...product, ...cartItem });
+      for (let key in idsArr) {
+         if (idsArr[key].id === product.id) {
+            cartItems.push({ ...product, ...idsArr[key] });
          }
-      });
+      }
    });
    return cartItems;
 };

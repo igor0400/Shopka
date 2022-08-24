@@ -13,7 +13,7 @@ import {
    clearDontAuthCart,
 } from '../../slices/userSlice';
 
-import { getCartItems, returnArrfromObj } from '../../utils/supportFunctions';
+import { getSomethingItems } from '../../utils/supportFunctions';
 
 import {
    Container,
@@ -43,7 +43,7 @@ const Cart = () => {
       isCartError,
    } = useGetUserCartQuery(userId);
    const {
-      data: products = {},
+      data: products = [],
       isProductsLoading,
       isProductsError,
    } = useGetProductsQuery();
@@ -56,23 +56,14 @@ const Cart = () => {
       if (cartProductsLoaded) return;
 
       if (userAuth) {
-         if (userCart) {
-            setCartProducts(
-               getCartItems(
-                  returnArrfromObj(products),
-                  returnArrfromObj(userCart)
-               )
-            );
+         if (userCart && products) {
+            setCartProducts(getSomethingItems(products, userCart));
          }
       } else {
-         setCartProducts(
-            getCartItems(
-               returnArrfromObj(products),
-               returnArrfromObj(dontAuthCart)
-            )
-         );
-         setCartProductsLoaded(true);
+         setCartProducts(getSomethingItems(products, dontAuthCart));
       }
+
+      setCartProductsLoaded(true);
    }, [products, userCart, dontAuthCart]);
 
    useEffect(() => {
@@ -110,7 +101,6 @@ const Cart = () => {
    };
 
    // render cart
-
    if (isCartLoading || isProductsLoading) {
       return (
          <Box
@@ -217,7 +207,7 @@ const Cart = () => {
                            variant="contained"
                            color="success"
                            size="large"
-                           sx={{width: '100%', marginTop: '30px'}}
+                           sx={{ width: '100%', marginTop: '30px' }}
                         >
                            Checkout
                         </Button>

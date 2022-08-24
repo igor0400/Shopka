@@ -108,10 +108,9 @@ const ProductsItem = ({
                      display: imgLoad ? null : 'none',
                      width: '220px',
                      height: '220px',
-                     animationDuration: '0.5s',
                   }}
                   onLoad={() => setImgLoad(true)}
-                  className="animate__animated animate__fadeIn"
+                  className="animate__animated animate__fadeIn animate__faster"
                />
 
                {imgLoad ? null : (

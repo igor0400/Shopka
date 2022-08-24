@@ -31,6 +31,7 @@ import {
 
 const ProductPage = () => {
    const [isItemInCart, setIsItemInCart] = useState(false);
+   const [isImagesLoad, setIsImagesLoad] = useState(false);
    const [isItemInLiked, setIsItemInLiked] = useState(false);
 
    const location = useLocation();
@@ -178,21 +179,48 @@ const ProductPage = () => {
                className="mySwiper"
                style={{ maxWidth: '800px', margin: 0 }}
             >
-               {imgs
-                  ? imgs.map((item, i) => (
-                       <SwiperSlide
-                          key={i}
-                          style={{
-                             display: 'flex',
-                             justifyContent: 'center',
-                          }}
-                       >
-                          <div className="swiper-zoom-container">
-                             <img src={item} style={{ width: '500px' }} />
-                          </div>
-                       </SwiperSlide>
-                    ))
-                  : null}
+               {/* это для проверки загрузились ли сообщения */}
+               {imgs ? (
+                  <img
+                     src={imgs[0]}
+                     style={{ display: 'none' }}
+                     onLoad={() => setIsImagesLoad(true)}
+                  />
+               ) : null}
+
+               {isImagesLoad ? (
+                  imgs.map((item, i) => (
+                     <SwiperSlide
+                        key={i}
+                        style={{
+                           display: 'flex',
+                           justifyContent: 'center',
+                        }}
+                     >
+                        <div className="swiper-zoom-container">
+                           <img
+                              src={item}
+                              style={{ width: '500px', height: '500px' }}
+                           />
+                        </div>
+                     </SwiperSlide>
+                  ))
+               ) : (
+                  <SwiperSlide>
+                     <Box
+                        sx={{
+                           display: 'flex',
+                           margin: 'auto',
+                           justifyContent: 'center',
+                           alignItems: 'center',
+                           width: '500px',
+                           height: '500px',
+                        }}
+                     >
+                        <CircularProgress />
+                     </Box>
+                  </SwiperSlide>
+               )}
             </Swiper>
 
             <Box
