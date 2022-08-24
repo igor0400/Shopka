@@ -237,19 +237,19 @@ const ProductPage = () => {
                   >
                      <Rating
                         name="rating"
-                        value={rating ? rating : 0}
+                        value={rating || 0}
                         precision={0.5}
                         size="small"
                         sx={{ marginRight: '5px' }}
                         readOnly
                      />
                      <Typography style={{ fontSize: '14px', fontWeight: 500 }}>
-                        {rating}
+                        {rating || '0'}
                      </Typography>
                   </Box>
                </Box>
                <Typography variant="h5" sx={{ fontWeight: 500 }}>
-                  {price}$
+                  ${price || '0'}
                </Typography>
                <Typography
                   variant="body2"
