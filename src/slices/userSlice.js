@@ -7,8 +7,8 @@ const initialState = userAdapter.getInitialState({
    userAuthStatus: 'idle',
    userLoguotStatus: 'idle',
    userErrors: [],
-   dontAuthCart: [],
-   dontAuthLiked: [],
+   dontAuthCart: {},
+   dontAuthLiked: {},
 });
 
 const errorMessageValidate = (action) => {
@@ -62,48 +62,53 @@ const userSlice = createSlice({
          const { dontAuthCart } = state;
          let findedItem = false;
 
-         dontAuthCart.forEach((item) => {
-            if (item.id === action.payload) {
-               findedItem = item;
+         for (let key in dontAuthCart) {
+            if (key === action.payload) {
+               findedItem = key;
             }
-         });
+         }
 
          if (!findedItem) {
-            state.dontAuthCart = [
-               ...dontAuthCart,
-               { id: action.payload, amount: 1 },
-            ];
+            state.dontAuthCart[action.payload] = {
+               id: action.payload,
+               amount: 1,
+            };
          }
       },
+      changeDontAuthCartItemAmount: (state, action) => {
+         const { itemId, amount } = action.payload;
+
+         state.dontAuthCart[itemId].amount = amount;
+      },
       removeFromDontAuthCart: (state, action) => {
-         state.dontAuthCart = state.dontAuthCart.filter(
-            (item) => item.id !== action.payload
-         );
+         const cart = JSON.parse(JSON.stringify(state.dontAuthCart));
+         delete cart[action.payload];
+         state.dontAuthCart = cart;
       },
       clearDontAuthCart: (state) => {
-         state.dontAuthCart = [];
+         state.dontAuthCart = {};
       },
       addDontAuthLiked: (state, action) => {
          const { dontAuthLiked } = state;
          let findedItem = false;
 
-         dontAuthLiked.forEach((item) => {
-            if (item.id === action.payload) {
-               findedItem = item;
+         for (let key in dontAuthLiked) {
+            if (key === action.payload) {
+               findedItem = key;
             }
-         });
+         }
 
          if (!findedItem) {
-            state.dontAuthLiked = [...dontAuthLiked, action.payload];
+            state.dontAuthLiked[action.payload] = { id: action.payload };
          }
       },
       removeFromDontAuthLiked: (state, action) => {
-         state.dontAuthLiked = state.dontAuthLiked.filter(
-            (item) => item !== action.payload
-         );
+         const liked = JSON.parse(JSON.stringify(state.dontAuthLiked));
+         delete liked[action.payload];
+         state.dontAuthLiked = liked;
       },
       clearDontAuthLiked: (state) => {
-         state.dontAuthLiked = [];
+         state.dontAuthLiked = {};
       },
    },
 });
@@ -119,6 +124,7 @@ export const {
    userLogoutFetchingError,
    clearErrors,
    addDontAuthCart,
+   changeDontAuthCartItemAmount,
    clearDontAuthCart,
    addDontAuthLiked,
    clearDontAuthLiked,

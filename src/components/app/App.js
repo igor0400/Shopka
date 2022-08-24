@@ -15,14 +15,6 @@ import {
    usePostUserLikedMutation,
 } from '../../slices/firebaseSlice';
 
-import { postItemsToSome } from '../../utils/posted';
-import {
-   getSameValues,
-   getVariousValues,
-   getArrEqual,
-   getArrDifference,
-} from '../../utils/filterArrays';
-
 import Header from '../header/Header';
 import Home from '../home/Home';
 import ProductPage from '../productPage/ProductPage';
@@ -35,15 +27,8 @@ import Liked from '../liked/Liked';
 import Profile from '../profile/Profile';
 
 function App() {
-   const {
-      user,
-      userAuth,
-      userAuthStatus,
-      userLoguotStatus,
-      userErrors,
-      dontAuthCart,
-      dontAuthLiked,
-   } = useSelector((state) => state.user);
+   const { user, userAuth, userErrors, dontAuthCart, dontAuthLiked } =
+      useSelector((state) => state.user);
 
    const dispatch = useDispatch();
    const notify = (value) => toast.error(value);
@@ -80,42 +65,46 @@ function App() {
    useEffect(() => {
       if (
          userAuth &&
-         dontAuthCart.length > 0 &&
          !isCartUninitialized &&
          !isCartFetching &&
          !isCartLoading &&
          !isCartError
       ) {
-         postItemsToSome(
-            userCart,
-            dontAuthCart,
-            postCart,
-            userId,
-            getSameValues,
-            getVariousValues
-         );
-         dispatch(clearDontAuthCart());
+         let dontAuthCartLength = 0;
+         for (let key in dontAuthCart) {
+            dontAuthCartLength += 1;
+         }
+
+         if (dontAuthCartLength > 0) {
+            postCart({
+               userId,
+               data: Object.assign({}, userCart, dontAuthCart),
+            });
+            dispatch(clearDontAuthCart());
+         }
       }
    }, [userAuth, userCart, isCartFetching]);
 
    useEffect(() => {
       if (
          userAuth &&
-         dontAuthLiked.length > 0 &&
          !isLikedUninitialized &&
          !isLikedFetching &&
          !isLikedLoading &&
          !isLikedError
       ) {
-         postItemsToSome(
-            userLiked,
-            dontAuthLiked,
-            postLiked,
-            userId,
-            getArrEqual,
-            getArrDifference
-         );
-         dispatch(clearDontAuthLiked());
+         let dontAuthLikedLength = 0;
+         for (let key in dontAuthLiked) {
+            dontAuthLikedLength += 1;
+         }
+
+         if (dontAuthLikedLength > 0) {
+            postLiked({
+               userId,
+               data: Object.assign({}, userLiked, dontAuthLiked),
+            });
+            dispatch(clearDontAuthLiked());
+         }
       }
    }, [userAuth, userLiked, isLikedFetching]);
 
@@ -123,11 +112,11 @@ function App() {
 
    // ********************** NOTIFY IF ERROR *********************** //
    useEffect(() => {
-      if (userAuthStatus === 'error' || userLoguotStatus === 'error') {
+      if (userErrors.length > 0) {
          userErrors.map((item) => notify(item));
          dispatch(clearErrors());
       }
-   }, [userAuthStatus, userLoguotStatus]);
+   }, [userErrors]);
 
    // *************************************************************** //
 

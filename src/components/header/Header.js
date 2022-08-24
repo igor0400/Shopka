@@ -41,16 +41,24 @@ const StyledBadge = styled(Badge)(() => ({
 const Header = () => {
    const { user, userAuth, dontAuthCart } = useSelector((state) => state.user);
    const userId = user ? user.localId : user;
-   const { data: userCart = [] } = useGetUserCartQuery(userId);
+   const { data: userCart = {} } = useGetUserCartQuery(userId);
 
    const getCartLenght = () => {
+      let length = 0;
+
       if (userAuth) {
-         if (userCart) return userCart.length;
-         else return 0;
+         if (userCart) {
+            for (let key in userCart) {
+               length += 1;
+            }
+         }
       } else {
-         if (dontAuthCart) return dontAuthCart.length;
-         else return 0;
+         for (let key in dontAuthCart) {
+            length += 1;
+         }
       }
+
+      return length;
    };
 
    return (

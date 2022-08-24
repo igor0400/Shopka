@@ -16,14 +16,13 @@ import { Favorite, FavoriteBorder } from '@mui/icons-material';
 import { useSelector, useDispatch } from 'react-redux';
 import {
    useGetUserLikedQuery,
-   usePostUserLikedMutation,
+   usePostOneUserLikeMutation,
+   useDeleteOneUserLikeMutation,
 } from '../../../slices/firebaseSlice';
 import {
    addDontAuthLiked,
    removeFromDontAuthLiked,
 } from '../../../slices/userSlice';
-
-import { postItemToSome } from '../../../utils/posted';
 
 const ProductsItem = ({
    name,
@@ -42,35 +41,39 @@ const ProductsItem = ({
    const userId = user ? user.localId : user;
 
    const {
-      data: userLiked = [],
+      data: userLiked = {},
       isLikedLoading,
       isLikedError,
    } = useGetUserLikedQuery(userId);
 
    const dispatch = useDispatch();
-   const [postUserLiked] = usePostUserLikedMutation();
+   const [postOneUserLike] = usePostOneUserLikeMutation();
+   const [deleteOneUserLike] = useDeleteOneUserLikeMutation();
 
    useEffect(() => {
       if (userAuth) {
          if (userLiked) {
-            userLiked.forEach((item) =>
-               item === id ? setIsItemInLiked(true) : null
-            );
+            for (let key in userLiked) {
+               if (key === id) setIsItemInLiked(true);
+            }
          }
       } else {
-         dontAuthLiked.forEach((item) =>
-            item === id ? setIsItemInLiked(true) : null
-         );
+         for (let key in dontAuthLiked) {
+            if (key === id) setIsItemInLiked(true);
+         }
       }
    }, [userLiked]);
 
-   const postLiked = useCallback((value) => {
-      postUserLiked(value);
+   const postLikedItem = useCallback((value) => {
+      postOneUserLike(value);
+   }, []);
+   const deleteLikedItem = useCallback((value) => {
+      deleteOneUserLike(value);
    }, []);
 
    const handleAddToLiked = (id) => {
       if (userAuth) {
-         postItemToSome('liked', userLiked, id, postLiked, userId);
+         postLikedItem({ userId, itemId: id, data: { id } });
       } else {
          dispatch(addDontAuthLiked(id));
       }
@@ -79,10 +82,7 @@ const ProductsItem = ({
 
    const handleRemoveFromLiked = (id) => {
       if (userAuth) {
-         postLiked({
-            url: userId,
-            data: userLiked.filter((item) => item !== id),
-         });
+         deleteLikedItem({ userId, itemId: id });
       } else {
          dispatch(removeFromDontAuthLiked(id));
       }

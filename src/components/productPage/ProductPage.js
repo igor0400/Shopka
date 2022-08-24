@@ -22,12 +22,12 @@ import {
 import { useGetProductByIdQuery } from '../../slices/apiSlice';
 import {
    useGetUserCartQuery,
-   usePostUserCartMutation,
    useGetUserLikedQuery,
-   usePostUserLikedMutation,
+   usePostOneUserCartMutation,
+   usePostOneUserLikeMutation,
+   useDeleteOneUserCartMutation,
+   useDeleteOneUserLikeMutation,
 } from '../../slices/firebaseSlice';
-
-import { postItemToSome } from '../../utils/posted';
 
 const ProductPage = () => {
    const [isItemInCart, setIsItemInCart] = useState(false);
@@ -60,42 +60,50 @@ const ProductPage = () => {
 
    useEffect(() => {
       if (userAuth && userCart) {
-         userCart.forEach((item) =>
-            item.id === productId ? setIsItemInCart(true) : null
-         );
+         for (let key in userCart) {
+            if (key === productId) setIsItemInCart(true);
+         }
       } else {
-         dontAuthCart.forEach((item) =>
-            item.id === productId ? setIsItemInCart(true) : null
-         );
+         for (let key in dontAuthCart) {
+            if (key === productId) setIsItemInCart(true);
+         }
       }
    }, [userCart]);
 
    useEffect(() => {
       if (userAuth && userLiked) {
-         userLiked.forEach((item) =>
-            item === productId ? setIsItemInLiked(true) : null
-         );
+         for (let key in userLiked) {
+            if (key === productId) setIsItemInLiked(true);
+         }
       } else {
-         dontAuthLiked.forEach((item) =>
-            item === productId ? setIsItemInLiked(true) : null
-         );
+         for (let key in dontAuthLiked) {
+            if (key === productId) setIsItemInLiked(true);
+         }
       }
    }, [userLiked]);
 
    const dispatch = useDispatch();
-   const [postUserCart] = usePostUserCartMutation();
-   const [postUserLiked] = usePostUserLikedMutation();
+   const [postOneUserCart] = usePostOneUserCartMutation();
+   const [postOneUserLike] = usePostOneUserLikeMutation();
+   const [deleteOneUserCart] = useDeleteOneUserCartMutation();
+   const [deleteOneUserLike] = useDeleteOneUserLikeMutation();
 
-   const postCart = useCallback((value) => {
-      postUserCart(value);
+   const postCartItem = useCallback((value) => {
+      postOneUserCart(value);
    }, []);
-   const postLiked = useCallback((value) => {
-      postUserLiked(value);
+   const postLikedItem = useCallback((value) => {
+      postOneUserLike(value);
+   }, []);
+   const deleteCartItem = useCallback((value) => {
+      deleteOneUserCart(value);
+   }, []);
+   const deleteLikedItem = useCallback((value) => {
+      deleteOneUserLike(value);
    }, []);
 
    const handleAddToCart = (id) => {
       if (userAuth) {
-         postItemToSome('cart', userCart, id, postCart, userId);
+         postCartItem({ userId, itemId: id, data: { id, amount: 1 } });
       } else {
          dispatch(addDontAuthCart(id));
       }
@@ -104,7 +112,7 @@ const ProductPage = () => {
 
    const handleAddToLiked = (id) => {
       if (userAuth) {
-         postItemToSome('liked', userLiked, id, postLiked, userId);
+         postLikedItem({ userId, itemId: id, data: { id } });
       } else {
          dispatch(addDontAuthLiked(id));
       }
@@ -113,10 +121,7 @@ const ProductPage = () => {
 
    const handleRemoveFromCart = (id) => {
       if (userAuth) {
-         postCart({
-            url: userId,
-            data: userCart.filter((item) => item.id !== id),
-         });
+         deleteCartItem({ userId, itemId: id });
       } else {
          dispatch(removeFromDontAuthCart(id));
       }
@@ -125,10 +130,7 @@ const ProductPage = () => {
 
    const handleRemoveFromLiked = (id) => {
       if (userAuth) {
-         postLiked({
-            url: userId,
-            data: userLiked.filter((item) => item !== id),
-         });
+         deleteLikedItem({ userId, itemId: id });
       } else {
          dispatch(removeFromDontAuthLiked(id));
       }

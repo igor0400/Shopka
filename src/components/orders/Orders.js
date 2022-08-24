@@ -2,16 +2,24 @@ import { Container, Box, Typography, CircularProgress } from '@mui/material';
 import { useGetUserOrdersQuery } from '../../slices/firebaseSlice';
 
 import { useSelector } from 'react-redux';
+import { useState, useEffect } from 'react';
+
+import { returnArrfromObj } from '../../utils/supportFunctions';
 
 const Orders = () => {
    const { user } = useSelector((state) => state.user);
+   const [orders, setOrders] = useState([]);
 
    const userId = user ? user.localId : user;
    const {
-      data: userOrders = [],
+      data: userOrders = {},
       isLoading,
       isError,
    } = useGetUserOrdersQuery(userId);
+
+   useEffect(() => {
+      setOrders(returnArrfromObj(userOrders));
+   }, []);
 
    const renderOrders = (orders) => {
       if (isLoading) {
@@ -64,7 +72,7 @@ const Orders = () => {
             >
                Orders
             </Typography>
-            {renderOrders(userOrders)}
+            {renderOrders(orders)}
          </Box>
       </Container>
    );

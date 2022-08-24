@@ -2,16 +2,28 @@ import { Container, Box, Typography, CircularProgress } from '@mui/material';
 import { useGetUserLikedQuery } from '../../slices/firebaseSlice';
 
 import { useSelector } from 'react-redux';
+import { useState, useEffect } from 'react';
+
+import { returnArrfromObj } from '../../utils/supportFunctions';
 
 const Liked = () => {
    const { user, userAuth, dontAuthLiked } = useSelector((state) => state.user);
+   const [liked, setLiked] = useState([]);
 
    const userId = user ? user.localId : user;
    const {
-      data: userLiked = [],
+      data: userLiked = {},
       isLoading,
       isError,
    } = useGetUserLikedQuery(userId);
+
+   useEffect(() => {
+      if (userAuth) {
+         setLiked(returnArrfromObj(userLiked));
+      } else {
+         setLiked(returnArrfromObj(dontAuthLiked));
+      }
+   }, []);
 
    const renderLiked = (liked) => {
       if (isLoading) {
@@ -35,7 +47,7 @@ const Liked = () => {
       if (liked && liked.length !== 0) {
          return liked.map((item, i) => (
             <h4 key={i}>
-               {i + 1}. {item}
+               {i + 1}. {item.id}
             </h4>
          ));
       } else {
@@ -64,7 +76,7 @@ const Liked = () => {
             >
                Liked
             </Typography>
-            {renderLiked(userAuth ? userLiked : dontAuthLiked)}
+            {renderLiked(liked)}
          </Box>
       </Container>
    );

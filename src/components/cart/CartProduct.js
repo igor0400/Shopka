@@ -12,9 +12,13 @@ import {
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 
+import { useDispatch, useSelector } from 'react-redux';
+import { usePostOneUserCartAmountMutation } from '../../slices/firebaseSlice';
+import { changeDontAuthCartItemAmount } from '../../slices/userSlice';
+
 const CartProduct = ({ name, imgs, price, amount, id, removeItem }) => {
    const [imgLoad, setImgLoad] = useState(false);
-   const [isItemDeleted, setIsItemDeleted] = useState(false);
+   // const [isItemDeleted, setIsItemDeleted] = useState(false);
 
    return (
       <Stack
@@ -50,10 +54,12 @@ const CartProduct = ({ name, imgs, price, amount, id, removeItem }) => {
          <Stack>
             <Typography variant="h6">${price}</Typography>
             <Link to={`/products/${id}`}>
-               <Typography variant="body1" sx={{color: '#000'}}>{name}</Typography>
+               <Typography variant="body1" sx={{ color: '#000' }}>
+                  {name}
+               </Typography>
             </Link>
 
-            <SelectAmount amount={amount} />
+            <SelectAmount amount={amount} itemId={id} />
          </Stack>
          <CloseIcon
             sx={{
@@ -63,17 +69,31 @@ const CartProduct = ({ name, imgs, price, amount, id, removeItem }) => {
                right: 0,
                cursor: 'pointer',
             }}
-            onClick={() => removeItem(id, setIsItemDeleted)}
+            onClick={() => removeItem(id)}
          />
       </Stack>
    );
 };
 
-function SelectAmount({ amount }) {
+function SelectAmount({ amount, itemId }) {
    const [qty, setQty] = useState(amount);
+   const { user, userAuth } = useSelector((state) => state.user);
+
+   const userId = user ? user.localId : user;
+
+   const dispatch = useDispatch();
+   const [postOneUserCartAmount] = usePostOneUserCartAmountMutation();
 
    const handleChange = (event) => {
-      setQty(event.target.value);
+      const value = event.target.value;
+
+      if (userAuth) {
+         postOneUserCartAmount({ userId, itemId, data: value });
+      } else {
+         dispatch(changeDontAuthCartItemAmount({ itemId, amount: value }));
+      }
+
+      setQty(value);
    };
 
    return (

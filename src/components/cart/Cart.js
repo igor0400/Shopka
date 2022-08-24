@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { Link } from 'react-router-dom';
 
 import { useSelector, useDispatch } from 'react-redux';
 import {
    useGetUserCartQuery,
-   usePostUserCartMutation,
+   useDeleteUserCartMutation,
+   useDeleteOneUserCartMutation,
 } from '../../slices/firebaseSlice';
 import { useGetProductsQuery } from '../../slices/apiSlice';
 import {
@@ -11,7 +13,7 @@ import {
    clearDontAuthCart,
 } from '../../slices/userSlice';
 
-import { getCartItems } from '../../utils/supportFunctions';
+import { getCartItems, returnArrfromObj } from '../../utils/supportFunctions';
 
 import {
    Container,
@@ -36,28 +38,39 @@ const Cart = () => {
    const userId = user ? user.localId : user;
 
    const {
-      data: userCart = [],
+      data: userCart = {},
       isCartLoading,
       isCartError,
    } = useGetUserCartQuery(userId);
    const {
-      data: products = [],
+      data: products = {},
       isProductsLoading,
       isProductsError,
    } = useGetProductsQuery();
 
    const dispatch = useDispatch();
-   const [postUserCart] = usePostUserCartMutation();
+   const [deleteOneUserCart] = useDeleteOneUserCartMutation();
+   const [deleteUserCart] = useDeleteUserCartMutation();
 
    useEffect(() => {
       if (cartProductsLoaded) return;
 
       if (userAuth) {
          if (userCart) {
-            setCartProducts(getCartItems(products, userCart));
+            setCartProducts(
+               getCartItems(
+                  returnArrfromObj(products),
+                  returnArrfromObj(userCart)
+               )
+            );
          }
       } else {
-         setCartProducts(getCartItems(products, dontAuthCart));
+         setCartProducts(
+            getCartItems(
+               returnArrfromObj(products),
+               returnArrfromObj(dontAuthCart)
+            )
+         );
          setCartProductsLoaded(true);
       }
    }, [products, userCart, dontAuthCart]);
@@ -70,30 +83,26 @@ const Cart = () => {
       }
    }, [cartProducts]);
 
-   const postCart = useCallback((value) => {
-      postUserCart(value);
+   const deleteCartItem = useCallback((value) => {
+      deleteOneUserCart(value);
+   }, []);
+   const deleteCart = useCallback((value) => {
+      deleteUserCart(value);
    }, []);
 
-   const handleRemoveFromCart = (id, itemDeleted) => {
+   const handleRemoveFromCart = (id) => {
       if (userAuth) {
-         postCart({
-            url: userId,
-            data: userCart.filter((item) => item.id !== id),
-         });
+         deleteCartItem({ userId, itemId: id });
       } else {
          dispatch(removeFromDontAuthCart(id));
       }
       if (cartProducts.length === 1) setCartProducts([]);
       setCartProductsLoaded(false);
-      itemDeleted(true);
    };
 
    const handleClearCart = () => {
       if (userAuth) {
-         postCart({
-            url: userId,
-            data: [],
-         });
+         deleteCart({ userId, data: {} });
       } else {
          dispatch(clearDontAuthCart());
       }
@@ -203,11 +212,9 @@ const Cart = () => {
                            sx={{ cursor: 'pointer' }}
                         />
                      </Typography>
-                     {userAuth ? (
+                     <Link to={userAuth ? '/payorder' : '/login'}>
                         <button>Checkout</button>
-                     ) : (
-                        <p>Auth to make order</p>
-                     )}
+                     </Link>
                   </PaperWrapper>
                </Box>
             </Stack>
