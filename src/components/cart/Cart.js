@@ -213,7 +213,14 @@ const Cart = () => {
                         />
                      </Typography>
                      <Link to={userAuth ? '/payorder' : '/login'}>
-                        <button>Checkout</button>
+                        <Button
+                           variant="contained"
+                           color="success"
+                           size="large"
+                           sx={{width: '100%', marginTop: '30px'}}
+                        >
+                           Checkout
+                        </Button>
                      </Link>
                   </PaperWrapper>
                </Box>
