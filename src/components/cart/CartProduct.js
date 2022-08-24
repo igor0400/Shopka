@@ -49,7 +49,10 @@ const CartProduct = ({ name, imgs, price, amount, id, removeItem }) => {
          </Link>
          <Stack>
             <Typography variant="h6">${price}</Typography>
-            <Typography variant="body1">{name}</Typography>
+            <Link to={`/products/${id}`}>
+               <Typography variant="body1" sx={{color: '#000'}}>{name}</Typography>
+            </Link>
+
             <SelectAmount amount={amount} />
          </Stack>
          <CloseIcon
@@ -84,7 +87,9 @@ function SelectAmount({ amount }) {
             onChange={handleChange}
          >
             {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item) => (
-               <MenuItem value={item}>{item}</MenuItem>
+               <MenuItem key={item} value={item}>
+                  {item}
+               </MenuItem>
             ))}
          </Select>
       </FormControl>
