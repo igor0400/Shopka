@@ -137,7 +137,7 @@ const Liked = () => {
    } else {
       return (
          <Container maxWidth="sm">
-            <h3 style={{ textAlign: 'center' }}>Liked clear</h3>
+            <h3 style={{ textAlign: 'center' }}>Liked is clear</h3>
          </Container>
       );
    }
