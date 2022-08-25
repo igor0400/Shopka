@@ -26,7 +26,7 @@ import { Formik } from 'formik';
 import FirebaseSocial from './FirebaseSocial';
 import { userLogin } from '../../../firebase/auth';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 // assets
 import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
@@ -45,6 +45,9 @@ const AuthLogin = () => {
 
    const dispatch = useDispatch();
    const navigate = useNavigate();
+   const location = useLocation();
+
+   const fromPage = location.state?.from?.pathname || '/';
 
    return (
       <Formik
@@ -62,7 +65,7 @@ const AuthLogin = () => {
          })}
          onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
             try {
-               userLogin(dispatch, navigate, values);
+               userLogin(dispatch, navigate, values, fromPage);
                setStatus({ success: false });
                setSubmitting(false);
             } catch (err) {
@@ -212,7 +215,7 @@ const AuthLogin = () => {
                      </Divider>
                   </Grid>
                   <Grid item xs={12}>
-                     <FirebaseSocial />
+                     <FirebaseSocial fromPage={fromPage} />
                   </Grid>
                </Grid>
             </form>

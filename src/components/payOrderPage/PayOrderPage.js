@@ -1,42 +1,17 @@
 import { useCallback } from 'react';
-import {
-   useGetUserOrdersQuery,
-   usePostUserOrdersMutation,
-   usePostUserCartMutation,
-} from '../../slices/firebaseSlice';
 import { v4 as uuidv4 } from 'uuid';
+import { Navigate, useLocation } from 'react-router-dom';
 
+import { useSelector } from 'react-redux';
 
-// const {
-//    data: userOrders = [],
-//    isOrdersLoading,
-//    isOrdersError,
-// } = useGetUserOrdersQuery(userId);
+const PayOrderPage = () => {
+   const location = useLocation();
 
-// const [postUserOrders] = usePostUserOrdersMutation();
-// const [postUserCart] = usePostUserCartMutation();
+   if (location.state?.from?.pathname !== '/cart') {
+      return <Navigate to="/" />;
+   }
 
-// const postOrder = useCallback((value) => {
-//    postUserOrders(value);
-// }, []);
-// const clearCart = useCallback((value) => {
-//    postUserCart(value);
-// }, []);
+   return <h1>Pay order</h1>;
+};
 
-// const postOrderData = () => {
-//    // поместить эту функцию в utils/posted
-//    // отследить есть ли userOrders
-//    postOrder({
-//       url: userId,
-//       data: [
-//          ...userOrders,
-//          {
-//             id: uuidv4(),
-//             email: user.email,
-//          },
-//       ],
-//    });
-//    clearCart({ url: userId, data: [] });
-// };
-
-// КНОПКА DISABLED ЕСЛИ isOrdersLoading ИЛИ isOrdersError,
+export default PayOrderPage;

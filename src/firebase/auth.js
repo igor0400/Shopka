@@ -32,11 +32,16 @@ export const userRegister = async (dispatch, navigate, { email, password }) => {
       });
 };
 
-export const userLogin = async (dispatch, navigate, { email, password }) => {
+export const userLogin = async (
+   dispatch,
+   navigate,
+   { email, password },
+   fromPage
+) => {
    dispatch(userAuthFetching());
    await signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-         navigate('/');
+         navigate(fromPage, { replace: true });
          const user = userCredential.user.reloadUserInfo;
          dispatch(userAuthFetched(user));
       })
@@ -61,11 +66,11 @@ export const userLogout = async (dispatch, navigate) => {
 
 const googleProvider = new GoogleAuthProvider();
 
-export const userAuthGoogle = async (dispatch, navigate) => {
+export const userAuthGoogle = async (dispatch, navigate, fromPage = '/') => {
    dispatch(userAuthFetching());
    signInWithPopup(auth, googleProvider)
       .then((result) => {
-         navigate('/');
+         navigate(fromPage);
          const user = result.user.reloadUserInfo;
          dispatch(userAuthFetched(user));
       })
@@ -78,11 +83,11 @@ export const userAuthGoogle = async (dispatch, navigate) => {
 
 const githibProvider = new GithubAuthProvider();
 
-export const userAuthGithub = async (dispatch, navigate) => {
+export const userAuthGithub = async (dispatch, navigate, fromPage = '/') => {
    dispatch(userAuthFetching());
    signInWithPopup(auth, githibProvider)
       .then((result) => {
-         navigate('/');
+         navigate(fromPage);
          const user = result.user.reloadUserInfo;
          dispatch(userAuthFetched(user));
       })
@@ -95,11 +100,11 @@ export const userAuthGithub = async (dispatch, navigate) => {
 
 const yahooProvider = new OAuthProvider('yahoo.com');
 
-export const userAuthYahoo = async (dispatch, navigate) => {
+export const userAuthYahoo = async (dispatch, navigate, fromPage = '/') => {
    dispatch(userAuthFetching());
    signInWithPopup(auth, yahooProvider)
       .then((result) => {
-         navigate('/');
+         navigate(fromPage);
          const user = result.user.reloadUserInfo;
          dispatch(userAuthFetched(user));
       })

@@ -17,7 +17,7 @@ import {
    userAuthYahoo,
 } from '../../../firebase/auth';
 
-const FirebaseSocial = () => {
+const FirebaseSocial = ({ fromPage }) => {
    const theme = useTheme();
    const matchDownSM = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -25,15 +25,15 @@ const FirebaseSocial = () => {
    const navigate = useNavigate();
 
    const googleHandler = async () => {
-      await userAuthGoogle(dispatch, navigate);
+      await userAuthGoogle(dispatch, navigate, fromPage);
    };
 
    const githubHandler = async () => {
-      await userAuthGithub(dispatch, navigate);
+      await userAuthGithub(dispatch, navigate, fromPage);
    };
 
    const yahooHandler = async () => {
-      userAuthYahoo(dispatch, navigate);
+      userAuthYahoo(dispatch, navigate, fromPage);
    };
 
    return (

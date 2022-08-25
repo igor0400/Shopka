@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import { useSelector, useDispatch } from 'react-redux';
 import {
@@ -43,6 +43,9 @@ const Cart = () => {
    } = useGetUserCartQuery(userId);
 
    const dispatch = useDispatch();
+   const location = useLocation();
+   const navigate = useNavigate();
+
    const [deleteOneUserCart] = useDeleteOneUserCartMutation();
    const [deleteUserCart] = useDeleteUserCartMutation();
 
@@ -92,6 +95,15 @@ const Cart = () => {
          dispatch(clearDontAuthCart());
       }
       setCartProducts([]);
+   };
+
+   const checkoutCart = () => {
+      if (userAuth) {
+         // записать в redux корзину
+         navigate('/payorder', { state: { from: location } });
+      } else {
+         navigate('/login');
+      }
    };
 
    // render cart
@@ -196,16 +208,15 @@ const Cart = () => {
                            sx={{ cursor: 'pointer' }}
                         />
                      </Typography>
-                     <Link to={userAuth ? '/payorder' : '/login'}>
-                        <Button
-                           variant="contained"
-                           color="success"
-                           size="large"
-                           sx={{ width: '100%', marginTop: '30px' }}
-                        >
-                           Checkout
-                        </Button>
-                     </Link>
+                     <Button
+                        variant="contained"
+                        color="success"
+                        size="large"
+                        sx={{ width: '100%', marginTop: '30px' }}
+                        onClick={checkoutCart}
+                     >
+                        Checkout
+                     </Button>
                   </PaperWrapper>
                </Box>
             </Stack>

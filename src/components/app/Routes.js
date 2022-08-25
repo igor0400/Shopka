@@ -10,21 +10,43 @@ import Orders from '../orders/Orders';
 import OrderPage from '../orders/OrderPage';
 import Liked from '../liked/Liked';
 import Profile from '../profile/Profile';
+import PayOrderPage from '../payOrderPage/PayOrderPage';
+
+import RequireAuth from '../../hoc/RequireAuth';
 
 const AppRoutes = ({ userAuth }) => {
    return (
       <Routes>
-         <Route path="/" element={<Home />} />
+         <Route index element={<Home />} />
          <Route path="cart" element={<Cart />} />
          <Route path="liked" element={<Liked />} />
          <Route path="products/:id" element={<ProductPage />} />
-         {userAuth ? (
-            <>
-               <Route path="profile" element={<Profile />} />
-               <Route path="orders" element={<Orders />} />
-               <Route path="orders/:id" element={<OrderPage />} />
-            </>
-         ) : (
+         <Route
+            path="profile"
+            element={
+               <RequireAuth>
+                  <Profile />
+               </RequireAuth>
+            }
+         />
+         <Route
+            path="orders"
+            element={
+               <RequireAuth>
+                  <Orders />
+               </RequireAuth>
+            }
+         />
+         <Route
+            path="orders/:id"
+            element={
+               <RequireAuth>
+                  <OrderPage />
+               </RequireAuth>
+            }
+         />
+         <Route path="payorder" element={<PayOrderPage />} />
+         {userAuth ? null : (
             <>
                <Route path="register" element={<Register />} />
                <Route path="login" element={<Login />} />
