@@ -1,81 +1,83 @@
-import { Container, Box, Typography, CircularProgress } from '@mui/material';
-import { useGetUserOrdersQuery } from '../../slices/firebaseSlice';
-
-import { useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
 
+import { useSelector } from 'react-redux';
+import { useGetUserOrdersQuery } from '../../slices/firebaseSlice';
+
 import { returnArrfromObj } from '../../utils/supportFunctions';
+import {
+   Container,
+   Box,
+   Typography,
+   CircularProgress,
+   Stack,
+} from '@mui/material';
+import OrdersItem from './OrdersItem';
 
 const Orders = () => {
    const { user } = useSelector((state) => state.user);
    const [orders, setOrders] = useState([]);
+   const [ordersLoaded, setOrdersLoaded] = useState(false);
 
    const userId = user ? user.localId : user;
    const {
       data: userOrders = {},
-      isLoading,
-      isError,
+      isLoading: isOrdersLoading,
+      isError: isOrdersError,
    } = useGetUserOrdersQuery(userId);
 
    useEffect(() => {
-      setOrders(returnArrfromObj(userOrders));
-   }, []);
-
-   const renderOrders = (orders) => {
-      if (isLoading) {
-         return (
-            <Box
-               sx={{
-                  display: 'flex',
-                  margin: '100px auto',
-                  justifyContent: 'center',
-               }}
-            >
-               <CircularProgress />
-            </Box>
-         );
+      if (ordersLoaded) return;
+      if (userOrders && !isOrdersLoading) {
+         setOrders(returnArrfromObj(userOrders));
+         setOrdersLoaded(true);
       }
+   }, [userOrders]);
 
-      if (isError) {
-         return <p>Error :(</p>;
-      }
-
-      if (orders && orders.length !== 0) {
-         return orders.map((item, i) => (
-            <h4 key={i}>
-               {i + 1}. {item.id}
-            </h4>
-         ));
-      } else {
-         return 'not orders yet';
-      }
-   };
-
-   return (
-      <Container maxWidth="xl">
+   if (isOrdersLoading) {
+      return (
          <Box
             sx={{
-               p: { xs: 2, sm: 3, md: 4, xl: 5 },
-               maxWidth: { xs: 400, lg: 700 },
-               margin: { xs: 0, md: '20px auto' },
-               '& > *': {
-                  flexGrow: 1,
-                  flexBasis: '50%',
-               },
-               minHeight: '80vh',
+               display: 'flex',
+               margin: '100px auto',
+               justifyContent: 'center',
             }}
          >
+            <CircularProgress />
+         </Box>
+      );
+   }
+
+   if (isOrdersError) {
+      return <p>Error :(</p>;
+   }
+
+   if (orders && orders.length > 0) {
+      return (
+         <Container maxWidth="sm">
             <Typography
                variant="h4"
-               component="h4"
-               sx={{ textAlign: 'center' }}
+               sx={{
+                  textAlign: 'center',
+                  fontWeight: 700,
+                  paddingBottom: '30px',
+               }}
             >
                Orders
             </Typography>
-            {renderOrders(orders)}
-         </Box>
-      </Container>
-   );
+            <Stack spacing={2}>
+               {orders.map((item) => (
+                  <OrdersItem key={item.id} {...item} />
+               ))}
+            </Stack>
+         </Container>
+      );
+   } else {
+      return (
+         <Container maxWidth="sm">
+            <h3 style={{ textAlign: 'center' }}>Orders is clear</h3>
+         </Container>
+      );
+   }
 };
 
 export default Orders;

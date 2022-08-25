@@ -1,5 +1,4 @@
 import { useEffect, useCallback } from 'react';
-import { Routes, Route } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -16,15 +15,7 @@ import {
 } from '../../slices/firebaseSlice';
 
 import Header from '../header/Header';
-import Home from '../home/Home';
-import ProductPage from '../productPage/ProductPage';
-import Cart from '../cart/Cart';
-import Error404 from '../error404/Error404';
-import Register from '../authentication/Register';
-import Login from '../authentication/Login';
-import Orders from '../orders/Orders';
-import Liked from '../liked/Liked';
-import Profile from '../profile/Profile';
+import AppRoutes from './Routes';
 
 function App() {
    const { user, userAuth, userErrors, dontAuthCart, dontAuthLiked } =
@@ -124,24 +115,7 @@ function App() {
       <div className="App">
          <Header />
          <main style={{ padding: '90px 0 20px' }}>
-            <Routes>
-               <Route path="/" element={<Home />} />
-               <Route path="cart" element={<Cart />} />
-               <Route path="liked" element={<Liked />} />
-               <Route path="products/:id" element={<ProductPage />} />
-               {userAuth ? (
-                  <>
-                     <Route path="profile" element={<Profile />} />
-                     <Route path="orders" element={<Orders />} />
-                  </>
-               ) : (
-                  <>
-                     <Route path="register" element={<Register />} />
-                     <Route path="login" element={<Login />} />
-                  </>
-               )}
-               <Route path="*" element={<Error404 />} />
-            </Routes>
+            <AppRoutes userAuth={userAuth} />
          </main>
          <ToastContainer
             position="bottom-right"

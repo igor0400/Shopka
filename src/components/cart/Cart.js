@@ -7,13 +7,10 @@ import {
    useDeleteUserCartMutation,
    useDeleteOneUserCartMutation,
 } from '../../slices/firebaseSlice';
-import { useGetProductsQuery } from '../../slices/apiSlice';
 import {
    removeFromDontAuthCart,
    clearDontAuthCart,
 } from '../../slices/userSlice';
-
-import { getSomethingItems } from '../../utils/supportFunctions';
 
 import {
    Container,
@@ -29,6 +26,8 @@ import {
 import CartProduct from './CartProduct';
 import InfoIcon from '@mui/icons-material/Info';
 
+import { returnArrfromObj } from '../../utils/supportFunctions';
+
 const Cart = () => {
    const [subTotal, setSubTotal] = useState(0);
    const [cartProducts, setCartProducts] = useState([]);
@@ -39,14 +38,9 @@ const Cart = () => {
 
    const {
       data: userCart = {},
-      isCartLoading,
-      isCartError,
+      isLoading: isCartLoading,
+      isError: isCartError,
    } = useGetUserCartQuery(userId);
-   const {
-      data: products = [],
-      isProductsLoading,
-      isProductsError,
-   } = useGetProductsQuery();
 
    const dispatch = useDispatch();
    const [deleteOneUserCart] = useDeleteOneUserCartMutation();
@@ -56,15 +50,15 @@ const Cart = () => {
       if (cartProductsLoaded) return;
 
       if (userAuth) {
-         if (userCart && products) {
-            setCartProducts(getSomethingItems(products, userCart));
+         if (userCart) {
+            setCartProducts(returnArrfromObj(userCart));
          }
       } else {
-         setCartProducts(getSomethingItems(products, dontAuthCart));
+         setCartProducts(returnArrfromObj(dontAuthCart));
       }
 
       setCartProductsLoaded(true);
-   }, [products, userCart, dontAuthCart]);
+   }, [userCart, dontAuthCart]);
 
    useEffect(() => {
       let sum = 0;
@@ -101,7 +95,7 @@ const Cart = () => {
    };
 
    // render cart
-   if (isCartLoading || isProductsLoading) {
+   if (isCartLoading) {
       return (
          <Box
             sx={{
@@ -115,7 +109,7 @@ const Cart = () => {
       );
    }
 
-   if (isCartError || isProductsError) {
+   if (isCartError) {
       return <p>Error :(</p>;
    }
 

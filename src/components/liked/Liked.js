@@ -6,22 +6,18 @@ import {
    useDeleteOneUserLikeMutation,
    usePostOneUserCartMutation,
 } from '../../slices/firebaseSlice';
-import { useGetProductsQuery } from '../../slices/apiSlice';
-import { removeFromDontAuthLiked, addDontAuthCart } from '../../slices/userSlice';
+import {
+   removeFromDontAuthLiked,
+   addDontAuthCart,
+} from '../../slices/userSlice';
 
-import { getSomethingItems } from '../../utils/supportFunctions';
+import { returnArrfromObj } from '../../utils/supportFunctions';
 
 import Grid from '@mui/material/Unstable_Grid2';
 
 import LikedProduct from './LikedProduct';
 
-import {
-   Container,
-   Box,
-   Typography,
-   CircularProgress,
-   Stack,
-} from '@mui/material';
+import { Container, Box, Typography, CircularProgress } from '@mui/material';
 
 const Liked = () => {
    const { user, userAuth, dontAuthLiked } = useSelector((state) => state.user);
@@ -31,14 +27,9 @@ const Liked = () => {
    const userId = user ? user.localId : user;
    const {
       data: userLiked = {},
-      isLikedLoading,
-      isLikedError,
+      isLoading: isLikedLoading,
+      isError: isLikedError,
    } = useGetUserLikedQuery(userId);
-   const {
-      data: products = [],
-      isProductsLoading,
-      isProductsError,
-   } = useGetProductsQuery();
 
    const dispatch = useDispatch();
    const [deleteOneUserLike] = useDeleteOneUserLikeMutation();
@@ -48,15 +39,15 @@ const Liked = () => {
       if (likedLoaded) return;
 
       if (userAuth) {
-         if (userLiked && products) {
-            setLiked(getSomethingItems(products, userLiked));
+         if (userLiked) {
+            setLiked(returnArrfromObj(userLiked));
          }
       } else {
-         setLiked(getSomethingItems(products, dontAuthLiked));
+         setLiked(returnArrfromObj(dontAuthLiked));
       }
 
       setLikedLoaded(true);
-   }, [products, userLiked, dontAuthLiked]);
+   }, [userLiked, dontAuthLiked]);
 
    const deleteLikedItem = useCallback((value) => {
       deleteOneUserLike(value);
@@ -71,24 +62,24 @@ const Liked = () => {
       } else {
          dispatch(removeFromDontAuthLiked(id));
       }
-      if (liked === 1) setLiked([]);
+      if (liked.length === 1) setLiked([]);
       setLikedLoaded(false);
    };
 
-   const handleAddToCart = (id) => {
+   const handleAddToCart = (item) => {
       if (userAuth) {
-         postCartItem({ userId, itemId: id, data: { id, amount: 1 } });
+         postCartItem({ userId, itemId: item.id, data: { ...item, amount: 1 } });
       } else {
-         dispatch(addDontAuthCart(id));
+         dispatch(addDontAuthCart(item.id));
       }
    };
 
-   const handleMoveToCart = (id) => {
-      handleRemoveFromLiked(id);
-      handleAddToCart(id);
+   const handleMoveToCart = (item) => {
+      handleRemoveFromLiked(item.id);
+      handleAddToCart(item);
    };
 
-   if (isLikedLoading || isProductsLoading) {
+   if (isLikedLoading) {
       return (
          <Box
             sx={{
@@ -102,7 +93,7 @@ const Liked = () => {
       );
    }
 
-   if (isLikedError || isProductsError) {
+   if (isLikedError) {
       return <p>Error :(</p>;
    }
 
@@ -122,7 +113,7 @@ const Liked = () => {
                sx={{ marginTop: '20px' }}
             >
                {liked.map((item, i) => (
-                  <Grid sx key={i}>
+                  <Grid key={i}>
                      <LikedProduct
                         {...item}
                         key={i}

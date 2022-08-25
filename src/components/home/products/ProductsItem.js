@@ -24,21 +24,15 @@ import {
    removeFromDontAuthLiked,
 } from '../../../slices/userSlice';
 
-const ProductsItem = ({
-   name,
-   imgs,
-   description,
-   price,
-   rating,
-   subDescription,
-   id,
-}) => {
+const ProductsItem = (product) => {
    const [cardElevation, setCardElevation] = useState(0);
    const [imgLoad, setImgLoad] = useState(false);
    const [isItemInLiked, setIsItemInLiked] = useState(false);
 
    const { user, userAuth, dontAuthLiked } = useSelector((state) => state.user);
    const userId = user ? user.localId : user;
+   const { name, imgs, description, price, rating, subDescription, id } =
+      product;
 
    const {
       data: userLiked = {},
@@ -73,9 +67,13 @@ const ProductsItem = ({
 
    const handleAddToLiked = (id) => {
       if (userAuth) {
-         postLikedItem({ userId, itemId: id, data: { id } });
+         postLikedItem({
+            userId,
+            itemId: id,
+            data: product,
+         });
       } else {
-         dispatch(addDontAuthLiked(id));
+         dispatch(addDontAuthLiked(product));
       }
       setIsItemInLiked(true);
    };

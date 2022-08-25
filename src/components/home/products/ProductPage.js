@@ -18,8 +18,8 @@ import {
    addDontAuthLiked,
    removeFromDontAuthCart,
    removeFromDontAuthLiked,
-} from '../../slices/userSlice';
-import { useGetProductByIdQuery } from '../../slices/apiSlice';
+} from '../../../slices/userSlice';
+import { useGetProductByIdQuery } from '../../../slices/apiSlice';
 import {
    useGetUserCartQuery,
    useGetUserLikedQuery,
@@ -27,7 +27,7 @@ import {
    usePostOneUserLikeMutation,
    useDeleteOneUserCartMutation,
    useDeleteOneUserLikeMutation,
-} from '../../slices/firebaseSlice';
+} from '../../../slices/firebaseSlice';
 
 const ProductPage = () => {
    const [isItemInCart, setIsItemInCart] = useState(false);
@@ -102,20 +102,20 @@ const ProductPage = () => {
       deleteOneUserLike(value);
    }, []);
 
-   const handleAddToCart = (id) => {
+   const handleAddToCart = () => {
       if (userAuth) {
-         postCartItem({ userId, itemId: id, data: { id, amount: 1 } });
+         postCartItem({ userId, itemId: product.id, data: { ...product, amount: 1 } });
       } else {
-         dispatch(addDontAuthCart(id));
+         dispatch(addDontAuthCart({ ...product, amount: 1 }));
       }
       setIsItemInCart(true);
    };
 
-   const handleAddToLiked = (id) => {
+   const handleAddToLiked = () => {
       if (userAuth) {
-         postLikedItem({ userId, itemId: id, data: { id } });
+         postLikedItem({ userId, itemId: product.id, data: product });
       } else {
-         dispatch(addDontAuthLiked(id));
+         dispatch(addDontAuthLiked({ ...product, amount: 1 }));
       }
       setIsItemInLiked(true);
    };
@@ -283,7 +283,7 @@ const ProductPage = () => {
                      onClick={() =>
                         isItemInCart
                            ? handleRemoveFromCart(id)
-                           : handleAddToCart(id)
+                           : handleAddToCart()
                      }
                   >
                      {isItemInCart ? 'Remove from cart' : 'To cart'}
@@ -294,7 +294,7 @@ const ProductPage = () => {
                      onClick={() =>
                         isItemInLiked
                            ? handleRemoveFromLiked(id)
-                           : handleAddToLiked(id)
+                           : handleAddToLiked()
                      }
                   >
                      {isItemInLiked ? 'Remove from liked' : 'To liked'}

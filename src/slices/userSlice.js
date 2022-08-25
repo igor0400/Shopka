@@ -61,18 +61,16 @@ const userSlice = createSlice({
       addDontAuthCart: (state, action) => {
          const { dontAuthCart } = state;
          let findedItem = false;
+         const { id } = action.payload;
 
          for (let key in dontAuthCart) {
-            if (key === action.payload) {
+            if (key === id) {
                findedItem = key;
             }
          }
 
          if (!findedItem) {
-            state.dontAuthCart[action.payload] = {
-               id: action.payload,
-               amount: 1,
-            };
+            state.dontAuthCart[id] = { ...action.payload, amount: 1 };
          }
       },
       changeDontAuthCartItemAmount: (state, action) => {
@@ -91,15 +89,16 @@ const userSlice = createSlice({
       addDontAuthLiked: (state, action) => {
          const { dontAuthLiked } = state;
          let findedItem = false;
+         const { id } = action.payload;
 
          for (let key in dontAuthLiked) {
-            if (key === action.payload) {
+            if (key === id) {
                findedItem = key;
             }
          }
 
          if (!findedItem) {
-            state.dontAuthLiked[action.payload] = { id: action.payload };
+            state.dontAuthLiked[id] = action.payload;
          }
       },
       removeFromDontAuthLiked: (state, action) => {

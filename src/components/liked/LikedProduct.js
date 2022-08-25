@@ -5,9 +5,12 @@ import { Skeleton, Button, Typography, Stack, IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 const LikedProduct = ({
-   imgs,
    name,
+   imgs,
+   description,
    price,
+   rating,
+   subDescription,
    id,
    handleRemoveFromLiked,
    handleMoveToCart,
@@ -73,7 +76,17 @@ const LikedProduct = ({
                   borderWidth: '3px',
                },
             }}
-            onClick={() => handleMoveToCart(id)}
+            onClick={() =>
+               handleMoveToCart({
+                  name,
+                  imgs,
+                  description,
+                  price,
+                  rating,
+                  subDescription,
+                  id,
+               })
+            }
          >
             Move to cart
          </Button>
