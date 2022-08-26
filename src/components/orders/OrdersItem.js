@@ -4,7 +4,7 @@ import { returnArrfromObj } from '../../utils/supportFunctions';
 import { Box, Typography, Divider, Stack, Button, Paper } from '@mui/material';
 import OrdersItemImg from './OrdersItemImg';
 
-const OrdersItem = ({ date, items, id }) => {
+const OrdersItem = ({ date, items, id, numberId }) => {
    const orderedItems = returnArrfromObj(items);
    const slicedItems = orderedItems.slice(0, 3);
 
@@ -34,8 +34,8 @@ const OrdersItem = ({ date, items, id }) => {
             sx={{ justifyContent: 'space-between', paddingTop: '10px' }}
          >
             <Box>
-               <Typography variant="subtitle1">Order id: {id}</Typography>
-               <Typography variant="subtitle1">Date: {date}</Typography>
+               <Typography variant="subtitle1">Order num.: {numberId}</Typography>
+               <Typography variant="subtitle1">UTC date: {date}</Typography>
             </Box>
             <Button
                variant="outlined"

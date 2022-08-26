@@ -66,19 +66,19 @@ const Profile = () => {
                      </ListItemButton>
                   </ListItem>
                   <ListItem disablePadding>
-                     <ListItemButton component={Link} to="/liked">
-                        <ListItemIcon>
-                           <FavoriteIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Liked" />
-                     </ListItemButton>
-                  </ListItem>
-                  <ListItem disablePadding>
                      <ListItemButton component={Link} to="/cart">
                         <ListItemIcon>
                            <ShoppingCartIcon />
                         </ListItemIcon>
                         <ListItemText primary="Cart" />
+                     </ListItemButton>
+                  </ListItem>
+                  <ListItem disablePadding>
+                     <ListItemButton component={Link} to="/liked">
+                        <ListItemIcon>
+                           <FavoriteIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Liked" />
                      </ListItemButton>
                   </ListItem>
                   <Divider />

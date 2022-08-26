@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useSelector, useDispatch } from 'react-redux';
 import {
@@ -11,7 +11,7 @@ import {
    removeFromDontAuthCart,
    clearDontAuthCart,
 } from '../../slices/userSlice';
-import { changePayedOrder } from '../../slices/payOrderSlice';
+import { changePayedCart } from '../../slices/payOrderSlice';
 
 import {
    Container,
@@ -100,7 +100,7 @@ const Cart = () => {
 
    const checkoutCart = () => {
       if (userAuth) {
-         dispatch(changePayedOrder(userCart));
+         dispatch(changePayedCart({ cart: userCart, subTotal: +subTotal }));
          navigate('/payorder', { state: { from: location } });
       } else {
          navigate('/login', { state: { from: location } });

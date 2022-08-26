@@ -1,8 +1,16 @@
 import { useCallback, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { Navigate, useLocation, Link as RouterLink } from 'react-router-dom';
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+   usePostOneUserOrderMutation,
+   useDeleteUserCartMutation,
+} from '../../slices/firebaseSlice';
+import { clearPayedCart } from '../../slices/payOrderSlice';
+
+import { getDateTime } from '../../utils/supportFunctions';
+import { toast } from 'react-toastify';
 
 // material-ui
 import {
@@ -22,18 +30,93 @@ import {
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 
+// icons
+import applePay from '../../images/icons/ApplePay.svg';
+import discover from '../../images/icons/Discover.svg';
+import googlePay from '../../images/icons/GooglePay.svg';
+import maestro from '../../images/icons/Maestro.svg';
+import masterCard from '../../images/icons/MasterCard.svg';
+import payPal from '../../images/icons/PayPal.svg';
+import visa from '../../images/icons/Visa.svg';
+
 const PayOrderPage = () => {
-   const [paymentChacked, setPaymentChacked] = useState('sistem')
-   const { userAuth } = useSelector((state) => state.user);
+   const [paymentChacked, setPaymentChacked] = useState('Payment Systems');
+   const { user, userAuth } = useSelector((state) => state.user);
+   const { payedCart } = useSelector((state) => state.payOrder);
+
+   const userId = user ? user.localId : user;
 
    const location = useLocation();
+   const navigate = useNavigate();
+   const dispatch = useDispatch();
 
-   if (!userAuth || location.state?.from?.pathname !== '/cart') {
+   const [postOneUserOrder] = usePostOneUserOrderMutation();
+   const [deleteUserCart] = useDeleteUserCartMutation();
+
+   const postOrder = useCallback((value) => {
+      postOneUserOrder(value);
+   }, []);
+   const deleteCart = useCallback((value) => {
+      deleteUserCart(value);
+   }, []);
+
+   console.log(payedCart);
+
+   if (
+      payedCart === {} ||
+      !userAuth ||
+      location.state?.from?.pathname !== '/cart'
+   ) {
       return <Navigate to="/" />;
    }
 
+   const handlePayOrder = (address) => {
+      postOrder({
+         userId,
+         itemId: uuidv4(),
+         data: {
+            date: getDateTime(),
+            id: uuidv4(),
+            items: payedCart.cart,
+            status: 'accepted',
+            paymentMethod: paymentChacked,
+            address,
+            sum: {
+               subTotal: payedCart.subTotal,
+               total: payedCart.subTotal + 10,
+               delivery: 10,
+            },
+            numberId: Math.random().toFixed(10) * Math.pow(10, 10),
+         },
+      });
+      deleteCart({ userId });
+      dispatch(clearPayedCart());
+      navigate('/');
+      toast.success('Orders is accepted');
+   };
+
    const phoneRegExp =
       /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
+
+   const paymentMethods = [
+      {
+         method: 'Payment Systems',
+         icons: [
+            { url: applePay, alt: 'ApplePay' },
+            { url: googlePay, alt: 'GooglePay' },
+            { url: payPal, alt: 'PayPal' },
+         ],
+      },
+      {
+         method: 'Credit Card',
+         icons: [
+            { url: masterCard, alt: 'MasterCard' },
+            { url: maestro, alt: 'Maestro' },
+            { url: visa, alt: 'Visa' },
+            { url: discover, alt: 'Discover' },
+         ],
+      },
+   ];
 
    return (
       <Container maxWidth="sm">
@@ -72,6 +155,7 @@ const PayOrderPage = () => {
                { setErrors, setStatus, setSubmitting }
             ) => {
                try {
+                  handlePayOrder(values);
                   setStatus({ success: false });
                   setSubmitting(false);
                } catch (err) {
@@ -120,7 +204,6 @@ const PayOrderPage = () => {
                            )}
                         </Stack>
                      </Grid>
-
                      <Grid item xs={12}>
                         <Stack spacing={1}>
                            <InputLabel htmlFor="lastName-login">
@@ -149,7 +232,6 @@ const PayOrderPage = () => {
                            )}
                         </Stack>
                      </Grid>
-
                      <Grid item xs={12}>
                         <Stack spacing={1}>
                            <InputLabel htmlFor="phone-login">Phone</InputLabel>
@@ -174,7 +256,6 @@ const PayOrderPage = () => {
                            )}
                         </Stack>
                      </Grid>
-
                      <Grid item xs={12}>
                         <Stack spacing={1}>
                            <InputLabel htmlFor="address-login">
@@ -201,7 +282,6 @@ const PayOrderPage = () => {
                            )}
                         </Stack>
                      </Grid>
-
                      <Grid item xs={12}>
                         <Stack spacing={1}>
                            <InputLabel htmlFor="city-login">City</InputLabel>
@@ -226,7 +306,6 @@ const PayOrderPage = () => {
                            )}
                         </Stack>
                      </Grid>
-
                      <Grid item xs={12}>
                         <Stack spacing={1}>
                            <InputLabel htmlFor="country-login">
@@ -253,7 +332,6 @@ const PayOrderPage = () => {
                            )}
                         </Stack>
                      </Grid>
-
                      <Grid item xs={12}>
                         <Stack spacing={1}>
                            <InputLabel htmlFor="postCode-login">
@@ -282,7 +360,6 @@ const PayOrderPage = () => {
                            )}
                         </Stack>
                      </Grid>
-
                      <Grid item xs={12}>
                         <Stack spacing={1}>
                            <InputLabel htmlFor="paymentMethod-login">
@@ -292,42 +369,47 @@ const PayOrderPage = () => {
                               container
                               columns={9}
                               sx={{ justifyContent: 'space-between' }}
+                              gap={1}
                            >
-                              <Grid
-                                 item
-                                 xs={4}
-                                 sx={{ background: '#D8E6FF' }}
-                                 onClick={() => setPaymentChacked('sistem')}
-                              >
-                                 <Stack direction="row" spacing={1}>
-                                    <Checkbox
-                                       checked={paymentChacked === 'sistem'}
-                                    />
-                                    <Box>
-                                       <Typography variant='body1' component='p'>Pay by Payment Systems</Typography>
-                                       <Stack direction='row'>
-                                          {/* сюда картинки систем */}
-                                       </Stack>
-                                    </Box>
-                                 </Stack>
-                              </Grid>
-                              <Grid
-                                 item
-                                 xs={4}
-                                 sx={{ background: '#D8E6FF' }}
-                                 onClick={() => setPaymentChacked('card')}
-                              >
-                                 <Stack direction="row" spacing={1}>
-                                    <Checkbox
-                                       checked={paymentChacked === 'card'}
-                                    />
-                                    <Box>Pay by Credit Card</Box>
-                                 </Stack>
-                              </Grid>
+                              {paymentMethods.map(({ method, icons }, i) => (
+                                 <Grid
+                                    key={i}
+                                    item
+                                    xs={12}
+                                    sx={{
+                                       background: '#D8E6FF',
+                                       cursor: 'pointer',
+                                       padding: '10px',
+                                    }}
+                                    onClick={() => setPaymentChacked(method)}
+                                 >
+                                    <Stack direction="row" spacing={1}>
+                                       <Checkbox
+                                          checked={paymentChacked === method}
+                                       />
+                                       <Box>
+                                          <Typography
+                                             variant="body1"
+                                             sx={{ paddingBottom: '5px' }}
+                                          >
+                                             Pay by {method}
+                                          </Typography>
+                                          <Stack direction="row" spacing={0.5}>
+                                             {icons.map(({ url, alt }, i) => (
+                                                <img
+                                                   src={url}
+                                                   alt={alt}
+                                                   key={i}
+                                                />
+                                             ))}
+                                          </Stack>
+                                       </Box>
+                                    </Stack>
+                                 </Grid>
+                              ))}
                            </Grid>
                         </Stack>
                      </Grid>
-
                      {errors.submit && (
                         <Grid item xs={12}>
                            <FormHelperText error>
@@ -335,6 +417,16 @@ const PayOrderPage = () => {
                            </FormHelperText>
                         </Grid>
                      )}
+                     <Grid item xs={12}>
+                        <Typography variant="body2">Delivery $10</Typography>
+                     </Grid>
+
+                     <Grid item xs={12}>
+                        <Typography variant="body1">
+                           Total: {payedCart.subTotal + 10}
+                        </Typography>
+                     </Grid>
+
                      <Grid item xs={12}>
                         <Button
                            disableElevation

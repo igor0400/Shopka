@@ -3,25 +3,25 @@ import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
 const payOrderAdapter = createEntityAdapter();
 
 const initialState = payOrderAdapter.getInitialState({
-   payedOrder: {},
+   payedCart: {},
 });
 
 const payOrderSlice = createSlice({
    name: 'payOrder',
    initialState,
    reducers: {
-      changePayedOrder: (state, action) => {
-         state.payedOrder = action.payload;
+      changePayedCart: (state, action) => {
+         state.payedCart = action.payload;
       },
-      clearPayedOrder: (state) => {
-         state.payedOrder = {};
+      clearPayedCart: (state) => {
+         state.payedCart = {};
       },
    },
 });
 
 const { actions, reducer } = payOrderSlice;
 
-export const { changePayedOrder, clearPayedOrder } = actions;
+export const { changePayedCart, clearPayedCart } = actions;
 
 export default reducer;
 

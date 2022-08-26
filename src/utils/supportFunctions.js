@@ -7,3 +7,21 @@ export const returnArrfromObj = (obj) => {
 
    return arr;
 };
+
+function plusZero(value) {
+   if (value < 10) {
+      value = '0' + value;
+   }
+   return value;
+}
+
+export const getDateTime = () => {
+   const now = new Date();
+   const day = plusZero(now.getUTCDate());
+   const month = plusZero(now.getUTCMonth() + 1);
+   const year = now.getUTCFullYear();
+   const hours = plusZero(now.getUTCHours());
+   const minutes = plusZero(now.getUTCMinutes());
+
+   return `${hours}:${minutes} ${day}.${month}.${year} `;
+};
