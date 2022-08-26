@@ -24,7 +24,7 @@ const Liked = () => {
    const [liked, setLiked] = useState([]);
    const [likedLoaded, setLikedLoaded] = useState(false);
 
-   const userId = user ? user.localId : user;
+   const userId = user ? user.localId : null;
    const {
       data: userLiked = {},
       isLoading: isLikedLoading,

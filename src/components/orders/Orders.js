@@ -18,7 +18,7 @@ const Orders = () => {
    const [orders, setOrders] = useState([]);
    const [ordersLoaded, setOrdersLoaded] = useState(false);
 
-   const userId = user ? user.localId : user;
+   const userId = user ? user.localId : null;
    const {
       data: userOrders = {},
       isLoading: isOrdersLoading,

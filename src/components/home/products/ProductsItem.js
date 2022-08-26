@@ -30,7 +30,7 @@ const ProductsItem = (product) => {
    const [isItemInLiked, setIsItemInLiked] = useState(false);
 
    const { user, userAuth, dontAuthLiked } = useSelector((state) => state.user);
-   const userId = user ? user.localId : user;
+   const userId = user ? user.localId : null;
    const { name, imgs, description, price, rating, subDescription, id } =
       product;
 

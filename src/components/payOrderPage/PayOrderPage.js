@@ -44,7 +44,7 @@ const PayOrderPage = () => {
    const { user, userAuth } = useSelector((state) => state.user);
    const { payedCart } = useSelector((state) => state.payOrder);
 
-   const userId = user ? user.localId : user;
+   const userId = user ? user.localId : null;
 
    const location = useLocation();
    const navigate = useNavigate();
@@ -71,12 +71,14 @@ const PayOrderPage = () => {
    }
 
    const handlePayOrder = (address) => {
+      const orderId = uuidv4();
+
       postOrder({
          userId,
-         itemId: uuidv4(),
+         itemId: orderId,
          data: {
             date: getDateTime(),
-            id: uuidv4(),
+            id: orderId,
             items: payedCart.cart,
             status: 'accepted',
             paymentMethod: paymentChacked,

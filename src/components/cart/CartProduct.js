@@ -79,7 +79,7 @@ function SelectAmount({ amount, itemId }) {
    const [qty, setQty] = useState(amount);
    const { user, userAuth } = useSelector((state) => state.user);
 
-   const userId = user ? user.localId : user;
+   const userId = user ? user.localId : null;
 
    const dispatch = useDispatch();
    const [postOneUserCartAmount] = usePostOneUserCartAmountMutation();

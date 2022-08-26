@@ -25,3 +25,11 @@ export const getDateTime = () => {
 
    return `${hours}:${minutes} ${day}.${month}.${year} `;
 };
+
+export const getObjLength = (obj) => {
+   let count = 0;
+   for (let key in obj) {
+      count += 1;
+   }
+   return count;
+};

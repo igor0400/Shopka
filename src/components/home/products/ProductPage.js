@@ -40,23 +40,23 @@ const ProductPage = () => {
    const { user, userAuth, dontAuthCart, dontAuthLiked } = useSelector(
       (state) => state.user
    );
-   const userId = user ? user.localId : user;
+   const userId = user ? user.localId : null;
 
    const {
       data: product = {},
-      isProductUninitialized,
-      isProductLoading,
-      isProductError,
+      isUninitialized: isProductUninitialized,
+      isLoading: isProductLoading,
+      isError: isProductError,
    } = useGetProductByIdQuery(productId);
    const {
       data: userCart = [],
-      isCartLoading,
-      isCartError,
+      isLoading: isCartLoading,
+      isError: isCartError,
    } = useGetUserCartQuery(userId);
    const {
       data: userLiked = [],
-      isLikedLoading,
-      isLikedError,
+      isLoading: isLikedLoading,
+      isError: isLikedError,
    } = useGetUserLikedQuery(userId);
 
    useEffect(() => {
@@ -104,7 +104,11 @@ const ProductPage = () => {
 
    const handleAddToCart = () => {
       if (userAuth) {
-         postCartItem({ userId, itemId: product.id, data: { ...product, amount: 1 } });
+         postCartItem({
+            userId,
+            itemId: product.id,
+            data: { ...product, amount: 1 },
+         });
       } else {
          dispatch(addDontAuthCart({ ...product, amount: 1 }));
       }

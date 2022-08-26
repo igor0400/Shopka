@@ -35,7 +35,7 @@ const Cart = () => {
    const [cartProductsLoaded, setCartProductsLoaded] = useState(false);
    const { user, userAuth, dontAuthCart } = useSelector((state) => state.user);
 
-   const userId = user ? user.localId : user;
+   const userId = user ? user.localId : null;
 
    const {
       data: userCart = {},

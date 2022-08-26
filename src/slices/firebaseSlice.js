@@ -12,6 +12,11 @@ export const firebaseSlice = createApi({
          query: (userId) => `/users/${userId}/orders.json`,
          providesTags: ['UserOrders'],
       }),
+      getOneUserOrder: builder.query({
+         query: ({ userId, orderId }) =>
+            `/users/${userId}/orders/${orderId}.json`,
+         providesTags: ['UserOrders'],
+      }),
       postOneUserOrder: builder.mutation({
          query: ({ userId, itemId, data }) => ({
             url: `/users/${userId}/orders/${itemId}.json`,
@@ -101,6 +106,7 @@ export const firebaseSlice = createApi({
 
 export const {
    useGetUserOrdersQuery,
+   useGetOneUserOrderQuery,
    useGetUserLikedQuery,
    usePostUserLikedMutation,
    useGetUserCartQuery,
@@ -112,5 +118,5 @@ export const {
    useDeleteOneUserLikeMutation,
    useDeleteUserCartMutation,
    useDeleteOneUserCartMutation,
-   usePostOneUserCartAmountMutation
+   usePostOneUserCartAmountMutation,
 } = firebaseSlice;
