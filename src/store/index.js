@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 
 import filters from '../slices/filtersSlice';
 import user from '../slices/userSlice';
+import payOrder from '../slices/payOrderSlice';
 import { apiSlice } from '../slices/apiSlice';
 import { firebaseSlice } from '../slices/firebaseSlice';
 
@@ -19,6 +20,7 @@ const store = configureStore({
    reducer: {
       filters,
       user,
+      payOrder,
       [apiSlice.reducerPath]: apiSlice.reducer,
       [firebaseSlice.reducerPath]: firebaseSlice.reducer,
    },
@@ -26,7 +28,7 @@ const store = configureStore({
       getDefaultMiddleware().concat(
          stringMiddleware,
          apiSlice.middleware,
-         firebaseSlice.middleware
+         firebaseSlice.middleware,
       ),
    devTools: process.env.NODE_ENV !== 'production',
 });

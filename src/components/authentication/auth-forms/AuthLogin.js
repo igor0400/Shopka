@@ -4,9 +4,7 @@ import { Link as RouterLink } from 'react-router-dom';
 // material-ui
 import {
    Button,
-   Checkbox,
    Divider,
-   FormControlLabel,
    FormHelperText,
    Grid,
    Link,
@@ -32,8 +30,6 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
 
 const AuthLogin = () => {
-   const [checked, setChecked] = useState(false);
-
    const [showPassword, setShowPassword] = useState(false);
    const handleClickShowPassword = () => {
       setShowPassword(!showPassword);
@@ -156,40 +152,15 @@ const AuthLogin = () => {
                      </Stack>
                   </Grid>
 
-                  <Grid item xs={12} sx={{ mt: -1 }}>
-                     <Stack
-                        direction="row"
-                        justifyContent="space-between"
-                        alignItems="center"
-                        spacing={2}
+                  <Grid item xs={12} sx={{ mt: -1, textAlign: 'right' }}>
+                     <Link
+                        variant="h6"
+                        component={RouterLink}
+                        to=""
+                        color="text.primary"
                      >
-                        <FormControlLabel
-                           control={
-                              <Checkbox
-                                 checked={checked}
-                                 onChange={(event) =>
-                                    setChecked(event.target.checked)
-                                 }
-                                 name="checked"
-                                 color="primary"
-                                 size="small"
-                              />
-                           }
-                           label={
-                              <Typography variant="h6">
-                                 Keep me sign in
-                              </Typography>
-                           }
-                        />
-                        <Link
-                           variant="h6"
-                           component={RouterLink}
-                           to=""
-                           color="text.primary"
-                        >
-                           Forgot Password?
-                        </Link>
-                     </Stack>
+                        Forgot Password?
+                     </Link>
                   </Grid>
                   {errors.submit && (
                      <Grid item xs={12}>

@@ -11,6 +11,7 @@ import {
    removeFromDontAuthCart,
    clearDontAuthCart,
 } from '../../slices/userSlice';
+import { changePayedOrder } from '../../slices/payOrderSlice';
 
 import {
    Container,
@@ -53,14 +54,14 @@ const Cart = () => {
       if (cartProductsLoaded) return;
 
       if (userAuth) {
-         if (userCart) {
+         if (userCart && !isCartLoading) {
             setCartProducts(returnArrfromObj(userCart));
+            setCartProductsLoaded(true);
          }
       } else {
          setCartProducts(returnArrfromObj(dontAuthCart));
+         setCartProductsLoaded(true);
       }
-
-      setCartProductsLoaded(true);
    }, [userCart, dontAuthCart]);
 
    useEffect(() => {
@@ -99,10 +100,10 @@ const Cart = () => {
 
    const checkoutCart = () => {
       if (userAuth) {
-         // записать в redux корзину
+         dispatch(changePayedOrder(userCart));
          navigate('/payorder', { state: { from: location } });
       } else {
-         navigate('/login');
+         navigate('/login', { state: { from: location } });
       }
    };
 
