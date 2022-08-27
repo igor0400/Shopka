@@ -1,5 +1,10 @@
 import { useLocation } from 'react-router-dom';
 
+import { useSelector } from 'react-redux';
+import { useGetOneUserOrderQuery } from '../../slices/firebaseSlice';
+
+import { returnArrfromObj } from '../../utils/supportFunctions';
+
 import {
    Container,
    Typography,
@@ -8,12 +13,9 @@ import {
    Box,
    CircularProgress,
    Divider,
+   Grid,
 } from '@mui/material';
-
-import { useSelector } from 'react-redux';
-import { useGetOneUserOrderQuery } from '../../slices/firebaseSlice';
-
-import { getObjLength } from '../../utils/supportFunctions';
+import OrderPageItem from './OrderPageItem';
 
 const OrderPage = () => {
    const { user } = useSelector((state) => state.user);
@@ -50,9 +52,18 @@ const OrderPage = () => {
       return <h4>Error</h4>;
    }
 
-   const { numberId, address: objAddress, status, items } = order;
+   const {
+      numberId,
+      address: objAddress,
+      status,
+      items,
+      paymentMethod,
+      sum,
+   } = order;
    const { firstName, lastName, address, city, postCode, country, phone } =
       objAddress;
+
+   const arrOfItems = returnArrfromObj(items);
 
    return (
       <Container maxWidth="md">
@@ -117,13 +128,68 @@ const OrderPage = () => {
                      Order {status}
                   </Typography>
                   <Typography variant="body1" color="GrayText">
-                     {getObjLength(items)} items
+                     {arrOfItems.length} items
                   </Typography>
                </Stack>
 
                <Divider sx={{ borderBottomWidth: '2px', margin: '10px 0' }} />
 
-               {/* сюда рендер товаров (сделать как отдельный компонент) */}
+               <Grid container spacing={3}>
+                  {arrOfItems.map((item, i) => (
+                     <Grid item>
+                        <OrderPageItem {...item} key={i} />
+                     </Grid>
+                  ))}
+               </Grid>
+            </PaperWrapper>
+            <PaperWrapper>
+               <Typography
+                  variant="h6"
+                  sx={{ textTransform: 'uppercase', fontWeight: 700 }}
+               >
+                  Payment method
+               </Typography>
+               <Divider sx={{ borderBottomWidth: '2px', margin: '10px 0' }} />
+               <Typography variant="subtitle1" color="GrayText">
+                  {paymentMethod}
+               </Typography>
+            </PaperWrapper>
+            <PaperWrapper>
+               <Typography
+                  variant="h6"
+                  sx={{ textTransform: 'uppercase', fontWeight: 700 }}
+               >
+                  Order total
+               </Typography>
+               <Divider sx={{ borderBottomWidth: '2px', margin: '10px 0' }} />
+               <Typography
+                  variant="subtitle1"
+                  color="GrayText"
+                  sx={{
+                     fontWeight: 500,
+                     textTransform: 'uppercase',
+                     paddingBottom: '10px'
+                  }}
+               >
+                  Sub-total: ${sum.subTotal}
+               </Typography>
+               <Typography
+                  variant="subtitle1"
+                  color="GrayText"
+                  sx={{
+                     fontWeight: 500,
+                     textTransform: 'uppercase',
+                  }}
+               >
+                  Delivery: $10
+               </Typography>
+               <Divider sx={{ borderBottomWidth: '2px', margin: '10px 0' }} />
+               <Typography
+                  variant="h6"
+                  sx={{ fontWeight: 700, textTransform: 'uppercase' }}
+               >
+                  Total: ${sum.total}
+               </Typography>
             </PaperWrapper>
          </Stack>
       </Container>
