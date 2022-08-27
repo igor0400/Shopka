@@ -5,7 +5,9 @@ const RequireAuth = ({ children }) => {
    const { userAuth } = useSelector((state) => state.user);
    const location = useLocation();
 
-   if (!userAuth) {
+   const isUserAuth = userAuth || localStorage.getItem('user');
+
+   if (!isUserAuth) {
       return <Navigate to="/login" state={{ from: location }} />;
    }
 

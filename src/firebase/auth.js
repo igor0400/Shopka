@@ -18,6 +18,10 @@ import {
    userLogoutFetchingError,
 } from '../slices/userSlice';
 
+const setLocalStorageUser = (user) => {
+   localStorage.setItem('user', JSON.stringify(user));
+};
+
 export const userRegister = async (dispatch, navigate, { email, password }) => {
    dispatch(userAuthFetching());
    await createUserWithEmailAndPassword(auth, email, password)
@@ -25,6 +29,7 @@ export const userRegister = async (dispatch, navigate, { email, password }) => {
          navigate('/');
          const user = userCredential.user.reloadUserInfo;
          dispatch(userAuthFetched(user));
+         setLocalStorageUser(user);
       })
       .catch((error) => {
          const errorMessage = error.message;
@@ -44,6 +49,7 @@ export const userLogin = async (
          navigate(fromPage, { replace: true });
          const user = userCredential.user.reloadUserInfo;
          dispatch(userAuthFetched(user));
+         setLocalStorageUser(user);
       })
       .catch((error) => {
          const errorMessage = error.message;
@@ -57,6 +63,7 @@ export const userLogout = async (dispatch, navigate) => {
       .then(() => {
          navigate('/');
          dispatch(userLogoutFetched());
+         localStorage.removeItem('user');
       })
       .catch((error) => {
          const errorMessage = error.message;
@@ -73,6 +80,7 @@ export const userAuthGoogle = async (dispatch, navigate, fromPage = '/') => {
          navigate(fromPage);
          const user = result.user.reloadUserInfo;
          dispatch(userAuthFetched(user));
+         setLocalStorageUser(user);
       })
       .catch((error) => {
          const errorMessage = error.message;
@@ -90,6 +98,7 @@ export const userAuthGithub = async (dispatch, navigate, fromPage = '/') => {
          navigate(fromPage);
          const user = result.user.reloadUserInfo;
          dispatch(userAuthFetched(user));
+         setLocalStorageUser(user);
       })
       .catch((error) => {
          const errorMessage = error.message;
@@ -107,6 +116,7 @@ export const userAuthYahoo = async (dispatch, navigate, fromPage = '/') => {
          navigate(fromPage);
          const user = result.user.reloadUserInfo;
          dispatch(userAuthFetched(user));
+         setLocalStorageUser(user);
       })
       .catch((error) => {
          const errorMessage = error.message;

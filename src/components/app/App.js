@@ -6,6 +6,7 @@ import {
    clearDontAuthCart,
    clearDontAuthLiked,
    clearErrors,
+   userAuthFetched,
 } from '../../slices/userSlice';
 import {
    useGetUserCartQuery,
@@ -52,6 +53,13 @@ function App() {
    const postLiked = useCallback((value) => {
       postUserLiked(value);
    }, []);
+
+   useEffect(() => {
+      if (localStorage.getItem('user')) {
+         const user = JSON.parse(localStorage.getItem('user'));
+         dispatch(userAuthFetched(user));
+      }
+   }, [])
 
    useEffect(() => {
       if (
