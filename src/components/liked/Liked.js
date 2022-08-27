@@ -17,7 +17,8 @@ import Grid from '@mui/material/Unstable_Grid2';
 
 import LikedProduct from './LikedProduct';
 
-import { Container, Box, Typography, CircularProgress } from '@mui/material';
+import { Container, Typography } from '@mui/material';
+import RequirePage from '../../hoc/RequirePage';
 
 const Liked = () => {
    const { user, userAuth, dontAuthLiked } = useSelector((state) => state.user);
@@ -68,7 +69,11 @@ const Liked = () => {
 
    const handleAddToCart = (item) => {
       if (userAuth) {
-         postCartItem({ userId, itemId: item.id, data: { ...item, amount: 1 } });
+         postCartItem({
+            userId,
+            itemId: item.id,
+            data: { ...item, amount: 1 },
+         });
       } else {
          dispatch(addDontAuthCart(item.id));
       }
@@ -79,59 +84,41 @@ const Liked = () => {
       handleAddToCart(item);
    };
 
-   if (isLikedLoading) {
-      return (
-         <Box
-            sx={{
-               display: 'flex',
-               margin: '100px auto',
-               justifyContent: 'center',
-            }}
-         >
-            <CircularProgress />
-         </Box>
-      );
-   }
-
-   if (isLikedError) {
-      return <p>Error :(</p>;
-   }
-
-   if (liked && liked.length !== 0) {
-      return (
-         <Container maxWidth="lg">
-            <Typography
-               variant="h4"
-               sx={{ textAlign: 'center', fontWeight: '700' }}
-            >
-               Liked
-            </Typography>
-            <Grid
-               container
-               spacing={2}
-               columns={{ xs: 4, sm: 8, md: 12 }}
-               sx={{ marginTop: '20px' }}
-            >
-               {liked.map((item, i) => (
-                  <Grid key={i}>
-                     <LikedProduct
-                        {...item}
-                        key={i}
-                        handleRemoveFromLiked={handleRemoveFromLiked}
-                        handleMoveToCart={handleMoveToCart}
-                     />
-                  </Grid>
-               ))}
-            </Grid>
-         </Container>
-      );
-   } else {
-      return (
-         <Container maxWidth="sm">
-            <h3 style={{ textAlign: 'center' }}>Liked is clear</h3>
-         </Container>
-      );
-   }
+   return (
+      <RequirePage loading={isLikedLoading} error={isLikedError}>
+         {liked.length > 0 ? (
+            <Container maxWidth="lg">
+               <Typography
+                  variant="h4"
+                  sx={{ textAlign: 'center', fontWeight: '700' }}
+               >
+                  Liked
+               </Typography>
+               <Grid
+                  container
+                  spacing={2}
+                  columns={{ xs: 4, sm: 8, md: 12 }}
+                  sx={{ marginTop: '20px' }}
+               >
+                  {liked.map((item, i) => (
+                     <Grid key={i}>
+                        <LikedProduct
+                           {...item}
+                           key={i}
+                           handleRemoveFromLiked={handleRemoveFromLiked}
+                           handleMoveToCart={handleMoveToCart}
+                        />
+                     </Grid>
+                  ))}
+               </Grid>
+            </Container>
+         ) : (
+            <Container maxWidth="sm">
+               <h3 style={{ textAlign: 'center' }}>Liked is clear</h3>
+            </Container>
+         )}
+      </RequirePage>
+   );
 };
 
 export default Liked;

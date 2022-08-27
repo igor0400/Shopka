@@ -2,15 +2,6 @@ import { useCallback, useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Navigation, Zoom } from 'swiper';
-import {
-   Container,
-   CircularProgress,
-   Box,
-   Typography,
-   Rating,
-   Stack,
-   Button,
-} from '@mui/material';
 
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -28,6 +19,17 @@ import {
    useDeleteOneUserCartMutation,
    useDeleteOneUserLikeMutation,
 } from '../../../slices/firebaseSlice';
+
+import {
+   Container,
+   CircularProgress,
+   Box,
+   Typography,
+   Rating,
+   Stack,
+   Button,
+} from '@mui/material';
+import RequirePage from '../../../hoc/RequirePage';
 
 const ProductPage = () => {
    const [isItemInCart, setIsItemInCart] = useState(false);
@@ -151,25 +153,6 @@ const ProductPage = () => {
       subDescription,
       id,
    }) => {
-      if (isProductLoading || isProductUninitialized) {
-         return (
-            <Box
-               sx={{
-                  height: '80vh',
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-               }}
-            >
-               <CircularProgress />
-            </Box>
-         );
-      }
-
-      if (isProductError || !product) {
-         return <h4>Error</h4>;
-      }
-
       return (
          <Box className="flex">
             <Swiper
@@ -183,7 +166,7 @@ const ProductPage = () => {
                className="mySwiper"
                style={{ maxWidth: '800px', margin: 0 }}
             >
-               {/* это для проверки загрузились ли сообщения */}
+               {/* это для проверки загрузились ли изображения */}
                {imgs ? (
                   <img
                      src={imgs[0]}
@@ -309,7 +292,14 @@ const ProductPage = () => {
       );
    };
 
-   return <Container maxWidth="xl">{renderProduct(product)}</Container>;
+   return (
+      <RequirePage
+         loading={isProductLoading || isProductUninitialized}
+         error={isProductError || !product}
+      >
+         <Container maxWidth="xl">{renderProduct(product)}</Container>
+      </RequirePage>
+   );
 };
 
 export default ProductPage;

@@ -16,13 +16,13 @@ import { changePayedCart } from '../../slices/payOrderSlice';
 import {
    Container,
    Box,
-   CircularProgress,
    Paper,
    Typography,
    Stack,
    Divider,
    Button,
 } from '@mui/material';
+import RequirePage from '../../hoc/RequirePage';
 
 import CartProduct from './CartProduct';
 import InfoIcon from '@mui/icons-material/Info';
@@ -107,129 +107,110 @@ const Cart = () => {
       }
    };
 
-   // render cart
-   if (isCartLoading) {
-      return (
-         <Box
-            sx={{
-               display: 'flex',
-               margin: '100px auto',
-               justifyContent: 'center',
-            }}
-         >
-            <CircularProgress />
-         </Box>
-      );
-   }
-
-   if (isCartError) {
-      return <p>Error :(</p>;
-   }
-
-   if (cartProducts && cartProducts.length !== 0) {
-      return (
-         <Container maxWidth="lg">
-            <Stack direction="row" spacing={2}>
-               <Box sx={{ width: '70%' }}>
-                  <PaperWrapper>
-                     <Stack
-                        direction="row"
-                        sx={{ justifyContent: 'space-between' }}
-                     >
-                        <Typography variant="h5" sx={{ fontWeight: '700' }}>
-                           Cart
+   return (
+      <RequirePage loading={isCartLoading} error={isCartError}>
+         {cartProducts.length > 0 ? (
+            <Container maxWidth="lg">
+               <Stack direction="row" spacing={2}>
+                  <Box sx={{ width: '70%' }}>
+                     <PaperWrapper>
+                        <Stack
+                           direction="row"
+                           sx={{ justifyContent: 'space-between' }}
+                        >
+                           <Typography variant="h5" sx={{ fontWeight: '700' }}>
+                              Cart
+                           </Typography>
+                           <Button variant="outlined" onClick={handleClearCart}>
+                              Clear cart
+                           </Button>
+                        </Stack>
+                     </PaperWrapper>
+                     <PaperWrapper sx={{ margin: '20px 0' }}>
+                        <Stack spacing={3}>
+                           {cartProducts.map((item, i) => (
+                              <React.Fragment key={i}>
+                                 <CartProduct
+                                    {...item}
+                                    removeItem={handleRemoveFromCart}
+                                 />
+                                 {i + 1 === cartProducts.length ? null : (
+                                    <Divider />
+                                 )}
+                              </React.Fragment>
+                           ))}
+                        </Stack>
+                     </PaperWrapper>
+                     <PaperWrapper>
+                        <Stack
+                           direction="row"
+                           sx={{ justifyContent: 'space-between' }}
+                        >
+                           <Typography variant="h6" sx={{ fontWeight: '500' }}>
+                              Items: {cartProducts.length}
+                           </Typography>
+                           <Typography variant="h6" sx={{ fontWeight: '500' }}>
+                              Sub-total: ${subTotal}
+                           </Typography>
+                        </Stack>
+                     </PaperWrapper>
+                  </Box>
+                  <Box sx={{ width: '30%' }}>
+                     <PaperWrapper>
+                        <Typography
+                           variant="h5"
+                           sx={{ fontWeight: '700', paddingBottom: '20px' }}
+                        >
+                           Total
                         </Typography>
-                        <Button variant="outlined" onClick={handleClearCart}>
-                           Clear cart
+                        <Divider />
+                        <Typography
+                           variant="h6"
+                           sx={{
+                              fontWeight: '700',
+                              paddingTop: '20px',
+                              display: 'flex',
+                              justifyContent: 'space-between',
+                           }}
+                        >
+                           Sub-total: <span>${subTotal}</span>
+                        </Typography>
+                        <Typography
+                           variant="h6"
+                           sx={{
+                              fontWeight: '700',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'space-between',
+                           }}
+                        >
+                           Delivery{' '}
+                           <InfoIcon
+                              fontSize="small"
+                              color="disabled"
+                              sx={{ cursor: 'pointer' }}
+                           />
+                        </Typography>
+                        <Button
+                           variant="contained"
+                           color="success"
+                           size="large"
+                           sx={{ width: '100%', marginTop: '30px' }}
+                           onClick={checkoutCart}
+                        >
+                           Checkout
                         </Button>
-                     </Stack>
-                  </PaperWrapper>
-                  <PaperWrapper sx={{ margin: '20px 0' }}>
-                     <Stack spacing={3}>
-                        {cartProducts.map((item, i) => (
-                           <React.Fragment key={i}>
-                              <CartProduct
-                                 {...item}
-                                 removeItem={handleRemoveFromCart}
-                              />
-                              {i + 1 === cartProducts.length ? null : (
-                                 <Divider />
-                              )}
-                           </React.Fragment>
-                        ))}
-                     </Stack>
-                  </PaperWrapper>
-                  <PaperWrapper>
-                     <Stack
-                        direction="row"
-                        sx={{ justifyContent: 'space-between' }}
-                     >
-                        <Typography variant="h6" sx={{ fontWeight: '500' }}>
-                           Items: {cartProducts.length}
-                        </Typography>
-                        <Typography variant="h6" sx={{ fontWeight: '500' }}>
-                           Sub-total: ${subTotal}
-                        </Typography>
-                     </Stack>
-                  </PaperWrapper>
-               </Box>
-               <Box sx={{ width: '30%' }}>
-                  <PaperWrapper>
-                     <Typography
-                        variant="h5"
-                        sx={{ fontWeight: '700', paddingBottom: '20px' }}
-                     >
-                        Total
-                     </Typography>
-                     <Divider />
-                     <Typography
-                        variant="h6"
-                        sx={{
-                           fontWeight: '700',
-                           paddingTop: '20px',
-                           display: 'flex',
-                           justifyContent: 'space-between',
-                        }}
-                     >
-                        Sub-total: <span>${subTotal}</span>
-                     </Typography>
-                     <Typography
-                        variant="h6"
-                        sx={{
-                           fontWeight: '700',
-                           display: 'flex',
-                           alignItems: 'center',
-                           justifyContent: 'space-between',
-                        }}
-                     >
-                        Delivery{' '}
-                        <InfoIcon
-                           fontSize="small"
-                           color="disabled"
-                           sx={{ cursor: 'pointer' }}
-                        />
-                     </Typography>
-                     <Button
-                        variant="contained"
-                        color="success"
-                        size="large"
-                        sx={{ width: '100%', marginTop: '30px' }}
-                        onClick={checkoutCart}
-                     >
-                        Checkout
-                     </Button>
-                  </PaperWrapper>
-               </Box>
-            </Stack>
-         </Container>
-      );
-   } else {
-      return (
-         <Container maxWidth="sm">
-            <h3 style={{ textAlign: 'center' }}>Cart is clear</h3>
-         </Container>
-      );
-   }
+                     </PaperWrapper>
+                  </Box>
+               </Stack>
+            </Container>
+         ) : (
+            <Container maxWidth="sm">
+               <h3 style={{ textAlign: 'center' }}>Cart is clear</h3>
+            </Container>
+         )}
+      </RequirePage>
+   );
 };
 
 const PaperWrapper = ({ children, sx }) => {
