@@ -295,9 +295,11 @@ const ProductPage = () => {
    return (
       <RequirePage
          loading={isProductLoading || isProductUninitialized}
-         error={isProductError || !product}
+         error={isProductError}
       >
-         <Container maxWidth="xl">{renderProduct(product)}</Container>
+         <Container maxWidth="xl">
+            {product ? renderProduct(product) : <h4>Product not found</h4>}
+         </Container>
       </RequirePage>
    );
 };
