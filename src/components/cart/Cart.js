@@ -51,16 +51,15 @@ const Cart = () => {
    const [deleteUserCart] = useDeleteUserCartMutation();
 
    useEffect(() => {
-      if (cartProductsLoaded) return;
-
       if (userAuth) {
          if (userCart && !isCartLoading) {
             setCartProducts(returnArrfromObj(userCart));
-            setCartProductsLoaded(true);
          }
       } else {
-         setCartProducts(returnArrfromObj(dontAuthCart));
-         setCartProductsLoaded(true);
+         if (!cartProductsLoaded) {
+            setCartProducts(returnArrfromObj(dontAuthCart));
+            setCartProductsLoaded(true);
+         }
       }
    }, [userCart, dontAuthCart]);
 

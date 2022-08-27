@@ -37,17 +37,16 @@ const Liked = () => {
    const [postOneUserCart] = usePostOneUserCartMutation();
 
    useEffect(() => {
-      if (likedLoaded) return;
-
       if (userAuth) {
-         if (userLiked) {
+         if (userLiked && !isLikedLoading) {
             setLiked(returnArrfromObj(userLiked));
          }
       } else {
-         setLiked(returnArrfromObj(dontAuthLiked));
+         if (!likedLoaded) {
+            setLiked(returnArrfromObj(dontAuthLiked));
+            setLikedLoaded(true);
+         }
       }
-
-      setLikedLoaded(true);
    }, [userLiked, dontAuthLiked]);
 
    const deleteLikedItem = useCallback((value) => {
