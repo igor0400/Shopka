@@ -98,7 +98,10 @@ const ProductsItem = (product) => {
             className="flex"
             sx={{ flexDirection: 'column', height: '95%' }}
          >
-            <Link to={`/products/${id}`} style={{ cursor: 'pointer' }}>
+            <Link
+               to={`/products/${id}`}
+               style={{ cursor: 'pointer', width: '220px', height: '220px' }}
+            >
                <img
                   src={imgs[0]}
                   alt={name}

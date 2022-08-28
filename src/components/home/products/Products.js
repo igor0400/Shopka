@@ -1,11 +1,12 @@
 import { useMemo } from 'react';
 
+import { Box, Grid, CircularProgress, Typography } from '@mui/material';
 import ProductsItem from './ProductsItem';
-import Grid from '@mui/material/Grid';
-import CircularProgress from '@mui/material/CircularProgress';
 
 import { useSelector } from 'react-redux';
 import { useGetProductsQuery } from '../../../slices/apiSlice';
+
+import small404 from '../../../images/small404.gif';
 
 const Products = () => {
    const {
@@ -34,19 +35,30 @@ const Products = () => {
    const renderProducts = () => {
       if (isLoading || isFetching) {
          return (
-            <CircularProgress
-               sx={{
-                  display: 'flex',
-                  width: '100%',
-                  margin: '110px auto 150px',
-               }}
-            />
+            <CenteredWrapper>
+               <CircularProgress />
+            </CenteredWrapper>
          );
       } else if (isError) {
-         return <h3>loading error</h3>;
+         return (
+            <CenteredWrapper>
+               <img
+                  src={small404}
+                  alt="error"
+                  style={{ width: '150px', height: '150px' }}
+               />
+               <Typography variant="h5">Loading error</Typography>
+            </CenteredWrapper>
+         );
       } else {
          if (filteredProducts.length === 0) {
-            return <h3>Not active products</h3>;
+            return (
+               <CenteredWrapper>
+                  <Typography variant="h6" sx={{ fontWeight: 700 }}>
+                     Not active products
+                  </Typography>
+               </CenteredWrapper>
+            );
          } else {
             return (
                <Grid
@@ -67,6 +79,23 @@ const Products = () => {
    };
 
    return <>{renderProducts()}</>;
+};
+
+const CenteredWrapper = ({ children }) => {
+   return (
+      <Box
+         sx={{
+            display: 'flex',
+            margin: 'auto 0',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            minHeight: '55vh',
+         }}
+      >
+         {children}
+      </Box>
+   );
 };
 
 export default Products;

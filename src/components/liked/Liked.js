@@ -11,14 +11,14 @@ import {
    addDontAuthCart,
 } from '../../slices/userSlice';
 
-import { returnArrfromObj } from '../../utils/supportFunctions';
-
-import Grid from '@mui/material/Unstable_Grid2';
-
 import LikedProduct from './LikedProduct';
-
-import { Container, Typography } from '@mui/material';
 import RequirePage from '../../hoc/RequirePage';
+
+import { Container, Typography, Stack } from '@mui/material';
+import Grid from '@mui/material/Unstable_Grid2';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+
+import { returnArrfromObj } from '../../utils/supportFunctions';
 
 const Liked = () => {
    const { user, userAuth, dontAuthLiked } = useSelector((state) => state.user);
@@ -113,7 +113,18 @@ const Liked = () => {
             </Container>
          ) : (
             <Container maxWidth="sm">
-               <h3 style={{ textAlign: 'center' }}>Liked is clear</h3>
+               <Stack
+                  sx={{
+                     justifyContent: 'center',
+                     alignItems: 'center',
+                     height: '80vh',
+                  }}
+               >
+                  <FavoriteIcon sx={{ fontSize: 40, paddingBottom: '20px' }} />
+                  <Typography variant="h4" sx={{ fontWeight: 500 }}>
+                     Liked is clear
+                  </Typography>
+               </Stack>
             </Container>
          )}
       </RequirePage>

@@ -35,7 +35,10 @@ const LikedProduct = ({
          >
             <DeleteIcon fontSize="inherit" />
          </IconButton>
-         <Link to={`/products/${id}`} style={{ cursor: 'pointer' }}>
+         <Link
+            to={`/products/${id}`}
+            style={{ cursor: 'pointer', width: '275px', height: '300px' }}
+         >
             <img
                src={imgs ? imgs[0] : null}
                alt={name}

@@ -1,7 +1,11 @@
-import { Box, CircularProgress } from '@mui/material';
+import { Box, CircularProgress, Typography } from '@mui/material';
 
-const RequirePage = ({ loading, error, children }) => {
-
+const RequirePage = ({
+   loading,
+   error,
+   message = 'Loading error :(',
+   children,
+}) => {
    if (loading) {
       return (
          <Box
@@ -18,7 +22,21 @@ const RequirePage = ({ loading, error, children }) => {
    }
 
    if (error) {
-      return <h4>Error</h4>;
+      return (
+         <Box
+            sx={{
+               height: '80vh',
+               display: 'flex',
+               justifyContent: 'center',
+               alignItems: 'center',
+               flexDirection: 'column',
+            }}
+         >
+            <Typography variant="h2" sx={{ fontWeight: 500 }}>
+               {message}
+            </Typography>
+         </Box>
+      );
    }
 
    return children;

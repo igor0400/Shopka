@@ -27,7 +27,10 @@ const CartProduct = ({ name, imgs, price, amount, id, removeItem }) => {
          sx={{ position: 'relative' }}
          // className={isItemDeleted ? 'animate__animated animate__zoomOut' : null}
       >
-         <Link to={`/products/${id}`}>
+         <Link
+            to={`/products/${id}`}
+            style={{ height: '140px', width: '140px' }}
+         >
             <img
                src={imgs[0]}
                alt={name}

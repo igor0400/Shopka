@@ -8,6 +8,8 @@ import { Container, Typography, Stack } from '@mui/material';
 import OrdersItem from './OrdersItem';
 import RequirePage from '../../hoc/RequirePage';
 
+import LocalMallIcon from '@mui/icons-material/LocalMall';
+
 const Orders = () => {
    const { user } = useSelector((state) => state.user);
    const [orders, setOrders] = useState([]);
@@ -23,7 +25,13 @@ const Orders = () => {
    useEffect(() => {
       if (ordersLoaded) return;
       if (userOrders && !isOrdersLoading) {
-         setOrders(returnArrfromObj(userOrders));
+         setOrders(
+            returnArrfromObj(userOrders).sort(
+               (a, b) =>
+                  +a.date.replace(/:|\.|\ /g, '') -
+                  +b.date.replace(/:|\.|\ /g, '')
+            )
+         );
          setOrdersLoaded(true);
       }
    }, [userOrders]);
@@ -50,7 +58,18 @@ const Orders = () => {
             </Container>
          ) : (
             <Container maxWidth="sm">
-               <h3 style={{ textAlign: 'center' }}>Orders is clear</h3>
+               <Stack
+                  sx={{
+                     justifyContent: 'center',
+                     alignItems: 'center',
+                     height: '80vh',
+                  }}
+               >
+                  <LocalMallIcon sx={{ fontSize: 40, paddingBottom: '20px' }} />
+                  <Typography variant="h4" sx={{ fontWeight: 500 }}>
+                     Orders is clear
+                  </Typography>
+               </Stack>
             </Container>
          )}
       </RequirePage>

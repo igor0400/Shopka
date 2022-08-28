@@ -60,8 +60,6 @@ const PayOrderPage = () => {
       deleteUserCart(value);
    }, []);
 
-   console.log(payedCart);
-
    if (
       payedCart === {} ||
       !userAuth ||

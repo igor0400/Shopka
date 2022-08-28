@@ -26,7 +26,7 @@ const Profile = () => {
    const dispatch = useDispatch();
    const navigate = useNavigate();
 
-   const getUserName = (name) => {
+   const getUserName = (name = 'Loading...') => {
       if (name.length <= 12) {
          return `Hi, ${name}!`;
       } else {
@@ -40,12 +40,11 @@ const Profile = () => {
             elevation={3}
             sx={{
                maxWidth: { xs: 400, lg: 475 },
-               margin: { xs: 0, md: '20px auto' },
+               margin: { xs: 0, md: 'auto' },
                '& > *': {
                   flexGrow: 1,
                   flexBasis: '50%',
                },
-               minHeight: '80vh',
             }}
          >
             <Box sx={{ p: { xs: 2, sm: 3, md: 4, xl: 5 } }}>
@@ -54,7 +53,7 @@ const Profile = () => {
                   component="h4"
                   sx={{ textAlign: 'center', paddingBottom: '10px' }}
                >
-                  {getUserName(user.displayName || user.email)}
+                  {getUserName(user?.displayName || user?.email)}
                </Typography>
                <List>
                   <ListItem disablePadding>

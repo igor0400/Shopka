@@ -26,6 +26,7 @@ import RequirePage from '../../hoc/RequirePage';
 
 import CartProduct from './CartProduct';
 import InfoIcon from '@mui/icons-material/Info';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 import { returnArrfromObj } from '../../utils/supportFunctions';
 
@@ -205,7 +206,18 @@ const Cart = () => {
             </Container>
          ) : (
             <Container maxWidth="sm">
-               <h3 style={{ textAlign: 'center' }}>Cart is clear</h3>
+               <Stack
+                  sx={{
+                     justifyContent: 'center',
+                     alignItems: 'center',
+                     height: '80vh',
+                  }}
+               >
+                  <ShoppingCartIcon sx={{ fontSize: 40, paddingBottom: '20px' }} />
+                  <Typography variant="h4" sx={{ fontWeight: 500 }}>
+                     Cart is clear
+                  </Typography>
+               </Stack>
             </Container>
          )}
       </RequirePage>

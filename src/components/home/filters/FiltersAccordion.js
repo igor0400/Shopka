@@ -11,6 +11,8 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Checkbox from '@mui/material/Checkbox';
 
+import { filtersAccordionItems } from '../../../utils/settings';
+
 const FiltersAccordion = () => {
    const [expanded, setExpanded] = useState(false);
    const [checked, setChecked] = useState([0]);
@@ -32,46 +34,9 @@ const FiltersAccordion = () => {
       setExpanded(isExpanded ? panel : false);
    };
 
-   const items = [
-      {
-         name: 'Collapsed filters',
-         listItems: [
-            'list item 1',
-            'list item 2',
-            'list item 3',
-            'list item 4',
-         ],
-      },
-      {
-         name: 'Expanded Filters',
-         listItems: [
-            'Recommended',
-            'Recently Added',
-            'Expiring Soon',
-            'Most Rated',
-            'Price: Low → High',
-            'Price: High → Low',
-         ],
-      },
-      {
-         name: 'Year of manufacturing',
-         listItems: [
-            '1954',
-            '1955',
-            '1956',
-            '1957',
-            '1958',
-            '1959',
-            '1960',
-            '1961',
-            '1962-2022',
-         ],
-      },
-   ];
-
    return (
       <div style={{ width: '300px' }}>
-         {items.map(({ name, listItems }) => (
+         {filtersAccordionItems.map(({ name, listItems }) => (
             <Accordion
                expanded={expanded === name}
                onChange={handleChange(name)}
@@ -88,8 +53,8 @@ const FiltersAccordion = () => {
                      {name}
                   </Typography>
                </AccordionSummary>
-               <AccordionDetails sx={{padding: '0 16px 16px'}}>
-                  <List sx={{padding: '0 0 8px 0'}}>
+               <AccordionDetails sx={{ padding: '0 16px 16px' }}>
+                  <List sx={{ padding: '0 0 8px 0' }}>
                      {listItems.map((value) => {
                         const labelId = `checkbox-list-label-${value}`;
 
@@ -104,7 +69,7 @@ const FiltersAccordion = () => {
                                     minHeight: 32,
                                  }}
                               >
-                                 <ListItemIcon sx={{minWidth: '20px'}}>
+                                 <ListItemIcon sx={{ minWidth: '20px' }}>
                                     <Checkbox
                                        edge="start"
                                        checked={checked.indexOf(value) !== -1}

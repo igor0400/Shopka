@@ -6,21 +6,7 @@ import Box from '@mui/material/Box';
 import { useDispatch, useSelector } from 'react-redux';
 import { activeFilterBarChanged } from '../../../slices/filtersSlice';
 
-// icons
-import CheckroomIcon from '@mui/icons-material/Checkroom';
-import AttractionsIcon from '@mui/icons-material/Attractions';
-import MusicNoteIcon from '@mui/icons-material/MusicNote';
-import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
-import PetsIcon from '@mui/icons-material/Pets';
-import FlatwareIcon from '@mui/icons-material/Flatware';
-import ExploreIcon from '@mui/icons-material/Explore';
-import LocalFloristIcon from '@mui/icons-material/LocalFlorist';
-import BoltIcon from '@mui/icons-material/Bolt';
-import ChildFriendlyIcon from '@mui/icons-material/ChildFriendly';
-import ToysIcon from '@mui/icons-material/Toys';
-import TwoWheelerIcon from '@mui/icons-material/TwoWheeler';
-import CircleIcon from '@mui/icons-material/Circle';
-import PaletteIcon from '@mui/icons-material/Palette';
+import { filtersBarItems } from '../../../utils/settings';
 
 const FiltersBarItem = styled(Box)(() => ({
    display: 'flex',
@@ -31,65 +17,6 @@ const FiltersBarItem = styled(Box)(() => ({
 }));
 
 const FiltersBar = () => {
-   const items = [
-      {
-         name: 'all',
-         icon: <CircleIcon />,
-      },
-      {
-         name: 'Clothing & Shoes',
-         icon: <CheckroomIcon />,
-      },
-      {
-         name: 'Entertainment',
-         icon: <AttractionsIcon />,
-      },
-      {
-         name: 'Music',
-         icon: <MusicNoteIcon />,
-      },
-      {
-         name: 'Sport & Lifestyle',
-         icon: <FitnessCenterIcon />,
-      },
-      {
-         name: 'Pets',
-         icon: <PetsIcon />,
-      },
-      {
-         name: 'Kitchen Accessories',
-         icon: <FlatwareIcon />,
-      },
-      {
-         name: 'Travel Equipment',
-         icon: <ExploreIcon />,
-      },
-      {
-         name: 'Growing & Garden',
-         icon: <LocalFloristIcon />,
-      },
-      {
-         name: 'Electrical Tools',
-         icon: <BoltIcon />,
-      },
-      {
-         name: 'Mother Care',
-         icon: <ChildFriendlyIcon />,
-      },
-      {
-         name: 'Toys',
-         icon: <ToysIcon />,
-      },
-      {
-         name: 'Vintage',
-         icon: <TwoWheelerIcon />,
-      },
-      {
-         name: 'Сosmetic',
-         icon: <PaletteIcon />,
-      },
-   ];
-
    const dispatch = useDispatch();
    const activeFilterBar = useSelector(
       (state) => state.filters.activeFilterBar
@@ -118,7 +45,7 @@ const FiltersBar = () => {
             },
          }}
       >
-         {items.map(({ name, icon }, i) => (
+         {filtersBarItems.map(({ name, icon }, i) => (
             <SwiperSlide
                key={i}
                onClick={() => {

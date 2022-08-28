@@ -34,8 +34,12 @@ const OrderPage = () => {
    });
 
    return (
-      <RequirePage loading={isLoading || isUninitialized} error={isError}>
-         {order ? <OrderPageView order={order} /> : <h4>Order not found</h4>}
+      <RequirePage
+         loading={isLoading || isUninitialized}
+         error={isError || !order}
+         message="Order not found :("
+      >
+         <OrderPageView order={order} />
       </RequirePage>
    );
 };
