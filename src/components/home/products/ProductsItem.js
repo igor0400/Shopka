@@ -117,7 +117,7 @@ const ProductsItem = (product) => {
                {imgLoad ? null : (
                   <Skeleton
                      variant="rounded"
-                     width={'100%'}
+                     width={220}
                      height={220}
                      animation="wave"
                      style={{ borderRadius: '3px' }}

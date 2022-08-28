@@ -5,7 +5,6 @@ import FiltersBar from './filters/FiltersBar';
 import FiltersList from './filters/FiltersList';
 import FiltersAccordion from './filters/FiltersAccordion';
 import ChangeCardsModeSwitch from './filters/ChangeCardsModeSwitch';
-import ChangeProductsType from './filters/ChangeProductsType';
 import FiltersSelects from './filters/FiltersSelects';
 import ProductsRelated from './products/ProductsRelated';
 import Products from './products/Products';
@@ -37,7 +36,6 @@ const Home = () => {
                >
                   <FiltersSelects />
                   <div className="products__filters__switches flex">
-                     <ChangeProductsType />
                      <ChangeCardsModeSwitch />
                   </div>
                </div>

@@ -17,6 +17,22 @@
 @import '@fontsource/roboto/700.css';
 @import '@fontsource/roboto/900.css';
 
+::-webkit-scrollbar {
+   height: 100%;
+   width: 10px;
+}
+::-webkit-scrollbar-track {
+   background: #fff;
+}
+::-webkit-scrollbar-thumb {
+   border-radius: 5px;
+   background: #c5c5c5;
+}
+
+html {
+   overflow-y: scroll;
+}
+
 body {
    margin: 0;
    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
