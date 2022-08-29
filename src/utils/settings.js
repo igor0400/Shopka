@@ -72,35 +72,3 @@ export const filtersBarItems = [
       icon: <PaletteIcon />,
    },
 ];
-
-export const filtersAccordionItems = [
-   {
-      name: 'Collapsed filters',
-      listItems: ['list item 1', 'list item 2', 'list item 3', 'list item 4'],
-   },
-   {
-      name: 'Expanded Filters',
-      listItems: [
-         'Recommended',
-         'Recently Added',
-         'Expiring Soon',
-         'Most Rated',
-         'Price: Low → High',
-         'Price: High → Low',
-      ],
-   },
-   {
-      name: 'Year of manufacturing',
-      listItems: [
-         '1954',
-         '1955',
-         '1956',
-         '1957',
-         '1958',
-         '1959',
-         '1960',
-         '1961',
-         '1962-2022',
-      ],
-   },
-];

@@ -15,7 +15,7 @@ import {
    usePostUserLikedMutation,
 } from '../../slices/firebaseSlice';
 
-import Header from '../header/Header';
+import Header from '../header';
 import AppRoutes from './Routes';
 
 function App() {

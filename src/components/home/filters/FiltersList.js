@@ -1,6 +1,6 @@
 import React from 'react';
 import FiltersListItem from './FiltersListItem';
-import Skeleton from '@mui/material/Skeleton';
+import { Skeleton } from '@mui/material';
 
 import { useGetFiltersListQuery } from '../../../slices/apiSlice';
 

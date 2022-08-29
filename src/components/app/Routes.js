@@ -1,16 +1,16 @@
 import { Routes, Route } from 'react-router-dom';
 
-import Home from '../home/Home';
+import Home from '../home';
 import ProductPage from '../home/products/ProductPage';
-import Cart from '../cart/Cart';
+import Cart from '../cart';
 import Error404 from '../errors/Error404';
 import Register from '../authentication/Register';
 import Login from '../authentication/Login';
-import Orders from '../orders/Orders';
+import Orders from '../orders';
 import OrderPage from '../orders/OrderPage';
-import Liked from '../liked/Liked';
-import Profile from '../profile/Profile';
-import PayOrderPage from '../payOrderPage/PayOrderPage';
+import Liked from '../liked';
+import Profile from '../profile';
+import PayOrderPage from '../payOrderPage';
 
 import RequireAuth from '../../hoc/RequireAuth';
 

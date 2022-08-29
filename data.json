@@ -15,7 +15,8 @@
          "price": 13.95,
          "rating": 3.33,
          "filtersType": "Clothing & Shoes",
-         "id": "skrggnfdog-343sgskgog"
+         "id": "skrggnfdog-343sgskgog",
+         "brand": "Nike"
       },
       {
          "name": "Vintage Typewriter",
@@ -27,7 +28,8 @@
          "price": 49.5,
          "rating": 4.56,
          "filtersType": "Vintage",
-         "id": "hjf7887dda-dadawdwdda"
+         "id": "hjf7887dda-dadawdwdda",
+         "brand": "webdev"
       },
       {
          "name": "John Von Ebalkin",
@@ -39,7 +41,8 @@
          "price": 13.95,
          "rating": 4.56,
          "filtersType": "Clothing & Shoes",
-         "id": "ndodfd7t4nf-sdfajikfa"
+         "id": "ndodfd7t4nf-sdfajikfa",
+         "brand": "John Von"
       },
       {
          "name": "Shoes Nike",
@@ -51,7 +54,8 @@
          "price": 13.99,
          "rating": 5,
          "filtersType": "Clothing & Shoes",
-         "id": "dwdwauj5hqh99-fseffosfs"
+         "id": "dwdwauj5hqh99-fseffosfs",
+         "brand": "Nike"
       },
       {
          "name": "Shoes Nike",
@@ -63,7 +67,8 @@
          "price": 81,
          "rating": 1.55,
          "filtersType": "Clothing & Shoes",
-         "id": "wpoimda98a3n2iq2md-3m3mks"
+         "id": "wpoimda98a3n2iq2md-3m3mks",
+         "brand": "Nike"
       },
       {
          "name": "Timesaving kitten",
@@ -75,7 +80,8 @@
          "price": 128.99,
          "rating": 4.87,
          "filtersType": "Pets",
-         "id": "dfkmd4004545-kphdglfm5"
+         "id": "dfkmd4004545-kphdglfm5",
+         "brand": "Petshop"
       },
       {
          "name": "Wordwide shifting",
@@ -87,7 +93,8 @@
          "price": 11.68,
          "rating": 4.99,
          "filtersType": "Growing & Garden",
-         "id": "dofjpfjs343-fdsmfnmsnfsl"
+         "id": "dofjpfjs343-fdsmfnmsnfsl",
+         "brand": "Garden"
       },
       {
          "name": "Red pomade",
@@ -99,7 +106,8 @@
          "price": 1.25,
          "rating": 4.77,
          "filtersType": "Сosmetic",
-         "id": "lfeljfksof758765yfhg-e48yr4g"
+         "id": "lfeljfksof758765yfhg-e48yr4g",
+         "brand": "Gucci"
       }
    ],
    "filtersList": [

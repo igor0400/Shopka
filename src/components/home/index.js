@@ -1,11 +1,9 @@
-import Container from '@mui/material/Container';
-import Paper from '@mui/material/Paper';
+import { Container, Paper } from '@mui/material';
 
+import Filters from './filters';
 import FiltersBar from './filters/FiltersBar';
-import FiltersList from './filters/FiltersList';
-import FiltersAccordion from './filters/FiltersAccordion';
-import ChangeCardsModeSwitch from './filters/ChangeCardsModeSwitch';
 import FiltersSelects from './filters/FiltersSelects';
+import ChangeCardsModeSwitch from './filters/ChangeCardsModeSwitch';
 import ProductsRelated from './products/ProductsRelated';
 import Products from './products/Products';
 
@@ -14,10 +12,7 @@ const Home = () => {
       <Container maxWidth="xl">
          <FiltersBar />
          <div className="main" style={{ padding: '40px 0', display: 'flex' }}>
-            <div className="filters">
-               <FiltersList />
-               <FiltersAccordion />
-            </div>
+            <Filters />
             <Paper
                elevation={2}
                className="products"
