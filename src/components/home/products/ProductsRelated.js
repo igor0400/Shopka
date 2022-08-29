@@ -1,30 +1,26 @@
 import Chip from '@mui/material/Chip';
 import Box from '@mui/material/Box';
-import { useState } from 'react';
+
+import { useSelector, useDispatch } from 'react-redux';
+import { removeFilter } from '../../../utils/fliters';
 
 const ProductsRelated = () => {
-   const [items, setItems] = useState([
-      'worldwide shipping',
-      'under $50',
-      'kitten',
-      'plastic plugs',
-      'pucker shoes',
-      'vintage typewriter',
-   ]);
+   const { activeFilters } = useSelector((state) => state.filters);
+   const dispatch = useDispatch();
 
    const handleDelete = (target) => {
-      setItems((state) => state.filter((item) => item !== target));
+      removeFilter(dispatch, target);
    };
 
    return (
       <>
-         {items.length === 0 ? null : (
+         {activeFilters.length === 0 ? null : (
             <Box sx={{ paddingBottom: '15px' }}>
                <b style={{ margin: '0 0 5px 0' }}>Related</b>
-               {items.map((item, i) => (
+               {activeFilters.map((item, i) => (
                   <Chip
                      key={i}
-                     label={item}
+                     label={item.name}
                      onDelete={() => handleDelete(item)}
                      sx={{ margin: ' 0 0 5px 5px' }}
                   />

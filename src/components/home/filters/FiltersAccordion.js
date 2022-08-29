@@ -1,33 +1,36 @@
-import React, { useState } from 'react';
-import {
-   Accordion,
-   AccordionDetails,
-   AccordionSummary,
-   Typography,
-   List,
-   ListItem,
-   ListItemButton,
-   ListItemIcon,
-   ListItemText,
-   Checkbox,
-} from '@mui/material';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import React, { useState, useEffect } from 'react';
 
-const FiltersAccordion = ({ name, listItems }) => {
-   const [expanded, setExpanded] = useState(false);
-   const [checked, setChecked] = useState([0]);
+import { useDispatch, useSelector } from 'react-redux';
+import { postFilter, removeFilter } from '../../../utils/fliters';
+
+import FiltersAccordionView from './FiltersAccordionView';
+
+const FiltersAccordion = ({ name, listItems, type }) => {
+   const { activeFilters } = useSelector((state) => state.filters);
+
+   const [expanded, setExpanded] = useState(name);
+   const [checked, setChecked] = useState([]);
+
+   const dispatch = useDispatch();
+
+   useEffect(() => {
+      const newChecked = [];
+
+      activeFilters.forEach((filter) => {
+         newChecked.push(filter.name);
+      });
+
+      setChecked(newChecked);
+   }, [activeFilters]);
 
    const handleToggle = (value) => () => {
       const currentIndex = checked.indexOf(value);
-      const newChecked = [...checked];
 
       if (currentIndex === -1) {
-         newChecked.push(value);
+         postFilter(dispatch, { name: value, type });
       } else {
-         newChecked.splice(currentIndex, 1);
+         removeFilter(dispatch, { name: value, type });
       }
-
-      setChecked(newChecked);
    };
 
    const handleChange = (panel) => (event, isExpanded) => {
@@ -35,59 +38,14 @@ const FiltersAccordion = ({ name, listItems }) => {
    };
 
    return (
-      <div style={{ width: '300px' }}>
-         <Accordion
-            expanded={expanded === name}
-            onChange={handleChange(name)}
-            key={name}
-         >
-            <AccordionSummary
-               expandIcon={<ExpandMoreIcon />}
-               aria-controls="panel1bh-content"
-               id="panel1bh-header"
-            >
-               <Typography
-                  sx={{ width: '33%', flexShrink: 0, whiteSpace: 'nowrap' }}
-               >
-                  {name}
-               </Typography>
-            </AccordionSummary>
-            <AccordionDetails sx={{ padding: '0 16px 16px' }}>
-               <List sx={{ padding: '0 0 8px 0' }}>
-                  {listItems.map((value) => {
-                     const labelId = `checkbox-list-label-${value}`;
-
-                     return (
-                        <ListItem key={value} disablePadding>
-                           <ListItemButton
-                              role={undefined}
-                              onClick={handleToggle(value)}
-                              dense
-                              sx={{
-                                 py: 0,
-                                 minHeight: 32,
-                              }}
-                           >
-                              <ListItemIcon sx={{ minWidth: '20px' }}>
-                                 <Checkbox
-                                    edge="start"
-                                    checked={checked.indexOf(value) !== -1}
-                                    tabIndex={-1}
-                                    disableRipple
-                                    inputProps={{
-                                       'aria-labelledby': labelId,
-                                    }}
-                                 />
-                              </ListItemIcon>
-                              <ListItemText id={labelId} primary={value} />
-                           </ListItemButton>
-                        </ListItem>
-                     );
-                  })}
-               </List>
-            </AccordionDetails>
-         </Accordion>
-      </div>
+      <FiltersAccordionView
+         name={name}
+         listItems={listItems}
+         expanded={expanded}
+         checked={checked}
+         handleToggle={handleToggle}
+         handleChange={handleChange}
+      />
    );
 };
 
