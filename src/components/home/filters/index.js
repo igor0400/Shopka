@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 
 import FiltersAccordion from './FiltersAccordion';
+import FiltersAccordionPrice from './FiltersAccordionPrice';
 
-import { Stack } from '@mui/material';
+import { Stack, Skeleton } from '@mui/material';
 
 import { useGetProductsQuery } from '../../../slices/apiSlice';
 
@@ -57,14 +58,36 @@ const Filters = () => {
 
    return (
       <Stack sx={{ width: '300px' }} spacing={1}>
-         {filtersSettings.map((item, i) => (
-            <FiltersAccordion key={i} {...item} />
-         ))}
-         <FiltersAccordion
-            name="Rating"
-            type="rating"
-            listItems={['1 star', '2 stars', '3 stars', '4 stars', '5 stars']}
-         />
+         {isLoading || isError ? (
+            <Stack>
+               {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i) => (
+                  <Skeleton
+                     key={i}
+                     animation="wave"
+                     variant="text"
+                     sx={{ fontSize: '30px', width: '300px' }}
+                  />
+               ))}
+            </Stack>
+         ) : (
+            <>
+               {filtersSettings.map((item, i) => (
+                  <FiltersAccordion key={i} {...item} />
+               ))}
+               <FiltersAccordion
+                  name="Rating"
+                  type="rating"
+                  listItems={[
+                     '1 star',
+                     '2 stars',
+                     '3 stars',
+                     '4 stars',
+                     '5 stars',
+                  ]}
+               />
+               <FiltersAccordionPrice name="Price, $" type="price" />
+            </>
+         )}
       </Stack>
    );
 };

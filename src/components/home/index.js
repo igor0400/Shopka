@@ -18,7 +18,7 @@ const Home = () => {
                className="products"
                style={{
                   padding: '20px 10px',
-                  marginLeft: '50px',
+                  marginLeft: '20px',
                   width: '100%',
                }}
             >

@@ -7,44 +7,7 @@ import {
    Checkbox,
 } from '@mui/material';
 
-import MuiAccordion from '@mui/material/Accordion';
-import MuiAccordionSummary from '@mui/material/AccordionSummary';
-import MuiAccordionDetails from '@mui/material/AccordionDetails';
-
-import { styled } from '@mui/material/styles';
-
-import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
-
-const Accordion = styled((props) => (
-   <MuiAccordion disableGutters elevation={0} square {...props} />
-))(() => ({
-   '&:before': {
-      display: 'none',
-   },
-}));
-
-const AccordionSummary = styled((props) => (
-   <MuiAccordionSummary
-      expandIcon={
-         <ArrowForwardIosSharpIcon
-            sx={{ fontSize: '0.9rem', color: '#76A9FF' }}
-         />
-      }
-      {...props}
-   />
-))(({ theme }) => ({
-   flexDirection: 'row-reverse',
-   '& .MuiAccordionSummary-expandIconWrapper.Mui-expanded': {
-      transform: 'rotate(90deg)',
-   },
-   '& .MuiAccordionSummary-content': {
-      marginLeft: theme.spacing(1),
-   },
-}));
-
-const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
-   padding: theme.spacing(2),
-}));
+import { Accordion, AccordionDetails, AccordionSummary } from './CustomAccordionItems';
 
 const FiltersAccordionView = ({
    name,
@@ -59,9 +22,9 @@ const FiltersAccordionView = ({
          <AccordionSummary
             aria-controls="panel1d-content"
             id="panel1d-header"
-            sx={{ minHeight: '35px', height: '35px' }}
+            sx={{ minHeight: '35px', height: '35px', width: '300px' }}
          >
-            <Typography sx={{fontWeight: 700}}>{name}</Typography>
+            <Typography sx={{ fontWeight: 700 }}>{name}</Typography>
          </AccordionSummary>
          <AccordionDetails sx={{ padding: '0 0 0 16px' }}>
             {listItems.map((value) => {

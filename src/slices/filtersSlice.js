@@ -5,6 +5,7 @@ const filtersAdapter = createEntityAdapter();
 const initialState = filtersAdapter.getInitialState({
    activeFilterBar: 'all',
    activeFilters: [],
+   filterPrice: { form: 0, to: 0 },
 });
 
 const filtersSlice = createSlice({
@@ -22,14 +23,21 @@ const filtersSlice = createSlice({
             (item) => item.name !== action.payload.name
          );
       },
+      setFilterPrice: (state, action) => {
+         state.filterPrice = action.payload;
+      },
    },
 });
 
 const { actions, reducer } = filtersSlice;
 
 export default reducer;
-export const { activeFilterBarChanged, addActiveFilter, removeActiveFilter } =
-   actions;
+export const {
+   activeFilterBarChanged,
+   addActiveFilter,
+   removeActiveFilter,
+   setFilterPrice,
+} = actions;
 
 export const { selectAll } = filtersAdapter.getSelectors(
    (state) => state.filters

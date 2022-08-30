@@ -14,7 +14,7 @@
          "subDescription": "Eligible for nothing :(",
          "price": 13.95,
          "rating": 3.33,
-         "filtersType": "Clothing & Shoes",
+         "category": "Clothing & Shoes",
          "id": "skrggnfdog-343sgskgog",
          "brand": "Nike"
       },
@@ -27,7 +27,7 @@
          "subDescription": "Eligible for Shipping To Mars or somewhere else",
          "price": 49.5,
          "rating": 4.56,
-         "filtersType": "Vintage",
+         "category": "Vintage",
          "id": "hjf7887dda-dadawdwdda",
          "brand": "webdev"
       },
@@ -40,7 +40,7 @@
          "subDescription": "1258 bids, 359 watchers\n$5.95 for shipping",
          "price": 13.95,
          "rating": 4.56,
-         "filtersType": "Clothing & Shoes",
+         "category": "Clothing & Shoes",
          "id": "ndodfd7t4nf-sdfajikfa",
          "brand": "John Von"
       },
@@ -53,7 +53,7 @@
          "subDescription": "Eligible for nothing :(",
          "price": 13.99,
          "rating": 5,
-         "filtersType": "Clothing & Shoes",
+         "category": "Clothing & Shoes",
          "id": "dwdwauj5hqh99-fseffosfs",
          "brand": "Nike"
       },
@@ -66,7 +66,7 @@
          "subDescription": "Eligible for nothing :(",
          "price": 81,
          "rating": 1.55,
-         "filtersType": "Clothing & Shoes",
+         "category": "Clothing & Shoes",
          "id": "wpoimda98a3n2iq2md-3m3mks",
          "brand": "Nike"
       },
@@ -79,7 +79,7 @@
          "subDescription": "Eligible for nothing :(",
          "price": 128.99,
          "rating": 4.87,
-         "filtersType": "Pets",
+         "category": "Pets",
          "id": "dfkmd4004545-kphdglfm5",
          "brand": "Petshop"
       },
@@ -92,7 +92,7 @@
          "subDescription": "Wordwide shifting available Buyers protection possible!",
          "price": 11.68,
          "rating": 4.99,
-         "filtersType": "Growing & Garden",
+         "category": "Growing & Garden",
          "id": "dofjpfjs343-fdsmfnmsnfsl",
          "brand": "Garden"
       },

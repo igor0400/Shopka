@@ -89,7 +89,7 @@ const ProductsItem = (product) => {
 
    return (
       <Card
-         sx={{ maxWidth: 280, height: '100%' }}
+         sx={{ width: 252, height: '100%' }}
          elevation={cardElevation}
          onMouseEnter={() => setCardElevation(3)}
          onMouseLeave={() => setCardElevation(0)}

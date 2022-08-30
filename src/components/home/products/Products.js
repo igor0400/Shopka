@@ -6,6 +6,8 @@ import ProductsItem from './ProductsItem';
 import { useSelector } from 'react-redux';
 import { useGetProductsQuery } from '../../../slices/apiSlice';
 
+import { getProductsWithActiveFilters } from '../../../utils/fliters';
+
 import small404 from '../../../images/small404.gif';
 
 const Products = () => {
@@ -16,21 +18,35 @@ const Products = () => {
       isError,
    } = useGetProductsQuery();
 
-   const activeFilterBar = useSelector(
-      (state) => state.filters.activeFilterBar
+   const { activeFilterBar, activeFilters, filterPrice } = useSelector(
+      (state) => state.filters
    );
 
    const filteredProducts = useMemo(() => {
-      const filteredProducts = products.slice();
+      let finishedProducts = products.slice();
 
-      if (activeFilterBar === 'all') {
-         return filteredProducts;
-      } else {
-         return filteredProducts.filter(
-            (item) => item.filtersType === activeFilterBar
+      if (activeFilterBar !== 'all') {
+         finishedProducts = finishedProducts.filter(
+            (item) => item.category === activeFilterBar
          );
       }
-   }, [products, activeFilterBar]);
+
+      if (activeFilters.length > 0) {
+         finishedProducts = getProductsWithActiveFilters(
+            finishedProducts,
+            activeFilters
+         );
+      }
+
+      if (filterPrice.from > 0 || filterPrice.to > 0) {
+         finishedProducts = finishedProducts.filter(
+            (item) =>
+               item.price >= filterPrice.from && item.price <= filterPrice.to
+         );
+      }
+
+      return finishedProducts;
+   }, [products, activeFilterBar, activeFilters, filterPrice]);
 
    const renderProducts = () => {
       if (isLoading || isFetching) {
