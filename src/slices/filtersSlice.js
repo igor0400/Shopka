@@ -5,7 +5,9 @@ const filtersAdapter = createEntityAdapter();
 const initialState = filtersAdapter.getInitialState({
    activeFilterBar: 'all',
    activeFilters: [],
-   filterPrice: { form: 0, to: 0 },
+   filterPrice: { from: 0, to: 0 },
+   sortedBy: null,
+   productsItemMode: 'small',
 });
 
 const filtersSlice = createSlice({
@@ -26,6 +28,12 @@ const filtersSlice = createSlice({
       setFilterPrice: (state, action) => {
          state.filterPrice = action.payload;
       },
+      setSortedBy: (state, action) => {
+         state.sortedBy = action.payload;
+      },
+      setProductsItemMode: (state, action) => {
+         state.productsItemMode = action.payload;
+      },
    },
 });
 
@@ -37,6 +45,8 @@ export const {
    addActiveFilter,
    removeActiveFilter,
    setFilterPrice,
+   setSortedBy,
+   setProductsItemMode,
 } = actions;
 
 export const { selectAll } = filtersAdapter.getSelectors(

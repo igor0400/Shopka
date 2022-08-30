@@ -20,16 +20,6 @@ const FiltersAccordionPrice = ({ name, type }) => {
 
    const dispatch = useDispatch();
 
-   // useEffect(() => {
-   //    const newChecked = [];
-
-   //    activeFilters.forEach((filter) => {
-   //       newChecked.push(filter.name);
-   //    });
-
-   //    setChecked(newChecked);
-   // }, [activeFilters]);
-
    const handleSubmit = () => {
       if (values.from === filterPrice.from && values.to === filterPrice.to) {
          return;
@@ -69,6 +59,7 @@ const FiltersAccordionPrice = ({ name, type }) => {
                         }));
                      }
                   }}
+                  defaultValue={filterPrice.from > 0 ? filterPrice.from : null}
                />
                <TextField
                   label="to"
@@ -86,6 +77,7 @@ const FiltersAccordionPrice = ({ name, type }) => {
                         }));
                      }
                   }}
+                  defaultValue={filterPrice.to > 0 ? filterPrice.to : null}
                />
             </Stack>
             <Button

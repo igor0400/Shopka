@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 
 import { Box, Grid, CircularProgress, Typography } from '@mui/material';
 import ProductsItem from './ProductsItem';
@@ -18,9 +18,9 @@ const Products = () => {
       isError,
    } = useGetProductsQuery();
 
-   const { activeFilterBar, activeFilters, filterPrice } = useSelector(
-      (state) => state.filters
-   );
+   const { activeFilterBar, activeFilters, filterPrice, sortedBy } =
+      useSelector((state) => state.filters);
+   const { productsItemMode } = useSelector((state) => state.filters);
 
    const filteredProducts = useMemo(() => {
       let finishedProducts = products.slice();
@@ -45,8 +45,33 @@ const Products = () => {
          );
       }
 
+      if (sortedBy) {
+         switch (sortedBy) {
+            case 'To lowest price':
+               finishedProducts = finishedProducts
+                  .sort((a, b) => a.price - b.price)
+                  .reverse();
+               break;
+            case 'To highest price':
+               finishedProducts = finishedProducts.sort(
+                  (a, b) => a.price - b.price
+               );
+               break;
+            case 'To lowest rating':
+               finishedProducts = finishedProducts
+                  .sort((a, b) => a.rating - b.rating)
+                  .reverse();
+               break;
+            case 'To highest rating':
+               finishedProducts = finishedProducts.sort(
+                  (a, b) => a.rating - b.rating
+               );
+               break;
+         }
+      }
+
       return finishedProducts;
-   }, [products, activeFilterBar, activeFilters, filterPrice]);
+   }, [products, activeFilterBar, activeFilters, filterPrice, sortedBy]);
 
    const renderProducts = () => {
       if (isLoading || isFetching) {
@@ -80,7 +105,11 @@ const Products = () => {
                <Grid
                   container
                   spacing={2}
-                  columns={{ xs: 2, sm: 8, md: 12 }}
+                  columns={
+                     productsItemMode === 'small'
+                        ? { xs: 2, sm: 8, md: 12 }
+                        : { xs: 2, sm: 8, md: 9 }
+                  }
                   sx={{ padding: '0 10px' }}
                >
                   {filteredProducts.map((item) => (

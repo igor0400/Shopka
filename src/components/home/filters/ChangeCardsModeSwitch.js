@@ -1,9 +1,12 @@
 import ViewListIcon from '@mui/icons-material/ViewList';
 import ViewModuleIcon from '@mui/icons-material/ViewModule';
-import { useState } from 'react';
+
+import { useDispatch, useSelector } from 'react-redux';
+import { setProductsItemMode } from '../../../slices/filtersSlice';
 
 const ChangeCardsModeSwitch = () => {
-   const [active, setActive] = useState('grid');
+   const { productsItemMode } = useSelector((state) => state.filters);
+   const dispatch = useDispatch();
 
    return (
       <div
@@ -20,14 +23,14 @@ const ChangeCardsModeSwitch = () => {
                cursor: 'pointer',
                height: '100%',
                borderRadius: '4px',
-               background: active === 'list' ? '#fff' : null,
+               background: productsItemMode === 'big' ? '#fff' : null,
                boxShadow:
-                  active === 'list'
+                  productsItemMode === 'big'
                      ? '0px 1px 2px rgba(27, 78, 163, 0.24), 0px 2px 4px rgba(41, 121, 255, 0.24)'
                      : null,
                transition: '0.3s',
             }}
-            onClick={() => setActive('list')}
+            onClick={() => dispatch(setProductsItemMode('big'))}
          />
          <ViewModuleIcon
             style={{
@@ -35,14 +38,14 @@ const ChangeCardsModeSwitch = () => {
                cursor: 'pointer',
                height: '100%',
                borderRadius: '4px',
-               background: active === 'grid' ? '#fff' : null,
+               background: productsItemMode === 'small' ? '#fff' : null,
                boxShadow:
-                  active === 'grid'
+                  productsItemMode === 'small'
                      ? '0px 1px 2px rgba(27, 78, 163, 0.24), 0px 2px 4px rgba(41, 121, 255, 0.24)'
                      : null,
                transition: '0.3s',
             }}
-            onClick={() => setActive('grid')}
+            onClick={() => dispatch(setProductsItemMode('small'))}
          />
       </div>
    );

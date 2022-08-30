@@ -30,6 +30,8 @@ const ProductsItem = (product) => {
    const [isItemInLiked, setIsItemInLiked] = useState(false);
 
    const { user, userAuth, dontAuthLiked } = useSelector((state) => state.user);
+   const { productsItemMode } = useSelector((state) => state.filters);
+
    const userId = user ? user.localId : null;
    const { name, imgs, description, price, rating, subDescription, id } =
       product;
@@ -89,7 +91,10 @@ const ProductsItem = (product) => {
 
    return (
       <Card
-         sx={{ width: 252, height: '100%' }}
+         sx={{
+            width: productsItemMode === 'small' ? 252 : 350,
+            height: '100%',
+         }}
          elevation={cardElevation}
          onMouseEnter={() => setCardElevation(3)}
          onMouseLeave={() => setCardElevation(0)}
@@ -100,15 +105,19 @@ const ProductsItem = (product) => {
          >
             <Link
                to={`/products/${id}`}
-               style={{ cursor: 'pointer', width: '220px', height: '220px' }}
+               style={{
+                  cursor: 'pointer',
+                  width: productsItemMode === 'small' ? '220px' : '300px',
+                  height: productsItemMode === 'small' ? '220px' : '300px',
+               }}
             >
                <img
                   src={imgs[0]}
                   alt={name}
                   style={{
                      display: imgLoad ? null : 'none',
-                     width: '220px',
-                     height: '220px',
+                     width: productsItemMode === 'small' ? '220px' : '300px',
+                     height: productsItemMode === 'small' ? '220px' : '300px',
                   }}
                   onLoad={() => setImgLoad(true)}
                   className="animate__animated animate__fadeIn animate__faster"
@@ -117,8 +126,8 @@ const ProductsItem = (product) => {
                {imgLoad ? null : (
                   <Skeleton
                      variant="rounded"
-                     width={220}
-                     height={220}
+                     width={productsItemMode === 'small' ? 220 : 300}
+                     height={productsItemMode === 'small' ? 220 : 300}
                      animation="wave"
                      style={{ borderRadius: '3px' }}
                   />

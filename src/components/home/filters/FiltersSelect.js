@@ -5,8 +5,8 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
-const FiltersSelect = ({ name, options }) => {
-   const [value, setValue] = useState('');
+const FiltersSelect = ({ name, options, defaultValue }) => {
+   const [value, setValue] = useState(defaultValue);
 
    const handleChange = (event) => {
       setValue(event.target.value);
@@ -26,8 +26,12 @@ const FiltersSelect = ({ name, options }) => {
                onChange={handleChange}
             >
                {options.map((option, i) => (
-                  <MenuItem value={option} key={i}>
-                     {option}
+                  <MenuItem
+                     value={option.name}
+                     key={i}
+                     onClick={option.sortedFunc}
+                  >
+                     {option.name}
                   </MenuItem>
                ))}
             </Select>
