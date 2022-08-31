@@ -41,7 +41,7 @@ And other libraries...
 
 ### Features
 
-#### `/` page
+#### `/` home page
 
 - View and filter products by price, brand, and rating. Sorting by decreasing/decreasing price and rating is also available.
 - Add products to liked
