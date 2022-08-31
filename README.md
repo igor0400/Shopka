@@ -54,7 +54,7 @@ And other libraries...
 
 #### `/liked` page
 
-- Delete products
+- Delete products from liked
 - Move items to cart
 
 #### `/profile` page
