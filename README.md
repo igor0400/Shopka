@@ -36,7 +36,7 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 - [redux-toolkit](https://redux-toolkit.js.org)
 - [formik](https://formik.org) and [yup](https://www.npmjs.com/package/yup) \- to create forms
 - [react-router-dom](https://reactrouter.com/en/main) \- to implement routing in the application
-- [redux-thunk](https://www.npmjs.com/package/redux-thunk)
+- [redux-thunk](https://www.npmjs.com/package/redux-thunk)\
 And other libraries...
 
 ### Features
