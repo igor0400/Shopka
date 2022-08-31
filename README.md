@@ -41,32 +41,32 @@ And other libraries...
 
 ### Features
 
-#### Main page
+#### `/` page
 
 - View and filter products by price, brand, and rating. Sorting by decreasing/decreasing price and rating is also available.
 - Add products to liked
 
-#### Cart page
+#### `/cart` page
 
 - Change the amount of products
 - Remove items individually or clear the cart completely
 - Proceed to checkout
 
-#### Liked page
+#### `/liked` page
 
 - Delete products
 - Move items to cart
 
-#### Profile page
+#### `/profile` page
 
 - Pages navigation
 - Sign out
 
-#### Orders and order page
+#### `/orders` and `/orders/:id` page
 
 - View order information
 
-#### Pay order page
+#### `/payorder` page
 
 - Place your order
 
