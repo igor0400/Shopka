@@ -40,3 +40,37 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 And other libraries...
 
 ### Features
+
+#### Main page
+
+- View and filter products by price, brand, and rating. Sorting by decreasing/decreasing price and rating is also available.
+- Add products to liked
+
+#### Cart page
+
+- Change the amount of products
+- Remove items individually or clear the cart completely
+- Proceed to checkout
+
+#### Liked page
+
+- Delete products
+- Move items to cart
+
+#### Profile page
+
+- Pages navigation
+- Sign out
+
+#### Orders and order page
+
+- View order information
+
+#### Pay order page
+
+- Place your order
+
+### Plans
+
+- Adapt to mobile devices
+- Make animations when deleting products

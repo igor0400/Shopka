@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 import {
@@ -15,6 +15,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useDispatch, useSelector } from 'react-redux';
 import { usePostOneUserCartAmountMutation } from '../../slices/firebaseSlice';
 import { changeDontAuthCartItemAmount } from '../../slices/userSlice';
+import { toast } from 'react-toastify';
 
 const CartProduct = ({
    name,
@@ -94,7 +95,13 @@ function SelectAmount({ amount, itemId }) {
    const userId = user ? user.localId : null;
 
    const dispatch = useDispatch();
-   const [postOneUserCartAmount] = usePostOneUserCartAmountMutation();
+   const [postOneUserCartAmount, { isSuccess, isError }] =
+      usePostOneUserCartAmountMutation();
+
+   useEffect(() => {
+      if (isSuccess) setQty(value);
+      if (isError) toast.error('Post error, try again later');
+   }, [isSuccess, isError]);
 
    const handleChange = (event) => {
       const value = event.target.value;
@@ -103,9 +110,8 @@ function SelectAmount({ amount, itemId }) {
          postOneUserCartAmount({ userId, itemId, data: value });
       } else {
          dispatch(changeDontAuthCartItemAmount({ itemId, amount: value }));
+         setQty(value);
       }
-
-      setQty(value);
    };
 
    return (
