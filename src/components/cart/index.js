@@ -29,6 +29,7 @@ import InfoIcon from '@mui/icons-material/Info';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 import { returnArrfromObj } from '../../utils/supportFunctions';
+import { toast } from 'react-toastify';
 
 const Cart = () => {
    const [subTotal, setSubTotal] = useState(0);
@@ -48,8 +49,33 @@ const Cart = () => {
    const location = useLocation();
    const navigate = useNavigate();
 
-   const [deleteOneUserCart] = useDeleteOneUserCartMutation();
-   const [deleteUserCart] = useDeleteUserCartMutation();
+   const [
+      deleteOneUserCart,
+      {
+         isError: isDeleteOneCartError,
+         isLoading: isDeleteOneCartLoading,
+         isSuccess: isDeleteOneCartSuccess,
+      },
+   ] = useDeleteOneUserCartMutation();
+   const [
+      deleteUserCart,
+      {
+         isError: isDeleteCartError,
+         isLoading: isDeleteCartLoading,
+         isSuccess: isDeleteCartSuccess,
+      },
+   ] = useDeleteUserCartMutation();
+
+   useEffect(() => {
+      if (isDeleteOneCartSuccess) {
+         if (cartProducts.length === 1) setCartProducts([]);
+         setCartProductsLoaded(false);
+      }
+      if (isDeleteOneCartError) toast.error('Delete error, try again later');
+
+      if (isDeleteCartSuccess) setCartProducts([]);
+      if (isDeleteCartError) toast.error('Delete error, try again later');
+   }, [isDeleteOneCartSuccess]);
 
    useEffect(() => {
       if (userAuth) {
@@ -84,9 +110,9 @@ const Cart = () => {
          deleteCartItem({ userId, itemId: id });
       } else {
          dispatch(removeFromDontAuthCart(id));
+         if (cartProducts.length === 1) setCartProducts([]);
+         setCartProductsLoaded(false);
       }
-      if (cartProducts.length === 1) setCartProducts([]);
-      setCartProductsLoaded(false);
    };
 
    const handleClearCart = () => {
@@ -94,8 +120,8 @@ const Cart = () => {
          deleteCart({ userId, data: {} });
       } else {
          dispatch(clearDontAuthCart());
+         setCartProducts([]);
       }
-      setCartProducts([]);
    };
 
    const checkoutCart = () => {
@@ -121,7 +147,11 @@ const Cart = () => {
                            <Typography variant="h5" sx={{ fontWeight: '700' }}>
                               Cart
                            </Typography>
-                           <Button variant="outlined" onClick={handleClearCart}>
+                           <Button
+                              variant="outlined"
+                              onClick={handleClearCart}
+                              disabled={isDeleteCartLoading}
+                           >
                               Clear cart
                            </Button>
                         </Stack>
@@ -133,6 +163,9 @@ const Cart = () => {
                                  <CartProduct
                                     {...item}
                                     removeItem={handleRemoveFromCart}
+                                    isDeleteOneCartLoading={
+                                       isDeleteOneCartLoading
+                                    }
                                  />
                                  {i + 1 === cartProducts.length ? null : (
                                     <Divider />
@@ -213,7 +246,9 @@ const Cart = () => {
                      height: '80vh',
                   }}
                >
-                  <ShoppingCartIcon sx={{ fontSize: 40, paddingBottom: '20px' }} />
+                  <ShoppingCartIcon
+                     sx={{ fontSize: 40, paddingBottom: '20px' }}
+                  />
                   <Typography variant="h4" sx={{ fontWeight: 500 }}>
                      Cart is clear
                   </Typography>

@@ -27,9 +27,10 @@ import {
    Typography,
    Rating,
    Stack,
-   Button,
 } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
 import RequirePage from '../../../hoc/RequirePage';
+import { toast } from 'react-toastify';
 
 const ProductPage = () => {
    const [isItemInCart, setIsItemInCart] = useState(false);
@@ -86,10 +87,61 @@ const ProductPage = () => {
    }, [userLiked]);
 
    const dispatch = useDispatch();
-   const [postOneUserCart] = usePostOneUserCartMutation();
-   const [postOneUserLike] = usePostOneUserLikeMutation();
-   const [deleteOneUserCart] = useDeleteOneUserCartMutation();
-   const [deleteOneUserLike] = useDeleteOneUserLikeMutation();
+   const [
+      postOneUserCart,
+      {
+         isError: isPostCartError,
+         isLoading: isPostCartLoading,
+         isSuccess: isPostCartSuccess,
+      },
+   ] = usePostOneUserCartMutation();
+   const [
+      postOneUserLike,
+         {
+            isError: isPostLikeError,
+            isLoading: isPostLikeLoading,
+            isSuccess: isPostLikeSuccess,
+         },
+   ] = usePostOneUserLikeMutation();
+   const [
+      deleteOneUserCart,
+      {
+         isError: isDeleteCartError,
+         isLoading: isDeleteCartLoading,
+         isSuccess: isDeleteCartSuccess,
+      },
+   ] = useDeleteOneUserCartMutation();
+   const [
+      deleteOneUserLike,
+      {
+         isError: isDeleteLikeError,
+         isLoading: isDeleteLikeLoading,
+         isSuccess: isDeleteLikeSuccess,
+      },
+   ] = useDeleteOneUserLikeMutation();
+
+   useEffect(() => {
+      if (isPostCartSuccess) setIsItemInCart(true);
+      if (isPostCartError) toast.error('Post error, try again later');
+
+      if (isPostLikeSuccess) setIsItemInLiked(true);
+      if (isPostLikeError) toast.error('Post error, try again later');
+
+      if (isDeleteCartSuccess) setIsItemInCart(false);
+      if (isDeleteCartError) toast.error('Delete error, try again later');
+
+      if (isDeleteLikeSuccess) setIsItemInLiked(false);
+      if (isDeleteLikeError) toast.error('Delete error, try again later');
+   }, [
+      isPostCartSuccess,
+      isPostCartError,
+      isPostLikeSuccess,
+      isPostLikeError,
+      isDeleteCartSuccess,
+      isDeleteCartError,
+      isDeleteLikeSuccess,
+      isDeleteLikeError,
+   ]);
 
    const postCartItem = useCallback((value) => {
       postOneUserCart(value);
@@ -113,8 +165,8 @@ const ProductPage = () => {
          });
       } else {
          dispatch(addDontAuthCart({ ...product, amount: 1 }));
+         setIsItemInCart(true);
       }
-      setIsItemInCart(true);
    };
 
    const handleAddToLiked = () => {
@@ -122,8 +174,8 @@ const ProductPage = () => {
          postLikedItem({ userId, itemId: product.id, data: product });
       } else {
          dispatch(addDontAuthLiked({ ...product, amount: 1 }));
+         setIsItemInLiked(true);
       }
-      setIsItemInLiked(true);
    };
 
    const handleRemoveFromCart = (id) => {
@@ -131,8 +183,8 @@ const ProductPage = () => {
          deleteCartItem({ userId, itemId: id });
       } else {
          dispatch(removeFromDontAuthCart(id));
+         setIsItemInCart(false);
       }
-      setIsItemInCart(false);
    };
 
    const handleRemoveFromLiked = (id) => {
@@ -140,8 +192,8 @@ const ProductPage = () => {
          deleteLikedItem({ userId, itemId: id });
       } else {
          dispatch(removeFromDontAuthLiked(id));
+         setIsItemInLiked(false);
       }
-      setIsItemInLiked(false);
    };
 
    const renderProduct = ({
@@ -264,7 +316,7 @@ const ProductPage = () => {
                </Typography>
 
                <Stack spacing={2} direction="row" sx={{ margin: 'auto 0 0' }}>
-                  <Button
+                  <LoadingButton
                      variant="contained"
                      disabled={isCartLoading || isCartError}
                      onClick={() =>
@@ -272,10 +324,11 @@ const ProductPage = () => {
                            ? handleRemoveFromCart(id)
                            : handleAddToCart()
                      }
+                     loading={isPostCartLoading || isDeleteCartLoading}
                   >
                      {isItemInCart ? 'Remove from cart' : 'To cart'}
-                  </Button>
-                  <Button
+                  </LoadingButton>
+                  <LoadingButton
                      variant="outlined"
                      disabled={isLikedLoading || isLikedError}
                      onClick={() =>
@@ -283,9 +336,10 @@ const ProductPage = () => {
                            ? handleRemoveFromLiked(id)
                            : handleAddToLiked()
                      }
+                     loading={isPostLikeLoading || isDeleteLikeLoading}
                   >
                      {isItemInLiked ? 'Remove from liked' : 'To liked'}
-                  </Button>
+                  </LoadingButton>
                </Stack>
             </Box>
          </Box>

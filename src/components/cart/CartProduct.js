@@ -16,7 +16,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { usePostOneUserCartAmountMutation } from '../../slices/firebaseSlice';
 import { changeDontAuthCartItemAmount } from '../../slices/userSlice';
 
-const CartProduct = ({ name, imgs, price, amount, id, removeItem }) => {
+const CartProduct = ({
+   name,
+   imgs,
+   price,
+   amount,
+   id,
+   removeItem,
+   isDeleteOneCartLoading,
+}) => {
    const [imgLoad, setImgLoad] = useState(false);
    // const [isItemDeleted, setIsItemDeleted] = useState(false);
 
@@ -73,6 +81,7 @@ const CartProduct = ({ name, imgs, price, amount, id, removeItem }) => {
                cursor: 'pointer',
             }}
             onClick={() => removeItem(id)}
+            disabled={isDeleteOneCartLoading}
          />
       </Stack>
    );

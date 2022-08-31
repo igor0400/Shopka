@@ -19,6 +19,7 @@ import Grid from '@mui/material/Unstable_Grid2';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 
 import { returnArrfromObj } from '../../utils/supportFunctions';
+import { toast } from 'react-toastify';
 
 const Liked = () => {
    const { user, userAuth, dontAuthLiked } = useSelector((state) => state.user);
@@ -33,8 +34,30 @@ const Liked = () => {
    } = useGetUserLikedQuery(userId);
 
    const dispatch = useDispatch();
-   const [deleteOneUserLike] = useDeleteOneUserLikeMutation();
-   const [postOneUserCart] = usePostOneUserCartMutation();
+   const [
+      deleteOneUserLike,
+      {
+         isError: isDeleteLikeError,
+         isLoading: isDeleteLikeLoading,
+         isSuccess: isDeleteLikeSuccess,
+      },
+   ] = useDeleteOneUserLikeMutation();
+   const [
+      postOneUserCart,
+      {
+         isError: isPostCartError,
+         isLoading: isPostCartLoading,
+      },
+   ] = usePostOneUserCartMutation();
+
+   useEffect(() => {
+      if (isDeleteLikeSuccess) {
+         if (liked.length === 1) setLiked([]);
+         setLikedLoaded(false);
+      }
+      if (isDeleteLikeError) toast.error('Delete error, try again later');
+      if (isPostCartError) toast.error('Delete error, try again later');
+   }, [isDeleteLikeSuccess, isDeleteLikeError, isPostCartError]);
 
    useEffect(() => {
       if (userAuth) {
@@ -61,9 +84,9 @@ const Liked = () => {
          deleteLikedItem({ userId, itemId: id });
       } else {
          dispatch(removeFromDontAuthLiked(id));
+         if (liked.length === 1) setLiked([]);
+         setLikedLoaded(false);
       }
-      if (liked.length === 1) setLiked([]);
-      setLikedLoaded(false);
    };
 
    const handleAddToCart = (item) => {
@@ -106,6 +129,9 @@ const Liked = () => {
                            key={i}
                            handleRemoveFromLiked={handleRemoveFromLiked}
                            handleMoveToCart={handleMoveToCart}
+                           isPostCartLoading={
+                              isPostCartLoading || isDeleteLikeLoading
+                           }
                         />
                      </Grid>
                   ))}

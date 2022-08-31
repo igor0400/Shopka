@@ -24,6 +24,8 @@ import {
    removeFromDontAuthLiked,
 } from '../../../slices/userSlice';
 
+import { toast } from 'react-toastify';
+
 const ProductsItem = (product) => {
    const [cardElevation, setCardElevation] = useState(0);
    const [imgLoad, setImgLoad] = useState(false);
@@ -43,8 +45,35 @@ const ProductsItem = (product) => {
    } = useGetUserLikedQuery(userId);
 
    const dispatch = useDispatch();
-   const [postOneUserLike] = usePostOneUserLikeMutation();
-   const [deleteOneUserLike] = useDeleteOneUserLikeMutation();
+   const [
+      postOneUserLike,
+      {
+         isError: isPostLikeError,
+         isLoading: isPostLikeLoading,
+         isSuccess: isPostLikeSuccess,
+      },
+   ] = usePostOneUserLikeMutation();
+   const [
+      deleteOneUserLike,
+      {
+         isError: isDeleteLikeError,
+         isLoading: isDeleteLikeLoading,
+         isSuccess: isDeleteLikeSuccess,
+      },
+   ] = useDeleteOneUserLikeMutation();
+
+   useEffect(() => {
+      if (isPostLikeSuccess) setIsItemInLiked(true);
+      if (isPostLikeError) toast.error('Post error, try again later');
+
+      if (isDeleteLikeSuccess) setIsItemInLiked(false);
+      if (isDeleteLikeError) toast.error('Delete error, try again later');
+   }, [
+      isPostLikeSuccess,
+      isPostLikeError,
+      isDeleteLikeSuccess,
+      isDeleteLikeError,
+   ]);
 
    useEffect(() => {
       if (userAuth) {
@@ -76,8 +105,8 @@ const ProductsItem = (product) => {
          });
       } else {
          dispatch(addDontAuthLiked(product));
+         setIsItemInLiked(true);
       }
-      setIsItemInLiked(true);
    };
 
    const handleRemoveFromLiked = (id) => {
@@ -85,8 +114,8 @@ const ProductsItem = (product) => {
          deleteLikedItem({ userId, itemId: id });
       } else {
          dispatch(removeFromDontAuthLiked(id));
+         setIsItemInLiked(false);
       }
-      setIsItemInLiked(false);
    };
 
    return (
@@ -174,7 +203,12 @@ const ProductsItem = (product) => {
                         : handleAddToLiked(id)
                   }
                   checked={isItemInLiked}
-                  disabled={isLikedLoading || isLikedError}
+                  disabled={
+                     isLikedLoading ||
+                     isLikedError ||
+                     isPostLikeLoading ||
+                     isDeleteLikeLoading
+                  }
                />
             </Box>
          </CardContent>

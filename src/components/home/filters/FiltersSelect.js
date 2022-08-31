@@ -6,7 +6,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
 const FiltersSelect = ({ name, options, defaultValue }) => {
-   const [value, setValue] = useState(defaultValue);
+   const [value, setValue] = useState(defaultValue || '');
 
    const handleChange = (event) => {
       setValue(event.target.value);

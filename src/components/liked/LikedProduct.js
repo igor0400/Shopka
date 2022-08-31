@@ -14,6 +14,7 @@ const LikedProduct = ({
    id,
    handleRemoveFromLiked,
    handleMoveToCart,
+   isPostCartLoading,
 }) => {
    const [imgLoad, setImgLoad] = useState(false);
 
@@ -66,6 +67,7 @@ const LikedProduct = ({
          </Typography>
          <Typography sx={{ fontWeight: 700 }}>${price}</Typography>
          <Button
+            disabled={isPostCartLoading}
             variant="outlined"
             color="success"
             size="madium"

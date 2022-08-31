@@ -1,5 +1,5 @@
-import ViewListIcon from '@mui/icons-material/ViewList';
 import ViewModuleIcon from '@mui/icons-material/ViewModule';
+import GridViewIcon from '@mui/icons-material/GridView';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { setProductsItemMode } from '../../../slices/filtersSlice';
@@ -17,7 +17,7 @@ const ChangeCardsModeSwitch = () => {
             alignItems: 'center',
          }}
       >
-         <ViewListIcon
+         <GridViewIcon
             style={{
                padding: '0 15px',
                cursor: 'pointer',
