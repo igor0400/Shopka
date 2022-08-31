@@ -61,7 +61,7 @@ const PayOrderPage = () => {
    }, []);
 
    if (
-      payedCart === {} ||
+      !payedCart.cart ||
       !userAuth ||
       location.state?.from?.pathname !== '/cart'
    ) {
