@@ -56,23 +56,33 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 -  Remove items individually or clear the cart completely
 -  Proceed to checkout
 
+![](https://raw.githubusercontent.com/igor0400/react-redux_shop/main/readme/cart-page.gif)
+
 #### `/liked` page
 
 -  Delete products from liked
 -  Move items to cart
+
+![](https://raw.githubusercontent.com/igor0400/react-redux_shop/main/readme/liked-page.gif)
 
 #### `/profile` page
 
 -  Pages navigation
 -  Sign out
 
+![](https://raw.githubusercontent.com/igor0400/react-redux_shop/main/readme/profile-page.gif)
+
 #### `/orders` and `/orders/:id` page
 
 -  View order information
 
+![](https://raw.githubusercontent.com/igor0400/react-redux_shop/main/readme/orders-page.gif)
+
 #### `/payorder` page
 
 -  Place your order
+
+![](https://raw.githubusercontent.com/igor0400/react-redux_shop/main/readme/payorder-page.gif)
 
 #### over
 
