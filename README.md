@@ -48,6 +48,8 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 -  Add products to liked
 -  Change products size
 
+![](https://raw.githubusercontent.com/igor0400/react-redux_shop/main/readme/home-page.gif)
+
 #### `/cart` page
 
 -  Change the amount of products
