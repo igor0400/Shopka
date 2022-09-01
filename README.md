@@ -74,6 +74,12 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 -  Place your order
 
+#### over
+
+- сохранение товаров из карзины и лайков без авторизации, если пользователь авторизовался
+- сохранение товаров и лайков в профиле пользователя
+- активная сессия после авторизации пользователя
+
 ### Plans
 
 -  Adapt to mobile devices
