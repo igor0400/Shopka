@@ -75,7 +75,12 @@ const Cart = () => {
 
       if (isDeleteCartSuccess) setCartProducts([]);
       if (isDeleteCartError) toast.error('Delete error, try again later');
-   }, [isDeleteOneCartSuccess]);
+   }, [
+      isDeleteOneCartSuccess,
+      isDeleteOneCartError,
+      isDeleteCartSuccess,
+      isDeleteCartError,
+   ]);
 
    useEffect(() => {
       if (userAuth) {
