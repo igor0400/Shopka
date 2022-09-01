@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 
 import { Box, Grid, CircularProgress, Typography } from '@mui/material';
 import ProductsItem from './ProductsItem';
@@ -7,16 +7,19 @@ import { useSelector } from 'react-redux';
 import { useGetProductsQuery } from '../../../slices/apiSlice';
 
 import { getProductsWithActiveFilters } from '../../../utils/fliters';
+import { returnArrfromObj } from '../../../utils/supportFunctions';
 
 import small404 from '../../../images/small404.gif';
 
 const Products = () => {
    const {
-      data: products = [],
+      data: productsData = {},
       isFetching,
       isLoading,
       isError,
    } = useGetProductsQuery();
+
+   const products = returnArrfromObj(productsData);
 
    const { activeFilterBar, activeFilters, filterPrice, sortedBy } =
       useSelector((state) => state.filters);
@@ -71,7 +74,7 @@ const Products = () => {
       }
 
       return finishedProducts;
-   }, [products, activeFilterBar, activeFilters, filterPrice, sortedBy]);
+   }, [productsData, activeFilterBar, activeFilters, filterPrice, sortedBy]);
 
    const renderProducts = () => {
       if (isLoading || isFetching) {

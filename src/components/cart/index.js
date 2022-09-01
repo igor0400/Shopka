@@ -79,7 +79,7 @@ const Cart = () => {
 
    useEffect(() => {
       if (userAuth) {
-         if (userCart && !isCartLoading) {
+         if (userCart && !isCartLoading && !isCartError) {
             setCartProducts(returnArrfromObj(userCart));
          }
       } else {

@@ -2,22 +2,18 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 export const apiSlice = createApi({
    reducerPath: 'api',
-   baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3100' }),
+   baseQuery: fetchBaseQuery({
+      baseUrl:
+         'https://shopka-2e282-default-rtdb.europe-west1.firebasedatabase.app/',
+   }),
    endpoints: (builder) => ({
       getProducts: builder.query({
-         query: () => '/products',
+         query: () => 'products.json',
       }),
       getProductById: builder.query({
-         query: (id) => `/products/${id}`,
-      }),
-      getFiltersList: builder.query({
-         query: () => '/filtersList',
+         query: (id) => `products/${id}.json`,
       }),
    }),
 });
 
-export const {
-   useGetProductsQuery,
-   useGetProductByIdQuery,
-   useGetFiltersListQuery,
-} = apiSlice;
+export const { useGetProductsQuery, useGetProductByIdQuery } = apiSlice;

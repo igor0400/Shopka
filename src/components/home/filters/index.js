@@ -7,40 +7,36 @@ import { Stack, Skeleton } from '@mui/material';
 
 import { useGetProductsQuery } from '../../../slices/apiSlice';
 
-const getFilteredObj = (mainObj, item, arrName, type, name, accumulator) => {
-   if (mainObj) {
-      if (!mainObj.items.indexOf(item)) {
-         return accumulator;
-      } else {
-         return { [arrName]: { items: [...mainObj.items, item], type, name } };
-      }
-   } else {
-      return { [arrName]: { items: [item], type, name } };
-   }
-};
-
 const Filters = () => {
    const [filtersSettings, setFiltersSettings] = useState([]);
 
-   const { data: products = [], isLoading, isError } = useGetProductsQuery();
+   const {
+      data: productsData = {},
+      isLoading,
+      isError,
+   } = useGetProductsQuery();
 
    useEffect(() => {
-      if (products && !isLoading && !isError) {
-         const filters = products.reduce((accumulator, currentValue) => {
-            const brands = accumulator?.brands;
-            const { brand } = currentValue;
+      if (productsData && !isLoading && !isError) {
+         const filters = {};
 
-            return {
-               ...getFilteredObj(
-                  brands,
-                  brand,
-                  'brands',
-                  'brand',
-                  'Brand',
-                  accumulator
-               ),
-            };
-         }, {});
+         const postNewFilter = (item, name, type) => {
+            if (filters[type]) {
+               const items = filters[type].items;
+
+               if (items.indexOf(item) <= 0) {
+                  filters[type].items = [...items, item];
+               }
+            } else {
+               filters[type] = { items: [item], name, type };
+            }
+         };
+
+         for (let key in productsData) {
+            const { brand } = productsData[key];
+
+            postNewFilter(brand, 'Brand', 'brand');
+         }
 
          const filtersArr = [];
 
@@ -54,7 +50,7 @@ const Filters = () => {
 
          setFiltersSettings(filtersArr);
       }
-   }, [products]);
+   }, [productsData]);
 
    return (
       <Stack sx={{ width: '300px' }} spacing={1}>

@@ -95,13 +95,12 @@ function SelectAmount({ amount, itemId }) {
    const userId = user ? user.localId : null;
 
    const dispatch = useDispatch();
-   const [postOneUserCartAmount, { isSuccess, isError }] =
+   const [postOneUserCartAmount, { isError }] =
       usePostOneUserCartAmountMutation();
 
    useEffect(() => {
-      if (isSuccess) setQty(value);
-      if (isError) toast.error('Post error, try again later');
-   }, [isSuccess, isError]);
+      if (isError) toast.error('Change amount error, try again later');
+   }, [isError]);
 
    const handleChange = (event) => {
       const value = event.target.value;
@@ -110,8 +109,8 @@ function SelectAmount({ amount, itemId }) {
          postOneUserCartAmount({ userId, itemId, data: value });
       } else {
          dispatch(changeDontAuthCartItemAmount({ itemId, amount: value }));
-         setQty(value);
       }
+      setQty(value);
    };
 
    return (
