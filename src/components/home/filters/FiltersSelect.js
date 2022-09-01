@@ -24,6 +24,7 @@ const FiltersSelect = ({ name, options, defaultValue }) => {
                value={value}
                label={name}
                onChange={handleChange}
+               sx={{ maxHeight: '40px' }}
             >
                {options.map((option, i) => (
                   <MenuItem
