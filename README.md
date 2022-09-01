@@ -84,11 +84,11 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 ![](https://raw.githubusercontent.com/igor0400/react-redux_shop/main/readme/payorder-page.gif)
 
-#### over
+#### Over
 
-- сохранение товаров из карзины и лайков без авторизации, если пользователь авторизовался
-- сохранение товаров и лайков в профиле пользователя
-- активная сессия после авторизации пользователя
+- Saving products from the cart and likes without authorization, if the user is logged in
+- Saving products and likes in the user's profile
+- Active session after the user is logged in
 
 ### Plans
 
